@@ -25,6 +25,10 @@ endif()
 
 set_target_properties(${quickfix_python_lib_name} PROPERTIES VERSION ${quickfix_python_VERSION} SOVERSION ${quickfix_python_VERSION_MAJOR} PREFIX "")
 
+if (WIN32)
+  set_target_properties(${quickfix_python_lib_name} PROPERTIES SUFFIX ".pyd")
+endif()
+
 if (MSVC)
   target_compile_options(${quickfix_python_lib_name} PRIVATE /bigobj)
 endif()

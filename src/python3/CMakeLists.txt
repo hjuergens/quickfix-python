@@ -25,11 +25,15 @@ endif()
 
 set_target_properties(${quickfix_python_lib_name} PROPERTIES VERSION ${quickfix_python_VERSION} SOVERSION ${quickfix_python_VERSION_MAJOR} PREFIX "")
 
+if (WIN32)
+  set_target_properties(${quickfix_python_lib_name} PROPERTIES SUFFIX ".pyd")
+endif()
+
 if (MSVC)
   target_compile_options(${quickfix_python_lib_name} PRIVATE /bigobj)
 endif()
 
 install(TARGETS ${quickfix_python_lib_name} DESTINATION lib/python3)
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/python/ DESTINATION lib/python3
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/python3/ DESTINATION lib/python3
         FILES_MATCHING PATTERN "quickfix*.py"
         PATTERN test EXCLUDE)

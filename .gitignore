@@ -52,7 +52,7 @@ test/pt
 test/ut
 test/ut_debug
 test/cfg
-test/store
+store/
 autom4te.cache/
 lib/python3
 COPYING

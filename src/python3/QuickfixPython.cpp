@@ -1,1 +1,1 @@
-../python/QuickfixPython.cpp
+#include "../python/QuickfixPython.cpp"

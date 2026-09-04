@@ -177,6 +177,14 @@
 #define PY_SSIZE_T_CLEAN
 #endif
 
+#if defined(_MSC_VER)
+#include <BaseTsd.h>
+#ifndef _SSIZE_T_DEFINED
+using ssize_t = SSIZE_T;
+#define _SSIZE_T_DEFINED
+#endif
+#endif
+
 #if __GNUC__ >= 7
 #pragma GCC diagnostic push
 #if defined(__cplusplus) && __cplusplus >=201703L

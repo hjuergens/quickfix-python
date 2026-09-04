@@ -4,6 +4,13 @@ on:
     branches: [master]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
     build:
       runs-on: ${{ matrix.runner }}
@@ -27,7 +34,7 @@ jobs:
         env:
           event_name: ${{ github.event_name }}
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
       - name: Install OpenSSL (macOS)
         if: matrix.ssl == 'ON' && matrix.runner == 'macos-latest'
         run: brew install openssl

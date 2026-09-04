@@ -4,20 +4,30 @@ on:
     branches: [master]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
     build:
       runs-on: ${{ matrix.runner }}
       strategy:
           fail-fast: false
           matrix:
-              runner: [ubuntu-latest, macos-latest]
-              configuration: [Release]
-              compiler-settings: ['']
+              # Listed explicitly: an `include:` entry that overrides a base
+              # matrix key spawns a bare combination instead of augmenting it.
               include:
                 - runner: ubuntu-latest
-                  compiler-settings: CXX=clang++ CC=clang
+                  compiler-settings: ''
+                - runner: ubuntu-latest
+                  compiler-settings: 'CXX=clang++ CC=clang'
                 - runner: macos-latest
-                  compiler-settings: CXX=g++ CC=gcc
+                  compiler-settings: ''
+                - runner: macos-latest
+                  compiler-settings: 'CXX=g++ CC=gcc'
       steps:
       - name: Install dependencies
         uses: actions/setup-python@v5
@@ -25,7 +35,7 @@ jobs:
             python-version: '3.10' 
             
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Install dependencies for macOS
         if: matrix.runner == 'macos-latest'
@@ -41,13 +51,12 @@ jobs:
 
       - name: Configure ${{ matrix.compiler-settings }}
         shell: bash
-        run: ${{ matrix.compiler-settings }} ./configure
-        if: ${{ success() && matrix.compiler-settings != '' }}
-
-      - name: Configure
-        shell: bash
-        run: CPPFLAGS=-I/opt/homebrew/opt/openssl/include LDFLAGS=-L/opt/homebrew/opt/openssl/lib ./configure --with-python3 --with-ruby --with-openssl
-        if: ${{ success() && matrix.compiler-settings == '' }}
+        run: |
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            export CPPFLAGS="-I$(brew --prefix openssl)/include"
+            export LDFLAGS="-L$(brew --prefix openssl)/lib"
+          fi
+          env ${{ matrix.compiler-settings }} ./configure --with-python3 --with-ruby --with-openssl
 
       - name: Make
         shell: bash

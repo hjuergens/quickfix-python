@@ -44,6 +44,57 @@ When OpenSSL is a shared build, the resulting Windows wheel links against
 delvewheel repair <wheel> -w wheelhouse --add-path <openssl-root>/bin
 ```
 
+## Regenerating the SWIG bindings
+
+`src/python/QuickfixPython.cpp` (~6MB) and `src/python/quickfix.py` are **checked in**.
+No build system regenerates them - not CMake, not Autotools, not CI. `src/python/swig.sh`
+is a manual recipe you run and commit, so any change to a `.i` file only takes effect once
+you regenerate.
+
+```bash
+cd src/python && sh swig.sh
+```
+
+**Use the same SWIG version as the checked-in wrapper.** It is recorded at the top of the
+generated file (`SWIG_VERSION`, currently 4.2.1). A different version rewrites all 6MB and
+makes the diff unreviewable.
+
+Regeneration silently discards two things. Both must be restored afterwards:
+
+1. **The MSVC `ssize_t` shim**, hand-applied to the *generated* file just after the
+   `PY_SSIZE_T_CLEAN` block. Without it the MSVC build fails:
+
+   ```c
+   #if defined(_MSC_VER)
+   #include <BaseTsd.h>
+   #ifndef _SSIZE_T_DEFINED
+   using ssize_t = SSIZE_T;
+   #define _SSIZE_T_DEFINED
+   #endif
+   #endif
+   ```
+
+2. **The `src/python3/quickfix.py` copy**, which is byte-identical to
+   `src/python/quickfix.py` and is what the wheel packages. Copy it across.
+
+### Exposing a new SSL class
+
+`%include`s in `src/quickfix.i` are unconditional and SWIG always runs with
+`-DHAVE_SSL=1`, so the generated wrapper *always* references the SSL classes. A build with
+`HAVE_SSL=OFF` only compiles because `src/swig/SSLStubs.h` provides throw-on-construct
+stand-ins. **Any newly exposed SSL class needs a stub added there**, or the non-SSL build
+breaks. Always verify with `-DHAVE_SSL=OFF` as well as `ON`.
+
+Note that a header used only by a class's *private* members belongs in the `%{ %}` code
+block and should not be `%include`d - see how `ThreadedSocketConnection.h` and
+`SSLSocketConnection.h` are handled.
+
+### Verifying
+
+`tools/verify_wheel.py` runs against an installed wheel and is the test command for the
+wheel CI. It constructs each SSL transport rather than only checking the classes exist,
+because a wheel built without SSL still exposes them and fails only on construction.
+
 ## Tests
 
 | Suite | Binary | Purpose |
@@ -152,5 +203,8 @@ Copy the full block from any existing file (e.g., `include/quickfix/Session.h`).
 - `clang-format` passes (CI enforces this automatically).
 - All three test suites pass on the target platform(s).
 - No new compiler warnings introduced (especially C4267/size_t narrowing on MSVC).
+- If a `.i` file changed: bindings regenerated with the matching SWIG version, the
+  MSVC `ssize_t` shim re-applied, `src/python3/quickfix.py` re-synced, and both
+  `HAVE_SSL=ON` and `HAVE_SSL=OFF` builds checked.
 - Documentation updated for any user-facing change.
 - No breaking API changes without discussion.

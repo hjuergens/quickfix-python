@@ -20,6 +20,20 @@ jobs:
               runner: [windows-2022, ubuntu-latest, macos-latest]
               configuration: [Debug, Release]
               ssl: ['OFF', 'ON']
+              # '' is each platform's default compiler; 'alt' is the second one
+              # selected in the step below. Pruned to Release + SSL=ON so the
+              # extra coverage costs three jobs rather than twelve.
+              compiler: ['', 'alt']
+              exclude:
+                - compiler: 'alt'
+                  configuration: Debug
+                - compiler: 'alt'
+                  ssl: 'OFF'
+                # No clang-cl on Windows: the runner image ships it, but
+                # `-T ClangCL` is unreliable there (actions/runner-images#4716).
+                # Delete this entry to re-enable once that is fixed.
+                - compiler: 'alt'
+                  runner: windows-2022
               include:
                 - configuration: Debug
                   config: debug
@@ -53,15 +67,31 @@ jobs:
         if: matrix.ssl == 'ON' && matrix.runner == 'windows-2022'
         shell: bash
         run: echo "OPENSSL_ROOT_DIR=C:/Program Files/OpenSSL" >> $GITHUB_ENV
+      - name: Select alternate compiler
+        if: matrix.compiler == 'alt'
+        shell: bash
+        run: |
+          case "$Runner" in
+            ubuntu-latest) echo "CC=clang"  >> $GITHUB_ENV
+                           echo "CXX=clang++" >> $GITHUB_ENV ;;
+            macos-latest)  echo "CC=gcc"    >> $GITHUB_ENV
+                           echo "CXX=g++"     >> $GITHUB_ENV ;;
+            # windows-2022 is excluded from the alt compiler above; this branch
+            # is what it would use if re-enabled.
+            windows-2022)  echo "CMAKE_EXTRA=-T ClangCL" >> $GITHUB_ENV ;;
+          esac
+        env:
+          Runner: ${{ matrix.runner }}
       - name: Generate
         shell: bash
         run: |
           cmake . -DCMAKE_BUILD_TYPE=$Configuration -DCMAKE_INSTALL_PREFIX=../install_prefix/$Configuration \
-            -DHAVE_SSL=$SSL -DHAVE_PYTHON3=ON ${OPENSSL_ROOT_DIR:+-DOPENSSL_ROOT_DIR="$OPENSSL_ROOT_DIR"}
+            -DHAVE_SSL=$SSL -DHAVE_PYTHON3=ON ${CMAKE_EXTRA:-} ${OPENSSL_ROOT_DIR:+-DOPENSSL_ROOT_DIR="$OPENSSL_ROOT_DIR"}
         env:
           Configuration: ${{ matrix.configuration }}
           SSL: ${{ matrix.ssl }}
           OPENSSL_ROOT_DIR: ${{ env.OPENSSL_ROOT_DIR }}
+          CMAKE_EXTRA: ${{ env.CMAKE_EXTRA }}
       - name: Build
         shell: bash
         run: |

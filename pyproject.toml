@@ -1,0 +1,41 @@
+[build-system]
+requires = ["scikit-build-core>=0.10"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "quickfix"
+version = "1.16.0"
+description = "QuickFIX Python bindings, built with SSL support"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [{ name = "Oren Miller" }]
+classifiers = [
+  "Programming Language :: C++",
+  "Programming Language :: Python :: 3",
+  "Topic :: Office/Business :: Financial",
+]
+
+[project.urls]
+Homepage = "https://github.com/hjuergens/quickfix-python"
+
+[tool.scikit-build]
+# Delegates to the repository's CMakeLists so the C++ source list is never duplicated.
+cmake.version = ">=3.15"
+cmake.build-type = "Release"
+build.targets = ["_quickfix"]
+# Installs only the wheel component defined in src/python3/CMakeLists.txt, which
+# places _quickfix.pyd and the quickfix*.py modules at the archive root.
+install.components = ["python_wheel"]
+wheel.install-dir = ""
+build-dir = "build/wheel-{wheel_tag}"
+sdist.exclude = ["build", "lib", ".github"]
+
+[tool.scikit-build.cmake.define]
+HAVE_SSL = "ON"
+HAVE_PYTHON3 = "ON"
+QUICKFIX_EXAMPLES = "OFF"
+QUICKFIX_TESTS = "OFF"
+# OPENSSL_ROOT_DIR is intentionally not pinned here; pass it per machine, e.g.
+#   pip wheel . -C cmake.define.OPENSSL_ROOT_DIR=C:/path/to/openssl
+# or set the OPENSSL_ROOT_DIR environment variable, which find_package(OpenSSL) honours.

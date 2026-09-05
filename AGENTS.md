@@ -21,6 +21,29 @@ Optional CMake flags: `-DHAVE_SSL=ON`, `-DHAVE_MYSQL=ON`, `-DHAVE_POSTGRESQL=ON`
 
 Legacy Autotools build: `./bootstrap && ./configure && make && make check`.
 
+## Building a Python wheel
+
+`pyproject.toml` uses scikit-build-core, which drives the CMake build above, so the C++
+source list is never duplicated. It installs the `python_wheel` component defined in
+`src/python3/CMakeLists.txt`, placing `_quickfix` and the `quickfix*.py` modules at the
+archive root. That component is `EXCLUDE_FROM_ALL`, so a plain `cmake --install` is
+unaffected and still installs to `lib/python3`.
+
+```bash
+pip wheel . -C cmake.define.OPENSSL_ROOT_DIR=<openssl-root>
+```
+
+`OPENSSL_ROOT_DIR` is deliberately not pinned in `pyproject.toml`, since it is a
+per-machine path; pass it per build as above, or set it in the environment —
+`find_package(OpenSSL)` honours the environment variable too.
+
+When OpenSSL is a shared build, the resulting Windows wheel links against
+`libssl`/`libcrypto` DLLs that are not in it. Vendor them so the wheel is self-contained:
+
+```bash
+delvewheel repair <wheel> -w wheelhouse --add-path <openssl-root>/bin
+```
+
 ## Tests
 
 | Suite | Binary | Purpose |

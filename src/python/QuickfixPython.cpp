@@ -3676,163 +3676,167 @@ namespace Swig {
 #define SWIGTYPE_p_FIX__FieldBase swig_types[27]
 #define SWIGTYPE_p_FIX__FieldConvertError swig_types[28]
 #define SWIGTYPE_p_FIX__FieldMap swig_types[29]
-#define SWIGTYPE_p_FIX__FieldNotFound swig_types[30]
-#define SWIGTYPE_p_FIX__FileLog swig_types[31]
-#define SWIGTYPE_p_FIX__FileLogFactory swig_types[32]
-#define SWIGTYPE_p_FIX__FileStore swig_types[33]
-#define SWIGTYPE_p_FIX__FileStoreFactory swig_types[34]
-#define SWIGTYPE_p_FIX__Group swig_types[35]
-#define SWIGTYPE_p_FIX__Header swig_types[36]
-#define SWIGTYPE_p_FIX__IOException swig_types[37]
-#define SWIGTYPE_p_FIX__IncorrectDataFormat swig_types[38]
-#define SWIGTYPE_p_FIX__IncorrectMessageStructure swig_types[39]
-#define SWIGTYPE_p_FIX__IncorrectTagValue swig_types[40]
-#define SWIGTYPE_p_FIX__Initiator swig_types[41]
-#define SWIGTYPE_p_FIX__Int64Field swig_types[42]
-#define SWIGTYPE_p_FIX__IntField swig_types[43]
-#define SWIGTYPE_p_FIX__InvalidMessage swig_types[44]
-#define SWIGTYPE_p_FIX__InvalidMessageType swig_types[45]
-#define SWIGTYPE_p_FIX__InvalidTagNumber swig_types[46]
-#define SWIGTYPE_p_FIX__LocalDate swig_types[47]
-#define SWIGTYPE_p_FIX__LocalTimeOnly swig_types[48]
-#define SWIGTYPE_p_FIX__LocalTimeStamp swig_types[49]
-#define SWIGTYPE_p_FIX__Log swig_types[50]
-#define SWIGTYPE_p_FIX__LogFactory swig_types[51]
-#define SWIGTYPE_p_FIX__MemoryStore swig_types[52]
-#define SWIGTYPE_p_FIX__MemoryStoreFactory swig_types[53]
-#define SWIGTYPE_p_FIX__Message swig_types[54]
-#define SWIGTYPE_p_FIX__MessageParseError swig_types[55]
-#define SWIGTYPE_p_FIX__MessageStore swig_types[56]
-#define SWIGTYPE_p_FIX__MessageStoreExceptionWrapper swig_types[57]
-#define SWIGTYPE_p_FIX__MessageStoreFactory swig_types[58]
-#define SWIGTYPE_p_FIX__MessageStoreFactoryExceptionWrapper swig_types[59]
-#define SWIGTYPE_p_FIX__MySQLConnection swig_types[60]
-#define SWIGTYPE_p_FIX__MySQLLog swig_types[61]
-#define SWIGTYPE_p_FIX__MySQLLogFactory swig_types[62]
-#define SWIGTYPE_p_FIX__MySQLQuery swig_types[63]
-#define SWIGTYPE_p_FIX__MySQLStore swig_types[64]
-#define SWIGTYPE_p_FIX__MySQLStoreFactory swig_types[65]
-#define SWIGTYPE_p_FIX__NoTagValue swig_types[66]
-#define SWIGTYPE_p_FIX__NullApplication swig_types[67]
-#define SWIGTYPE_p_FIX__NullLog swig_types[68]
-#define SWIGTYPE_p_FIX__NullStore swig_types[69]
-#define SWIGTYPE_p_FIX__NullStoreFactory swig_types[70]
-#define SWIGTYPE_p_FIX__PostgreSQLConnection swig_types[71]
-#define SWIGTYPE_p_FIX__PostgreSQLLog swig_types[72]
-#define SWIGTYPE_p_FIX__PostgreSQLLogFactory swig_types[73]
-#define SWIGTYPE_p_FIX__PostgreSQLQuery swig_types[74]
-#define SWIGTYPE_p_FIX__PostgreSQLStore swig_types[75]
-#define SWIGTYPE_p_FIX__PostgreSQLStoreFactory swig_types[76]
-#define SWIGTYPE_p_FIX__RejectLogon swig_types[77]
-#define SWIGTYPE_p_FIX__RepeatedTag swig_types[78]
-#define SWIGTYPE_p_FIX__RepeatingGroupCountMismatch swig_types[79]
-#define SWIGTYPE_p_FIX__RequiredTagMissing swig_types[80]
-#define SWIGTYPE_p_FIX__RuntimeError swig_types[81]
-#define SWIGTYPE_p_FIX__SSLSocketAcceptor swig_types[82]
-#define SWIGTYPE_p_FIX__SSLSocketInitiator swig_types[83]
-#define SWIGTYPE_p_FIX__ScreenLog swig_types[84]
-#define SWIGTYPE_p_FIX__ScreenLogFactory swig_types[85]
-#define SWIGTYPE_p_FIX__SenderCompID swig_types[86]
-#define SWIGTYPE_p_FIX__Session swig_types[87]
-#define SWIGTYPE_p_FIX__SessionID swig_types[88]
-#define SWIGTYPE_p_FIX__SessionNotFound swig_types[89]
-#define SWIGTYPE_p_FIX__SessionSettings swig_types[90]
-#define SWIGTYPE_p_FIX__SocketAcceptor swig_types[91]
-#define SWIGTYPE_p_FIX__SocketCloseFailed swig_types[92]
-#define SWIGTYPE_p_FIX__SocketException swig_types[93]
-#define SWIGTYPE_p_FIX__SocketInitiator swig_types[94]
-#define SWIGTYPE_p_FIX__SocketRecvFailed swig_types[95]
-#define SWIGTYPE_p_FIX__SocketSendFailed swig_types[96]
-#define SWIGTYPE_p_FIX__StringField swig_types[97]
-#define SWIGTYPE_p_FIX__SynchronizedApplication swig_types[98]
-#define SWIGTYPE_p_FIX__TYPE__Type swig_types[99]
-#define SWIGTYPE_p_FIX__TagNotDefinedForMessage swig_types[100]
-#define SWIGTYPE_p_FIX__TagOutOfOrder swig_types[101]
-#define SWIGTYPE_p_FIX__TargetCompID swig_types[102]
-#define SWIGTYPE_p_FIX__ThreadedSocketAcceptor swig_types[103]
-#define SWIGTYPE_p_FIX__ThreadedSocketInitiator swig_types[104]
-#define SWIGTYPE_p_FIX__Trailer swig_types[105]
-#define SWIGTYPE_p_FIX__UInt64Field swig_types[106]
-#define SWIGTYPE_p_FIX__UnsupportedMessageType swig_types[107]
-#define SWIGTYPE_p_FIX__UnsupportedVersion swig_types[108]
-#define SWIGTYPE_p_FIX__UtcDate swig_types[109]
-#define SWIGTYPE_p_FIX__UtcDateField swig_types[110]
-#define SWIGTYPE_p_FIX__UtcTimeOnly swig_types[111]
-#define SWIGTYPE_p_FIX__UtcTimeOnlyField swig_types[112]
-#define SWIGTYPE_p_FIX__UtcTimeStamp swig_types[113]
-#define SWIGTYPE_p_FIX__UtcTimeStampField swig_types[114]
-#define SWIGTYPE_p_Fields swig_types[115]
-#define SWIGTYPE_p_Group swig_types[116]
-#define SWIGTYPE_p_Groups swig_types[117]
-#define SWIGTYPE_p_IntArray swig_types[118]
-#define SWIGTYPE_p_IntField swig_types[119]
-#define SWIGTYPE_p_Log swig_types[120]
-#define SWIGTYPE_p_LogFactory swig_types[121]
-#define SWIGTYPE_p_MYSQL swig_types[122]
-#define SWIGTYPE_p_MessageStore swig_types[123]
-#define SWIGTYPE_p_MessageStoreFactory swig_types[124]
-#define SWIGTYPE_p_MsgType swig_types[125]
-#define SWIGTYPE_p_Mutex swig_types[126]
-#define SWIGTYPE_p_PGconn swig_types[127]
-#define SWIGTYPE_p_RSA swig_types[128]
-#define SWIGTYPE_p_Responder swig_types[129]
-#define SWIGTYPE_p_SessionID swig_types[130]
-#define SWIGTYPE_p_SessionToPort swig_types[131]
-#define SWIGTYPE_p_StringField swig_types[132]
-#define SWIGTYPE_p_TimeRange swig_types[133]
-#define SWIGTYPE_p_UtcDateField swig_types[134]
-#define SWIGTYPE_p_X509 swig_types[135]
-#define SWIGTYPE_p_allocator_type swig_types[136]
-#define SWIGTYPE_p_bool swig_types[137]
-#define SWIGTYPE_p_char swig_types[138]
-#define SWIGTYPE_p_const_iterator swig_types[139]
-#define SWIGTYPE_p_difference_type swig_types[140]
-#define SWIGTYPE_p_double swig_types[141]
-#define SWIGTYPE_p_g_const_iterator swig_types[142]
-#define SWIGTYPE_p_g_iterator swig_types[143]
-#define SWIGTYPE_p_g_value_type swig_types[144]
-#define SWIGTYPE_p_int swig_types[145]
-#define SWIGTYPE_p_iterator swig_types[146]
-#define SWIGTYPE_p_key_type swig_types[147]
-#define SWIGTYPE_p_long_long swig_types[148]
-#define SWIGTYPE_p_message_order swig_types[149]
-#define SWIGTYPE_p_p_FIX__DataDictionary swig_types[150]
-#define SWIGTYPE_p_p_PyObject swig_types[151]
-#define SWIGTYPE_p_short swig_types[152]
-#define SWIGTYPE_p_signed_char swig_types[153]
-#define SWIGTYPE_p_size_type swig_types[154]
-#define SWIGTYPE_p_ssize_t swig_types[155]
-#define SWIGTYPE_p_std__allocatorT_std__string_t swig_types[156]
-#define SWIGTYPE_p_std__functionT_FIX__UtcTimeStamp_fF_t swig_types[157]
-#define SWIGTYPE_p_std__invalid_argument swig_types[158]
-#define SWIGTYPE_p_std__istream swig_types[159]
-#define SWIGTYPE_p_std__lessT_FIX__SessionID_t swig_types[160]
-#define SWIGTYPE_p_std__logic_error swig_types[161]
-#define SWIGTYPE_p_std__mapT_FIX__SessionID_unsigned_short_t swig_types[162]
-#define SWIGTYPE_p_std__mapT_int_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_std__lessT_int_t_ALLOCATORT_std__pairT_int_const_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_t_t_t swig_types[163]
-#define SWIGTYPE_p_std__mapT_int_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_std__lessT_int_t_ALLOCATORT_std__pairT_int_const_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_t_t_t__const_iterator swig_types[164]
-#define SWIGTYPE_p_std__mapT_int_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_std__lessT_int_t_ALLOCATORT_std__pairT_int_const_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_t_t_t__iterator swig_types[165]
-#define SWIGTYPE_p_std__mapT_std__string_std__string_t__const_iterator swig_types[166]
-#define SWIGTYPE_p_std__ostream swig_types[167]
-#define SWIGTYPE_p_std__setT_FIX__SessionID_t swig_types[168]
-#define SWIGTYPE_p_std__setT_std__string_std__lessT_std__string_t_std__allocatorT_std__string_t_t swig_types[169]
-#define SWIGTYPE_p_std__string swig_types[170]
-#define SWIGTYPE_p_std__string__size_type swig_types[171]
-#define SWIGTYPE_p_std__unique_ptrT_FIX__DatabaseConnectionPoolT_FIX__MySQLConnection_t_t swig_types[172]
-#define SWIGTYPE_p_std__unique_ptrT_FIX__DatabaseConnectionPoolT_FIX__PostgreSQLConnection_t_t swig_types[173]
-#define SWIGTYPE_p_std__vectorT_FIX__FieldBase_ALLOCATORT_FIX__FieldBase_t_t__const_iterator swig_types[174]
-#define SWIGTYPE_p_std__vectorT_FIX__FieldBase_ALLOCATORT_FIX__FieldBase_t_t__iterator swig_types[175]
-#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[176]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[177]
-#define SWIGTYPE_p_time_t swig_types[178]
-#define SWIGTYPE_p_tm swig_types[179]
-#define SWIGTYPE_p_unsigned_char swig_types[180]
-#define SWIGTYPE_p_unsigned_int swig_types[181]
-#define SWIGTYPE_p_unsigned_long_long swig_types[182]
-#define SWIGTYPE_p_unsigned_short swig_types[183]
-#define SWIGTYPE_p_value_type swig_types[184]
-static swig_type_info *swig_types[186];
-static swig_module_info swig_module = {swig_types, 185, 0, 0, 0, 0};
+#define SWIGTYPE_p_FIX__FieldMap__LengthAndTotal swig_types[30]
+#define SWIGTYPE_p_FIX__FieldNotFound swig_types[31]
+#define SWIGTYPE_p_FIX__FileLog swig_types[32]
+#define SWIGTYPE_p_FIX__FileLogFactory swig_types[33]
+#define SWIGTYPE_p_FIX__FileStore swig_types[34]
+#define SWIGTYPE_p_FIX__FileStoreFactory swig_types[35]
+#define SWIGTYPE_p_FIX__Group swig_types[36]
+#define SWIGTYPE_p_FIX__Header swig_types[37]
+#define SWIGTYPE_p_FIX__IOException swig_types[38]
+#define SWIGTYPE_p_FIX__IncorrectDataFormat swig_types[39]
+#define SWIGTYPE_p_FIX__IncorrectMessageStructure swig_types[40]
+#define SWIGTYPE_p_FIX__IncorrectTagValue swig_types[41]
+#define SWIGTYPE_p_FIX__Initiator swig_types[42]
+#define SWIGTYPE_p_FIX__Int64Field swig_types[43]
+#define SWIGTYPE_p_FIX__IntField swig_types[44]
+#define SWIGTYPE_p_FIX__InvalidMessage swig_types[45]
+#define SWIGTYPE_p_FIX__InvalidMessageType swig_types[46]
+#define SWIGTYPE_p_FIX__InvalidTagNumber swig_types[47]
+#define SWIGTYPE_p_FIX__LocalDate swig_types[48]
+#define SWIGTYPE_p_FIX__LocalTimeOnly swig_types[49]
+#define SWIGTYPE_p_FIX__LocalTimeStamp swig_types[50]
+#define SWIGTYPE_p_FIX__Log swig_types[51]
+#define SWIGTYPE_p_FIX__LogFactory swig_types[52]
+#define SWIGTYPE_p_FIX__MemoryStore swig_types[53]
+#define SWIGTYPE_p_FIX__MemoryStoreFactory swig_types[54]
+#define SWIGTYPE_p_FIX__Message swig_types[55]
+#define SWIGTYPE_p_FIX__MessageParseError swig_types[56]
+#define SWIGTYPE_p_FIX__MessageStore swig_types[57]
+#define SWIGTYPE_p_FIX__MessageStoreExceptionWrapper swig_types[58]
+#define SWIGTYPE_p_FIX__MessageStoreFactory swig_types[59]
+#define SWIGTYPE_p_FIX__MessageStoreFactoryExceptionWrapper swig_types[60]
+#define SWIGTYPE_p_FIX__MySQLConnection swig_types[61]
+#define SWIGTYPE_p_FIX__MySQLLog swig_types[62]
+#define SWIGTYPE_p_FIX__MySQLLogFactory swig_types[63]
+#define SWIGTYPE_p_FIX__MySQLQuery swig_types[64]
+#define SWIGTYPE_p_FIX__MySQLStore swig_types[65]
+#define SWIGTYPE_p_FIX__MySQLStoreFactory swig_types[66]
+#define SWIGTYPE_p_FIX__NoTagValue swig_types[67]
+#define SWIGTYPE_p_FIX__NullApplication swig_types[68]
+#define SWIGTYPE_p_FIX__NullLog swig_types[69]
+#define SWIGTYPE_p_FIX__NullStore swig_types[70]
+#define SWIGTYPE_p_FIX__NullStoreFactory swig_types[71]
+#define SWIGTYPE_p_FIX__PostgreSQLConnection swig_types[72]
+#define SWIGTYPE_p_FIX__PostgreSQLLog swig_types[73]
+#define SWIGTYPE_p_FIX__PostgreSQLLogFactory swig_types[74]
+#define SWIGTYPE_p_FIX__PostgreSQLQuery swig_types[75]
+#define SWIGTYPE_p_FIX__PostgreSQLStore swig_types[76]
+#define SWIGTYPE_p_FIX__PostgreSQLStoreFactory swig_types[77]
+#define SWIGTYPE_p_FIX__RejectLogon swig_types[78]
+#define SWIGTYPE_p_FIX__RepeatedTag swig_types[79]
+#define SWIGTYPE_p_FIX__RepeatingGroupCountMismatch swig_types[80]
+#define SWIGTYPE_p_FIX__RequiredTagMissing swig_types[81]
+#define SWIGTYPE_p_FIX__RuntimeError swig_types[82]
+#define SWIGTYPE_p_FIX__SSLSocketAcceptor swig_types[83]
+#define SWIGTYPE_p_FIX__SSLSocketInitiator swig_types[84]
+#define SWIGTYPE_p_FIX__ScreenLog swig_types[85]
+#define SWIGTYPE_p_FIX__ScreenLogFactory swig_types[86]
+#define SWIGTYPE_p_FIX__SenderCompID swig_types[87]
+#define SWIGTYPE_p_FIX__Session swig_types[88]
+#define SWIGTYPE_p_FIX__SessionID swig_types[89]
+#define SWIGTYPE_p_FIX__SessionNotFound swig_types[90]
+#define SWIGTYPE_p_FIX__SessionSettings swig_types[91]
+#define SWIGTYPE_p_FIX__SocketAcceptor swig_types[92]
+#define SWIGTYPE_p_FIX__SocketCloseFailed swig_types[93]
+#define SWIGTYPE_p_FIX__SocketException swig_types[94]
+#define SWIGTYPE_p_FIX__SocketInitiator swig_types[95]
+#define SWIGTYPE_p_FIX__SocketRecvFailed swig_types[96]
+#define SWIGTYPE_p_FIX__SocketSendFailed swig_types[97]
+#define SWIGTYPE_p_FIX__StringField swig_types[98]
+#define SWIGTYPE_p_FIX__SynchronizedApplication swig_types[99]
+#define SWIGTYPE_p_FIX__TYPE__Type swig_types[100]
+#define SWIGTYPE_p_FIX__TagNotDefinedForMessage swig_types[101]
+#define SWIGTYPE_p_FIX__TagOutOfOrder swig_types[102]
+#define SWIGTYPE_p_FIX__TargetCompID swig_types[103]
+#define SWIGTYPE_p_FIX__ThreadedSSLSocketAcceptor swig_types[104]
+#define SWIGTYPE_p_FIX__ThreadedSSLSocketInitiator swig_types[105]
+#define SWIGTYPE_p_FIX__ThreadedSocketAcceptor swig_types[106]
+#define SWIGTYPE_p_FIX__ThreadedSocketInitiator swig_types[107]
+#define SWIGTYPE_p_FIX__Trailer swig_types[108]
+#define SWIGTYPE_p_FIX__UInt64Field swig_types[109]
+#define SWIGTYPE_p_FIX__UnsupportedMessageType swig_types[110]
+#define SWIGTYPE_p_FIX__UnsupportedVersion swig_types[111]
+#define SWIGTYPE_p_FIX__UtcDate swig_types[112]
+#define SWIGTYPE_p_FIX__UtcDateField swig_types[113]
+#define SWIGTYPE_p_FIX__UtcTimeOnly swig_types[114]
+#define SWIGTYPE_p_FIX__UtcTimeOnlyField swig_types[115]
+#define SWIGTYPE_p_FIX__UtcTimeStamp swig_types[116]
+#define SWIGTYPE_p_FIX__UtcTimeStampField swig_types[117]
+#define SWIGTYPE_p_Fields swig_types[118]
+#define SWIGTYPE_p_Group swig_types[119]
+#define SWIGTYPE_p_Groups swig_types[120]
+#define SWIGTYPE_p_IntArray swig_types[121]
+#define SWIGTYPE_p_IntField swig_types[122]
+#define SWIGTYPE_p_Log swig_types[123]
+#define SWIGTYPE_p_LogFactory swig_types[124]
+#define SWIGTYPE_p_MYSQL swig_types[125]
+#define SWIGTYPE_p_MessageStore swig_types[126]
+#define SWIGTYPE_p_MessageStoreFactory swig_types[127]
+#define SWIGTYPE_p_MsgType swig_types[128]
+#define SWIGTYPE_p_Mutex swig_types[129]
+#define SWIGTYPE_p_PGconn swig_types[130]
+#define SWIGTYPE_p_RSA swig_types[131]
+#define SWIGTYPE_p_Responder swig_types[132]
+#define SWIGTYPE_p_SessionID swig_types[133]
+#define SWIGTYPE_p_SessionToPort swig_types[134]
+#define SWIGTYPE_p_StringField swig_types[135]
+#define SWIGTYPE_p_TimeRange swig_types[136]
+#define SWIGTYPE_p_UtcDateField swig_types[137]
+#define SWIGTYPE_p_X509 swig_types[138]
+#define SWIGTYPE_p_allocator_type swig_types[139]
+#define SWIGTYPE_p_bool swig_types[140]
+#define SWIGTYPE_p_char swig_types[141]
+#define SWIGTYPE_p_const_iterator swig_types[142]
+#define SWIGTYPE_p_difference_type swig_types[143]
+#define SWIGTYPE_p_double swig_types[144]
+#define SWIGTYPE_p_g_const_iterator swig_types[145]
+#define SWIGTYPE_p_g_iterator swig_types[146]
+#define SWIGTYPE_p_g_value_type swig_types[147]
+#define SWIGTYPE_p_int swig_types[148]
+#define SWIGTYPE_p_iterator swig_types[149]
+#define SWIGTYPE_p_key_type swig_types[150]
+#define SWIGTYPE_p_long_long swig_types[151]
+#define SWIGTYPE_p_message_order swig_types[152]
+#define SWIGTYPE_p_p_FIX__DataDictionary swig_types[153]
+#define SWIGTYPE_p_p_PyObject swig_types[154]
+#define SWIGTYPE_p_short swig_types[155]
+#define SWIGTYPE_p_signed_char swig_types[156]
+#define SWIGTYPE_p_size_type swig_types[157]
+#define SWIGTYPE_p_ssize_t swig_types[158]
+#define SWIGTYPE_p_std__allocatorT_std__string_t swig_types[159]
+#define SWIGTYPE_p_std__chrono__system_clock__time_point swig_types[160]
+#define SWIGTYPE_p_std__functionT_FIX__UtcTimeStamp_fF_t swig_types[161]
+#define SWIGTYPE_p_std__invalid_argument swig_types[162]
+#define SWIGTYPE_p_std__istream swig_types[163]
+#define SWIGTYPE_p_std__lessT_FIX__SessionID_t swig_types[164]
+#define SWIGTYPE_p_std__logic_error swig_types[165]
+#define SWIGTYPE_p_std__mapT_FIX__SessionID_unsigned_short_t swig_types[166]
+#define SWIGTYPE_p_std__mapT_int_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_std__lessT_int_t_ALLOCATORT_std__pairT_int_const_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_t_t_t swig_types[167]
+#define SWIGTYPE_p_std__mapT_int_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_std__lessT_int_t_ALLOCATORT_std__pairT_int_const_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_t_t_t__const_iterator swig_types[168]
+#define SWIGTYPE_p_std__mapT_int_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_std__lessT_int_t_ALLOCATORT_std__pairT_int_const_std__vectorT_FIX__FieldMap_p_std__allocatorT_FIX__FieldMap_p_t_t_t_t_t__iterator swig_types[169]
+#define SWIGTYPE_p_std__mapT_std__string_std__string_t__const_iterator swig_types[170]
+#define SWIGTYPE_p_std__ostream swig_types[171]
+#define SWIGTYPE_p_std__setT_FIX__SessionID_t swig_types[172]
+#define SWIGTYPE_p_std__setT_std__string_std__lessT_std__string_t_std__allocatorT_std__string_t_t swig_types[173]
+#define SWIGTYPE_p_std__string swig_types[174]
+#define SWIGTYPE_p_std__string__size_type swig_types[175]
+#define SWIGTYPE_p_std__unique_ptrT_FIX__DatabaseConnectionPoolT_FIX__MySQLConnection_t_t swig_types[176]
+#define SWIGTYPE_p_std__unique_ptrT_FIX__DatabaseConnectionPoolT_FIX__PostgreSQLConnection_t_t swig_types[177]
+#define SWIGTYPE_p_std__vectorT_FIX__FieldBase_ALLOCATORT_FIX__FieldBase_t_t__const_iterator swig_types[178]
+#define SWIGTYPE_p_std__vectorT_FIX__FieldBase_ALLOCATORT_FIX__FieldBase_t_t__iterator swig_types[179]
+#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[180]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[181]
+#define SWIGTYPE_p_time_t swig_types[182]
+#define SWIGTYPE_p_tm swig_types[183]
+#define SWIGTYPE_p_unsigned_char swig_types[184]
+#define SWIGTYPE_p_unsigned_int swig_types[185]
+#define SWIGTYPE_p_unsigned_long_long swig_types[186]
+#define SWIGTYPE_p_unsigned_short swig_types[187]
+#define SWIGTYPE_p_value_type swig_types[188]
+static swig_type_info *swig_types[190];
+static swig_module_info swig_module = {swig_types, 189, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -5943,6 +5947,9 @@ SWIGINTERN IntArray *IntArray_frompointer(int *t){
 #include <SSLSocketAcceptor.h>
 #include <SSLSocketInitiator.h>
 #include <SSLSocketConnection.h>
+#include <ThreadedSSLSocketAcceptor.h>
+#include <ThreadedSSLSocketInitiator.h>
+#include <ThreadedSSLSocketConnection.h>
 #else
 #include <SSLStubs.h>
 #endif
@@ -20067,6 +20074,45 @@ SWIGINTERN PyObject *_wrap_DateTime_getTimeT(PyObject *self, PyObject *args) {
     }
   }
   resultobj = SWIG_NewPointerObj((new time_t(result)), SWIGTYPE_p_time_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_DateTime_getTimePoint(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  FIX::DateTime *arg1 = (FIX::DateTime *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::chrono::system_clock::time_point result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__DateTime, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DateTime_getTimePoint" "', argument " "1"" of type '" "FIX::DateTime const *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::DateTime * >(argp1);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = ((FIX::DateTime const *)arg1)->getTimePoint();
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj((new std::chrono::system_clock::time_point(result)), SWIGTYPE_p_std__chrono__system_clock__time_point, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -36446,6 +36492,294 @@ fail:
     "  Possible C/C++ prototypes are:\n"
     "    FIX::FieldMap::calculateTotal(int) const\n"
     "    FIX::FieldMap::calculateTotal() const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_FieldMap_calculateLengthAndTotal__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  FIX::FieldMap *arg1 = (FIX::FieldMap *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  int arg4 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  FIX::FieldMap::LengthAndTotal result;
+  
+  (void)self;
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__FieldMap, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "1"" of type '" "FIX::FieldMap const *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::FieldMap * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = static_cast< int >(val4);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = ((FIX::FieldMap const *)arg1)->calculateLengthAndTotal(arg2,arg3,arg4);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj((new FIX::FieldMap::LengthAndTotal(result)), SWIGTYPE_p_FIX__FieldMap__LengthAndTotal, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FieldMap_calculateLengthAndTotal__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  FIX::FieldMap *arg1 = (FIX::FieldMap *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  FIX::FieldMap::LengthAndTotal result;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__FieldMap, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "1"" of type '" "FIX::FieldMap const *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::FieldMap * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = ((FIX::FieldMap const *)arg1)->calculateLengthAndTotal(arg2,arg3);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj((new FIX::FieldMap::LengthAndTotal(result)), SWIGTYPE_p_FIX__FieldMap__LengthAndTotal, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FieldMap_calculateLengthAndTotal__SWIG_2(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  FIX::FieldMap *arg1 = (FIX::FieldMap *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  FIX::FieldMap::LengthAndTotal result;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__FieldMap, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "1"" of type '" "FIX::FieldMap const *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::FieldMap * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = ((FIX::FieldMap const *)arg1)->calculateLengthAndTotal(arg2);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj((new FIX::FieldMap::LengthAndTotal(result)), SWIGTYPE_p_FIX__FieldMap__LengthAndTotal, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FieldMap_calculateLengthAndTotal__SWIG_3(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  FIX::FieldMap *arg1 = (FIX::FieldMap *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  FIX::FieldMap::LengthAndTotal result;
+  
+  (void)self;
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__FieldMap, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FieldMap_calculateLengthAndTotal" "', argument " "1"" of type '" "FIX::FieldMap const *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::FieldMap * >(argp1);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = ((FIX::FieldMap const *)arg1)->calculateLengthAndTotal();
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj((new FIX::FieldMap::LengthAndTotal(result)), SWIGTYPE_p_FIX__FieldMap__LengthAndTotal, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FieldMap_calculateLengthAndTotal(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[5] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "FieldMap_calculateLengthAndTotal", 0, 4, argv))) SWIG_fail;
+  --argc;
+  if (argc == 1) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_FIX__FieldMap, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_FieldMap_calculateLengthAndTotal__SWIG_3(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_FIX__FieldMap, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_FieldMap_calculateLengthAndTotal__SWIG_2(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_FIX__FieldMap, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_FieldMap_calculateLengthAndTotal__SWIG_1(self, argc, argv);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_FIX__FieldMap, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          {
+            int res = SWIG_AsVal_int(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_FieldMap_calculateLengthAndTotal__SWIG_0(self, argc, argv);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'FieldMap_calculateLengthAndTotal'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    FIX::FieldMap::calculateLengthAndTotal(int,int,int) const\n"
+    "    FIX::FieldMap::calculateLengthAndTotal(int,int) const\n"
+    "    FIX::FieldMap::calculateLengthAndTotal(int) const\n"
+    "    FIX::FieldMap::calculateLengthAndTotal() const\n");
   return 0;
 }
 
@@ -149333,6 +149667,921 @@ SWIGINTERN PyObject *SSLSocketInitiatorBase_swiginit(PyObject *SWIGUNUSEDPARM(se
   return SWIG_Python_InitShadowInstance(args);
 }
 
+SWIGINTERN PyObject *_wrap_new_ThreadedSSLSocketAcceptorBase__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  FIX::Application *arg1 = 0 ;
+  FIX::MessageStoreFactory *arg2 = 0 ;
+  FIX::SessionSettings *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  FIX::ThreadedSSLSocketAcceptor *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_FIX__Application,  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "1"" of type '" "FIX::Application &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "1"" of type '" "FIX::Application &""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::Application * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_FIX__MessageStoreFactory,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "2"" of type '" "FIX::MessageStoreFactory &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "2"" of type '" "FIX::MessageStoreFactory &""'"); 
+  }
+  arg2 = reinterpret_cast< FIX::MessageStoreFactory * >(argp2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_FIX__SessionSettings,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "3"" of type '" "FIX::SessionSettings const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "3"" of type '" "FIX::SessionSettings const &""'"); 
+  }
+  arg3 = reinterpret_cast< FIX::SessionSettings * >(argp3);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = (FIX::ThreadedSSLSocketAcceptor *)new FIX::ThreadedSSLSocketAcceptor(*arg1,*arg2,(FIX::SessionSettings const &)*arg3);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_FIX__ThreadedSSLSocketAcceptor, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ThreadedSSLSocketAcceptorBase__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  FIX::Application *arg1 = 0 ;
+  FIX::MessageStoreFactory *arg2 = 0 ;
+  FIX::SessionSettings *arg3 = 0 ;
+  FIX::LogFactory *arg4 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  FIX::ThreadedSSLSocketAcceptor *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_FIX__Application,  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "1"" of type '" "FIX::Application &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "1"" of type '" "FIX::Application &""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::Application * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_FIX__MessageStoreFactory,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "2"" of type '" "FIX::MessageStoreFactory &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "2"" of type '" "FIX::MessageStoreFactory &""'"); 
+  }
+  arg2 = reinterpret_cast< FIX::MessageStoreFactory * >(argp2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_FIX__SessionSettings,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "3"" of type '" "FIX::SessionSettings const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "3"" of type '" "FIX::SessionSettings const &""'"); 
+  }
+  arg3 = reinterpret_cast< FIX::SessionSettings * >(argp3);
+  res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_FIX__LogFactory,  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "4"" of type '" "FIX::LogFactory &""'"); 
+  }
+  if (!argp4) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketAcceptorBase" "', argument " "4"" of type '" "FIX::LogFactory &""'"); 
+  }
+  arg4 = reinterpret_cast< FIX::LogFactory * >(argp4);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = (FIX::ThreadedSSLSocketAcceptor *)new FIX::ThreadedSSLSocketAcceptor(*arg1,*arg2,(FIX::SessionSettings const &)*arg3,*arg4);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_FIX__ThreadedSSLSocketAcceptor, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ThreadedSSLSocketAcceptorBase(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[5] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_ThreadedSSLSocketAcceptorBase", 0, 4, argv))) SWIG_fail;
+  --argc;
+  if (argc == 3) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_FIX__Application, SWIG_POINTER_NO_NULL);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_FIX__MessageStoreFactory, SWIG_POINTER_NO_NULL);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_FIX__SessionSettings, SWIG_POINTER_NO_NULL | 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_new_ThreadedSSLSocketAcceptorBase__SWIG_0(self, argc, argv);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_FIX__Application, SWIG_POINTER_NO_NULL);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_FIX__MessageStoreFactory, SWIG_POINTER_NO_NULL);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_FIX__SessionSettings, SWIG_POINTER_NO_NULL | 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          void *vptr = 0;
+          int res = SWIG_ConvertPtr(argv[3], &vptr, SWIGTYPE_p_FIX__LogFactory, SWIG_POINTER_NO_NULL);
+          _v = SWIG_CheckState(res);
+          if (_v) {
+            return _wrap_new_ThreadedSSLSocketAcceptorBase__SWIG_1(self, argc, argv);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_ThreadedSSLSocketAcceptorBase'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    FIX::ThreadedSSLSocketAcceptor::ThreadedSSLSocketAcceptor(FIX::Application &,FIX::MessageStoreFactory &,FIX::SessionSettings const &)\n"
+    "    FIX::ThreadedSSLSocketAcceptor::ThreadedSSLSocketAcceptor(FIX::Application &,FIX::MessageStoreFactory &,FIX::SessionSettings const &,FIX::LogFactory &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_ThreadedSSLSocketAcceptorBase(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  FIX::ThreadedSSLSocketAcceptor *arg1 = (FIX::ThreadedSSLSocketAcceptor *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__ThreadedSSLSocketAcceptor, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ThreadedSSLSocketAcceptorBase" "', argument " "1"" of type '" "FIX::ThreadedSSLSocketAcceptor *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::ThreadedSSLSocketAcceptor * >(argp1);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            delete arg1;
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ThreadedSSLSocketAcceptorBase_setPassword(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  FIX::ThreadedSSLSocketAcceptor *arg1 = (FIX::ThreadedSSLSocketAcceptor *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "ThreadedSSLSocketAcceptorBase_setPassword", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__ThreadedSSLSocketAcceptor, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ThreadedSSLSocketAcceptorBase_setPassword" "', argument " "1"" of type '" "FIX::ThreadedSSLSocketAcceptor *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::ThreadedSSLSocketAcceptor * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ThreadedSSLSocketAcceptorBase_setPassword" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ThreadedSSLSocketAcceptorBase_setPassword" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            (arg1)->setPassword((std::string const &)*arg2);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if( std::string("std::string const &") == "std::string &" )
+    {
+      if( !PyDict_Check(resultobj) )
+      resultobj = PyDict_New();
+      PyDict_SetItem( resultobj, PyLong_FromLong(PyDict_Size(resultobj)), PyUnicode_FromString(arg2->c_str()) );
+    }
+  }
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ThreadedSSLSocketAcceptorBase_passwordHandleCallback(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  FIX::ThreadedSSLSocketAcceptor *arg1 = (FIX::ThreadedSSLSocketAcceptor *) 0 ;
+  char *arg2 = (char *) 0 ;
+  size_t arg3 ;
+  int arg4 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  size_t val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  PyObject *swig_obj[4] ;
+  int result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "ThreadedSSLSocketAcceptorBase_passwordHandleCallback", 4, 4, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__ThreadedSSLSocketAcceptor, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ThreadedSSLSocketAcceptorBase_passwordHandleCallback" "', argument " "1"" of type '" "FIX::ThreadedSSLSocketAcceptor *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::ThreadedSSLSocketAcceptor * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(swig_obj[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ThreadedSSLSocketAcceptorBase_passwordHandleCallback" "', argument " "2"" of type '" "char *""'");
+  }
+  arg2 = reinterpret_cast< char * >(buf2);
+  ecode3 = SWIG_AsVal_size_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ThreadedSSLSocketAcceptorBase_passwordHandleCallback" "', argument " "3"" of type '" "size_t""'");
+  } 
+  arg3 = static_cast< size_t >(val3);
+  ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "ThreadedSSLSocketAcceptorBase_passwordHandleCallback" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = static_cast< int >(val4);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = (int)(arg1)->passwordHandleCallback(arg2,arg3,arg4);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ThreadedSSLSocketAcceptorBase_passPhraseHandleCB(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *arg4 = (void *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int res4 ;
+  PyObject *swig_obj[4] ;
+  int result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "ThreadedSSLSocketAcceptorBase_passPhraseHandleCB", 4, 4, swig_obj)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(swig_obj[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ThreadedSSLSocketAcceptorBase_passPhraseHandleCB" "', argument " "1"" of type '" "char *""'");
+  }
+  arg1 = reinterpret_cast< char * >(buf1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ThreadedSSLSocketAcceptorBase_passPhraseHandleCB" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ThreadedSSLSocketAcceptorBase_passPhraseHandleCB" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  res4 = SWIG_ConvertPtr(swig_obj[3],SWIG_as_voidptrptr(&arg4), 0, 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "ThreadedSSLSocketAcceptorBase_passPhraseHandleCB" "', argument " "4"" of type '" "void *""'"); 
+  }
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = (int)FIX::ThreadedSSLSocketAcceptor::passPhraseHandleCB(arg1,arg2,arg3,arg4);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *ThreadedSSLSocketAcceptorBase_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_FIX__ThreadedSSLSocketAcceptor, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *ThreadedSSLSocketAcceptorBase_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_ThreadedSSLSocketInitiatorBase__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  FIX::Application *arg1 = 0 ;
+  FIX::MessageStoreFactory *arg2 = 0 ;
+  FIX::SessionSettings *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  FIX::ThreadedSSLSocketInitiator *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_FIX__Application,  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "1"" of type '" "FIX::Application &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "1"" of type '" "FIX::Application &""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::Application * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_FIX__MessageStoreFactory,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "2"" of type '" "FIX::MessageStoreFactory &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "2"" of type '" "FIX::MessageStoreFactory &""'"); 
+  }
+  arg2 = reinterpret_cast< FIX::MessageStoreFactory * >(argp2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_FIX__SessionSettings,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "3"" of type '" "FIX::SessionSettings const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "3"" of type '" "FIX::SessionSettings const &""'"); 
+  }
+  arg3 = reinterpret_cast< FIX::SessionSettings * >(argp3);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = (FIX::ThreadedSSLSocketInitiator *)new FIX::ThreadedSSLSocketInitiator(*arg1,*arg2,(FIX::SessionSettings const &)*arg3);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_FIX__ThreadedSSLSocketInitiator, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ThreadedSSLSocketInitiatorBase__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  FIX::Application *arg1 = 0 ;
+  FIX::MessageStoreFactory *arg2 = 0 ;
+  FIX::SessionSettings *arg3 = 0 ;
+  FIX::LogFactory *arg4 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  FIX::ThreadedSSLSocketInitiator *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_FIX__Application,  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "1"" of type '" "FIX::Application &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "1"" of type '" "FIX::Application &""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::Application * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_FIX__MessageStoreFactory,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "2"" of type '" "FIX::MessageStoreFactory &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "2"" of type '" "FIX::MessageStoreFactory &""'"); 
+  }
+  arg2 = reinterpret_cast< FIX::MessageStoreFactory * >(argp2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_FIX__SessionSettings,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "3"" of type '" "FIX::SessionSettings const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "3"" of type '" "FIX::SessionSettings const &""'"); 
+  }
+  arg3 = reinterpret_cast< FIX::SessionSettings * >(argp3);
+  res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_FIX__LogFactory,  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "4"" of type '" "FIX::LogFactory &""'"); 
+  }
+  if (!argp4) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ThreadedSSLSocketInitiatorBase" "', argument " "4"" of type '" "FIX::LogFactory &""'"); 
+  }
+  arg4 = reinterpret_cast< FIX::LogFactory * >(argp4);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = (FIX::ThreadedSSLSocketInitiator *)new FIX::ThreadedSSLSocketInitiator(*arg1,*arg2,(FIX::SessionSettings const &)*arg3,*arg4);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_FIX__ThreadedSSLSocketInitiator, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ThreadedSSLSocketInitiatorBase(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[5] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_ThreadedSSLSocketInitiatorBase", 0, 4, argv))) SWIG_fail;
+  --argc;
+  if (argc == 3) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_FIX__Application, SWIG_POINTER_NO_NULL);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_FIX__MessageStoreFactory, SWIG_POINTER_NO_NULL);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_FIX__SessionSettings, SWIG_POINTER_NO_NULL | 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_new_ThreadedSSLSocketInitiatorBase__SWIG_0(self, argc, argv);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_FIX__Application, SWIG_POINTER_NO_NULL);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_FIX__MessageStoreFactory, SWIG_POINTER_NO_NULL);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_FIX__SessionSettings, SWIG_POINTER_NO_NULL | 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          void *vptr = 0;
+          int res = SWIG_ConvertPtr(argv[3], &vptr, SWIGTYPE_p_FIX__LogFactory, SWIG_POINTER_NO_NULL);
+          _v = SWIG_CheckState(res);
+          if (_v) {
+            return _wrap_new_ThreadedSSLSocketInitiatorBase__SWIG_1(self, argc, argv);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_ThreadedSSLSocketInitiatorBase'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    FIX::ThreadedSSLSocketInitiator::ThreadedSSLSocketInitiator(FIX::Application &,FIX::MessageStoreFactory &,FIX::SessionSettings const &)\n"
+    "    FIX::ThreadedSSLSocketInitiator::ThreadedSSLSocketInitiator(FIX::Application &,FIX::MessageStoreFactory &,FIX::SessionSettings const &,FIX::LogFactory &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_ThreadedSSLSocketInitiatorBase(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  FIX::ThreadedSSLSocketInitiator *arg1 = (FIX::ThreadedSSLSocketInitiator *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__ThreadedSSLSocketInitiator, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ThreadedSSLSocketInitiatorBase" "', argument " "1"" of type '" "FIX::ThreadedSSLSocketInitiator *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::ThreadedSSLSocketInitiator * >(argp1);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            delete arg1;
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ThreadedSSLSocketInitiatorBase_setPassword(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  FIX::ThreadedSSLSocketInitiator *arg1 = (FIX::ThreadedSSLSocketInitiator *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "ThreadedSSLSocketInitiatorBase_setPassword", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__ThreadedSSLSocketInitiator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ThreadedSSLSocketInitiatorBase_setPassword" "', argument " "1"" of type '" "FIX::ThreadedSSLSocketInitiator *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::ThreadedSSLSocketInitiator * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ThreadedSSLSocketInitiatorBase_setPassword" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ThreadedSSLSocketInitiatorBase_setPassword" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            (arg1)->setPassword((std::string const &)*arg2);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if( std::string("std::string const &") == "std::string &" )
+    {
+      if( !PyDict_Check(resultobj) )
+      resultobj = PyDict_New();
+      PyDict_SetItem( resultobj, PyLong_FromLong(PyDict_Size(resultobj)), PyUnicode_FromString(arg2->c_str()) );
+    }
+  }
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ThreadedSSLSocketInitiatorBase_setCertAndKey(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  FIX::ThreadedSSLSocketInitiator *arg1 = (FIX::ThreadedSSLSocketInitiator *) 0 ;
+  X509 *arg2 = (X509 *) 0 ;
+  RSA *arg3 = (RSA *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject *swig_obj[3] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "ThreadedSSLSocketInitiatorBase_setCertAndKey", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__ThreadedSSLSocketInitiator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ThreadedSSLSocketInitiatorBase_setCertAndKey" "', argument " "1"" of type '" "FIX::ThreadedSSLSocketInitiator *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::ThreadedSSLSocketInitiator * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_X509, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ThreadedSSLSocketInitiatorBase_setCertAndKey" "', argument " "2"" of type '" "X509 *""'"); 
+  }
+  arg2 = reinterpret_cast< X509 * >(argp2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3,SWIGTYPE_p_RSA, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "ThreadedSSLSocketInitiatorBase_setCertAndKey" "', argument " "3"" of type '" "RSA *""'"); 
+  }
+  arg3 = reinterpret_cast< RSA * >(argp3);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            (arg1)->setCertAndKey(arg2,arg3);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ThreadedSSLSocketInitiatorBase_passwordHandleCallback(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  FIX::ThreadedSSLSocketInitiator *arg1 = (FIX::ThreadedSSLSocketInitiator *) 0 ;
+  char *arg2 = (char *) 0 ;
+  size_t arg3 ;
+  int arg4 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  size_t val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  PyObject *swig_obj[4] ;
+  int result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "ThreadedSSLSocketInitiatorBase_passwordHandleCallback", 4, 4, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_FIX__ThreadedSSLSocketInitiator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ThreadedSSLSocketInitiatorBase_passwordHandleCallback" "', argument " "1"" of type '" "FIX::ThreadedSSLSocketInitiator *""'"); 
+  }
+  arg1 = reinterpret_cast< FIX::ThreadedSSLSocketInitiator * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(swig_obj[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ThreadedSSLSocketInitiatorBase_passwordHandleCallback" "', argument " "2"" of type '" "char *""'");
+  }
+  arg2 = reinterpret_cast< char * >(buf2);
+  ecode3 = SWIG_AsVal_size_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ThreadedSSLSocketInitiatorBase_passwordHandleCallback" "', argument " "3"" of type '" "size_t""'");
+  } 
+  arg3 = static_cast< size_t >(val3);
+  ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "ThreadedSSLSocketInitiatorBase_passwordHandleCallback" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = static_cast< int >(val4);
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = (int)(arg1)->passwordHandleCallback(arg2,arg3,arg4);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ThreadedSSLSocketInitiatorBase_passwordHandleCB(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *arg4 = (void *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int res4 ;
+  PyObject *swig_obj[4] ;
+  int result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "ThreadedSSLSocketInitiatorBase_passwordHandleCB", 4, 4, swig_obj)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(swig_obj[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ThreadedSSLSocketInitiatorBase_passwordHandleCB" "', argument " "1"" of type '" "char *""'");
+  }
+  arg1 = reinterpret_cast< char * >(buf1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ThreadedSSLSocketInitiatorBase_passwordHandleCB" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ThreadedSSLSocketInitiatorBase_passwordHandleCB" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  res4 = SWIG_ConvertPtr(swig_obj[3],SWIG_as_voidptrptr(&arg4), 0, 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "ThreadedSSLSocketInitiatorBase_passwordHandleCB" "', argument " "4"" of type '" "void *""'"); 
+  }
+  {
+    if(!tryPythonException([&]() mutable 
+        {
+      {
+        SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+            result = (int)FIX::ThreadedSSLSocketInitiator::passwordHandleCB(arg1,arg2,arg3,arg4);
+            SWIG_PYTHON_THREAD_END_ALLOW;
+          }
+          return true;
+        fail:
+          return false;
+        })) 
+    {
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *ThreadedSSLSocketInitiatorBase_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_FIX__ThreadedSSLSocketInitiator, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *ThreadedSSLSocketInitiatorBase_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
 SWIGINTERN PyObject *_wrap_new_DatabaseConnectionID(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   std::string *arg1 = 0 ;
@@ -159120,6 +160369,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "DateTime_getFraction", _wrap_DateTime_getFraction, METH_VARARGS, NULL},
 	 { "DateTime_getWeekDay", _wrap_DateTime_getWeekDay, METH_O, NULL},
 	 { "DateTime_getTimeT", _wrap_DateTime_getTimeT, METH_O, NULL},
+	 { "DateTime_getTimePoint", _wrap_DateTime_getTimePoint, METH_O, NULL},
 	 { "DateTime_getTmUtc", _wrap_DateTime_getTmUtc, METH_O, NULL},
 	 { "DateTime_setYMD", _wrap_DateTime_setYMD, METH_VARARGS, NULL},
 	 { "DateTime_setHMS", _wrap_DateTime_setHMS, METH_VARARGS, NULL},
@@ -159304,6 +160554,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "FieldMap_calculateString", _wrap_FieldMap_calculateString, METH_VARARGS, NULL},
 	 { "FieldMap_calculateLength", _wrap_FieldMap_calculateLength, METH_VARARGS, NULL},
 	 { "FieldMap_calculateTotal", _wrap_FieldMap_calculateTotal, METH_VARARGS, NULL},
+	 { "FieldMap_calculateLengthAndTotal", _wrap_FieldMap_calculateLengthAndTotal, METH_VARARGS, NULL},
 	 { "FieldMap_begin", _wrap_FieldMap_begin, METH_VARARGS, NULL},
 	 { "FieldMap_end", _wrap_FieldMap_end, METH_VARARGS, NULL},
 	 { "FieldMap_g_begin", _wrap_FieldMap_g_begin, METH_VARARGS, NULL},
@@ -159783,6 +161034,21 @@ static PyMethodDef SwigMethods[] = {
 	 { "SSLSocketInitiatorBase_passwordHandleCB", _wrap_SSLSocketInitiatorBase_passwordHandleCB, METH_VARARGS, NULL},
 	 { "SSLSocketInitiatorBase_swigregister", SSLSocketInitiatorBase_swigregister, METH_O, NULL},
 	 { "SSLSocketInitiatorBase_swiginit", SSLSocketInitiatorBase_swiginit, METH_VARARGS, NULL},
+	 { "new_ThreadedSSLSocketAcceptorBase", _wrap_new_ThreadedSSLSocketAcceptorBase, METH_VARARGS, NULL},
+	 { "delete_ThreadedSSLSocketAcceptorBase", _wrap_delete_ThreadedSSLSocketAcceptorBase, METH_O, NULL},
+	 { "ThreadedSSLSocketAcceptorBase_setPassword", _wrap_ThreadedSSLSocketAcceptorBase_setPassword, METH_VARARGS, NULL},
+	 { "ThreadedSSLSocketAcceptorBase_passwordHandleCallback", _wrap_ThreadedSSLSocketAcceptorBase_passwordHandleCallback, METH_VARARGS, NULL},
+	 { "ThreadedSSLSocketAcceptorBase_passPhraseHandleCB", _wrap_ThreadedSSLSocketAcceptorBase_passPhraseHandleCB, METH_VARARGS, NULL},
+	 { "ThreadedSSLSocketAcceptorBase_swigregister", ThreadedSSLSocketAcceptorBase_swigregister, METH_O, NULL},
+	 { "ThreadedSSLSocketAcceptorBase_swiginit", ThreadedSSLSocketAcceptorBase_swiginit, METH_VARARGS, NULL},
+	 { "new_ThreadedSSLSocketInitiatorBase", _wrap_new_ThreadedSSLSocketInitiatorBase, METH_VARARGS, NULL},
+	 { "delete_ThreadedSSLSocketInitiatorBase", _wrap_delete_ThreadedSSLSocketInitiatorBase, METH_O, NULL},
+	 { "ThreadedSSLSocketInitiatorBase_setPassword", _wrap_ThreadedSSLSocketInitiatorBase_setPassword, METH_VARARGS, NULL},
+	 { "ThreadedSSLSocketInitiatorBase_setCertAndKey", _wrap_ThreadedSSLSocketInitiatorBase_setCertAndKey, METH_VARARGS, NULL},
+	 { "ThreadedSSLSocketInitiatorBase_passwordHandleCallback", _wrap_ThreadedSSLSocketInitiatorBase_passwordHandleCallback, METH_VARARGS, NULL},
+	 { "ThreadedSSLSocketInitiatorBase_passwordHandleCB", _wrap_ThreadedSSLSocketInitiatorBase_passwordHandleCB, METH_VARARGS, NULL},
+	 { "ThreadedSSLSocketInitiatorBase_swigregister", ThreadedSSLSocketInitiatorBase_swigregister, METH_O, NULL},
+	 { "ThreadedSSLSocketInitiatorBase_swiginit", ThreadedSSLSocketInitiatorBase_swiginit, METH_VARARGS, NULL},
 	 { "new_DatabaseConnectionID", _wrap_new_DatabaseConnectionID, METH_VARARGS, NULL},
 	 { "__lt__", _wrap___lt__, METH_VARARGS, NULL},
 	 { "__eq__", _wrap___eq__, METH_VARARGS, NULL},
@@ -159953,6 +161219,9 @@ static void *_p_FIX__SSLSocketAcceptorTo_p_FIX__Acceptor(void *x, int *SWIGUNUSE
 }
 static void *_p_FIX__SocketAcceptorTo_p_FIX__Acceptor(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((FIX::Acceptor *)  ((FIX::SocketAcceptor *) x));
+}
+static void *_p_FIX__ThreadedSSLSocketAcceptorTo_p_FIX__Acceptor(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FIX::Acceptor *)  ((FIX::ThreadedSSLSocketAcceptor *) x));
 }
 static void *_p_FIX__ThreadedSocketAcceptorTo_p_FIX__Acceptor(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((FIX::Acceptor *)  ((FIX::ThreadedSocketAcceptor *) x));
@@ -160127,6 +161396,9 @@ static void *_p_FIX__SSLSocketInitiatorTo_p_FIX__Initiator(void *x, int *SWIGUNU
 }
 static void *_p_FIX__SocketInitiatorTo_p_FIX__Initiator(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((FIX::Initiator *)  ((FIX::SocketInitiator *) x));
+}
+static void *_p_FIX__ThreadedSSLSocketInitiatorTo_p_FIX__Initiator(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FIX::Initiator *)  ((FIX::ThreadedSSLSocketInitiator *) x));
 }
 static void *_p_FIX__ThreadedSocketInitiatorTo_p_FIX__Initiator(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((FIX::Initiator *)  ((FIX::ThreadedSocketInitiator *) x));
@@ -160326,6 +161598,7 @@ static swig_type_info _swigt__p_FIX__Exception = {"_p_FIX__Exception", "FIX::Exc
 static swig_type_info _swigt__p_FIX__FieldBase = {"_p_FIX__FieldBase", "FIX::FieldBase *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__FieldConvertError = {"_p_FIX__FieldConvertError", "FIX::FieldConvertError *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__FieldMap = {"_p_FIX__FieldMap", "FIX::FieldMap *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_FIX__FieldMap__LengthAndTotal = {"_p_FIX__FieldMap__LengthAndTotal", "FIX::FieldMap::LengthAndTotal *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__FieldNotFound = {"_p_FIX__FieldNotFound", "FIX::FieldNotFound *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__FileLog = {"_p_FIX__FileLog", "FIX::FileLog *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__FileLogFactory = {"_p_FIX__FileLogFactory", "FIX::FileLogFactory *", 0, 0, (void*)0, 0};
@@ -160399,6 +161672,8 @@ static swig_type_info _swigt__p_FIX__TYPE__Type = {"_p_FIX__TYPE__Type", "FIX::T
 static swig_type_info _swigt__p_FIX__TagNotDefinedForMessage = {"_p_FIX__TagNotDefinedForMessage", "FIX::TagNotDefinedForMessage *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__TagOutOfOrder = {"_p_FIX__TagOutOfOrder", "FIX::TagOutOfOrder *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__TargetCompID = {"_p_FIX__TargetCompID", "FIX::TargetCompID *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_FIX__ThreadedSSLSocketAcceptor = {"_p_FIX__ThreadedSSLSocketAcceptor", "FIX::ThreadedSSLSocketAcceptor *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_FIX__ThreadedSSLSocketInitiator = {"_p_FIX__ThreadedSSLSocketInitiator", "FIX::ThreadedSSLSocketInitiator *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__ThreadedSocketAcceptor = {"_p_FIX__ThreadedSocketAcceptor", "FIX::ThreadedSocketAcceptor *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__ThreadedSocketInitiator = {"_p_FIX__ThreadedSocketInitiator", "FIX::ThreadedSocketInitiator *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FIX__Trailer = {"_p_FIX__Trailer", "FIX::Trailer *", 0, 0, (void*)0, 0};
@@ -160453,6 +161728,7 @@ static swig_type_info _swigt__p_signed_char = {"_p_signed_char", "int8_t *|int_f
 static swig_type_info _swigt__p_size_type = {"_p_size_type", "size_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ssize_t = {"_p_ssize_t", "ssize_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__allocatorT_std__string_t = {"_p_std__allocatorT_std__string_t", "std::vector< std::string >::allocator_type *|std::allocator< std::string > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__chrono__system_clock__time_point = {"_p_std__chrono__system_clock__time_point", "std::chrono::system_clock::time_point *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__functionT_FIX__UtcTimeStamp_fF_t = {"_p_std__functionT_FIX__UtcTimeStamp_fF_t", "std::function< FIX::UtcTimeStamp () > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__invalid_argument = {"_p_std__invalid_argument", "std::invalid_argument *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__istream = {"_p_std__istream", "std::istream *", 0, 0, (void*)0, 0};
@@ -160513,6 +161789,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_FIX__FieldBase,
   &_swigt__p_FIX__FieldConvertError,
   &_swigt__p_FIX__FieldMap,
+  &_swigt__p_FIX__FieldMap__LengthAndTotal,
   &_swigt__p_FIX__FieldNotFound,
   &_swigt__p_FIX__FileLog,
   &_swigt__p_FIX__FileLogFactory,
@@ -160586,6 +161863,8 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_FIX__TagNotDefinedForMessage,
   &_swigt__p_FIX__TagOutOfOrder,
   &_swigt__p_FIX__TargetCompID,
+  &_swigt__p_FIX__ThreadedSSLSocketAcceptor,
+  &_swigt__p_FIX__ThreadedSSLSocketInitiator,
   &_swigt__p_FIX__ThreadedSocketAcceptor,
   &_swigt__p_FIX__ThreadedSocketInitiator,
   &_swigt__p_FIX__Trailer,
@@ -160640,6 +161919,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_size_type,
   &_swigt__p_ssize_t,
   &_swigt__p_std__allocatorT_std__string_t,
+  &_swigt__p_std__chrono__system_clock__time_point,
   &_swigt__p_std__functionT_FIX__UtcTimeStamp_fF_t,
   &_swigt__p_std__invalid_argument,
   &_swigt__p_std__istream,
@@ -160679,7 +161959,7 @@ static swig_cast_info _swigc__p_DataDictionary[] = {  {&_swigt__p_DataDictionary
 static swig_cast_info _swigc__p_DataDictionaryProvider[] = {  {&_swigt__p_DataDictionaryProvider, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Dictionaries[] = {  {&_swigt__p_Dictionaries, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_DoubleField[] = {  {&_swigt__p_DoubleField, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_FIX__Acceptor[] = {  {&_swigt__p_FIX__Acceptor, 0, 0, 0},  {&_swigt__p_FIX__SSLSocketAcceptor, _p_FIX__SSLSocketAcceptorTo_p_FIX__Acceptor, 0, 0},  {&_swigt__p_FIX__SocketAcceptor, _p_FIX__SocketAcceptorTo_p_FIX__Acceptor, 0, 0},  {&_swigt__p_FIX__ThreadedSocketAcceptor, _p_FIX__ThreadedSocketAcceptorTo_p_FIX__Acceptor, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_FIX__Acceptor[] = {  {&_swigt__p_FIX__Acceptor, 0, 0, 0},  {&_swigt__p_FIX__SSLSocketAcceptor, _p_FIX__SSLSocketAcceptorTo_p_FIX__Acceptor, 0, 0},  {&_swigt__p_FIX__SocketAcceptor, _p_FIX__SocketAcceptorTo_p_FIX__Acceptor, 0, 0},  {&_swigt__p_FIX__ThreadedSSLSocketAcceptor, _p_FIX__ThreadedSSLSocketAcceptorTo_p_FIX__Acceptor, 0, 0},  {&_swigt__p_FIX__ThreadedSocketAcceptor, _p_FIX__ThreadedSocketAcceptorTo_p_FIX__Acceptor, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__Application[] = {  {&_swigt__p_FIX__Application, 0, 0, 0},  {&_swigt__p_FIX__NullApplication, _p_FIX__NullApplicationTo_p_FIX__Application, 0, 0},  {&_swigt__p_FIX__SynchronizedApplication, _p_FIX__SynchronizedApplicationTo_p_FIX__Application, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__BeginString[] = {  {&_swigt__p_FIX__BeginString, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__BoolField[] = {  {&_swigt__p_FIX__BoolField, 0, 0, 0},{0, 0, 0, 0}};
@@ -160700,6 +161980,7 @@ static swig_cast_info _swigc__p_FIX__Exception[] = {  {&_swigt__p_FIX__Exception
 static swig_cast_info _swigc__p_FIX__FieldBase[] = {  {&_swigt__p_FIX__FieldBase, 0, 0, 0},  {&_swigt__p_FIX__BeginString, _p_FIX__BeginStringTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__BoolField, _p_FIX__BoolFieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__CharField, _p_FIX__CharFieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__CheckSumField, _p_FIX__CheckSumFieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__DoubleField, _p_FIX__DoubleFieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__Int64Field, _p_FIX__Int64FieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__IntField, _p_FIX__IntFieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__SenderCompID, _p_FIX__SenderCompIDTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__StringField, _p_FIX__StringFieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__TargetCompID, _p_FIX__TargetCompIDTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__UInt64Field, _p_FIX__UInt64FieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__UtcDateField, _p_FIX__UtcDateFieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__UtcTimeOnlyField, _p_FIX__UtcTimeOnlyFieldTo_p_FIX__FieldBase, 0, 0},  {&_swigt__p_FIX__UtcTimeStampField, _p_FIX__UtcTimeStampFieldTo_p_FIX__FieldBase, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__FieldConvertError[] = {  {&_swigt__p_FIX__FieldConvertError, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__FieldMap[] = {  {&_swigt__p_FIX__FieldMap, 0, 0, 0},  {&_swigt__p_FIX__Group, _p_FIX__GroupTo_p_FIX__FieldMap, 0, 0},  {&_swigt__p_FIX__Header, _p_FIX__HeaderTo_p_FIX__FieldMap, 0, 0},  {&_swigt__p_FIX__Message, _p_FIX__MessageTo_p_FIX__FieldMap, 0, 0},  {&_swigt__p_FIX__Trailer, _p_FIX__TrailerTo_p_FIX__FieldMap, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_FIX__FieldMap__LengthAndTotal[] = {  {&_swigt__p_FIX__FieldMap__LengthAndTotal, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__FieldNotFound[] = {  {&_swigt__p_FIX__FieldNotFound, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__FileLog[] = {  {&_swigt__p_FIX__FileLog, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__FileLogFactory[] = {  {&_swigt__p_FIX__FileLogFactory, 0, 0, 0},{0, 0, 0, 0}};
@@ -160711,7 +161992,7 @@ static swig_cast_info _swigc__p_FIX__IOException[] = {  {&_swigt__p_FIX__IOExcep
 static swig_cast_info _swigc__p_FIX__IncorrectDataFormat[] = {  {&_swigt__p_FIX__IncorrectDataFormat, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__IncorrectMessageStructure[] = {  {&_swigt__p_FIX__IncorrectMessageStructure, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__IncorrectTagValue[] = {  {&_swigt__p_FIX__IncorrectTagValue, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_FIX__Initiator[] = {  {&_swigt__p_FIX__Initiator, 0, 0, 0},  {&_swigt__p_FIX__SSLSocketInitiator, _p_FIX__SSLSocketInitiatorTo_p_FIX__Initiator, 0, 0},  {&_swigt__p_FIX__SocketInitiator, _p_FIX__SocketInitiatorTo_p_FIX__Initiator, 0, 0},  {&_swigt__p_FIX__ThreadedSocketInitiator, _p_FIX__ThreadedSocketInitiatorTo_p_FIX__Initiator, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_FIX__Initiator[] = {  {&_swigt__p_FIX__Initiator, 0, 0, 0},  {&_swigt__p_FIX__SSLSocketInitiator, _p_FIX__SSLSocketInitiatorTo_p_FIX__Initiator, 0, 0},  {&_swigt__p_FIX__SocketInitiator, _p_FIX__SocketInitiatorTo_p_FIX__Initiator, 0, 0},  {&_swigt__p_FIX__ThreadedSSLSocketInitiator, _p_FIX__ThreadedSSLSocketInitiatorTo_p_FIX__Initiator, 0, 0},  {&_swigt__p_FIX__ThreadedSocketInitiator, _p_FIX__ThreadedSocketInitiatorTo_p_FIX__Initiator, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__Int64Field[] = {  {&_swigt__p_FIX__Int64Field, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__IntField[] = {  {&_swigt__p_FIX__IntField, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__InvalidMessage[] = {  {&_swigt__p_FIX__InvalidMessage, 0, 0, 0},{0, 0, 0, 0}};
@@ -160773,6 +162054,8 @@ static swig_cast_info _swigc__p_FIX__TYPE__Type[] = {  {&_swigt__p_FIX__TYPE__Ty
 static swig_cast_info _swigc__p_FIX__TagNotDefinedForMessage[] = {  {&_swigt__p_FIX__TagNotDefinedForMessage, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__TagOutOfOrder[] = {  {&_swigt__p_FIX__TagOutOfOrder, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__TargetCompID[] = {  {&_swigt__p_FIX__TargetCompID, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_FIX__ThreadedSSLSocketAcceptor[] = {  {&_swigt__p_FIX__ThreadedSSLSocketAcceptor, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_FIX__ThreadedSSLSocketInitiator[] = {  {&_swigt__p_FIX__ThreadedSSLSocketInitiator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__ThreadedSocketAcceptor[] = {  {&_swigt__p_FIX__ThreadedSocketAcceptor, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__ThreadedSocketInitiator[] = {  {&_swigt__p_FIX__ThreadedSocketInitiator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FIX__Trailer[] = {  {&_swigt__p_FIX__Trailer, 0, 0, 0},{0, 0, 0, 0}};
@@ -160827,6 +162110,7 @@ static swig_cast_info _swigc__p_signed_char[] = {  {&_swigt__p_signed_char, 0, 0
 static swig_cast_info _swigc__p_size_type[] = {  {&_swigt__p_size_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ssize_t[] = {  {&_swigt__p_ssize_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__allocatorT_std__string_t[] = {  {&_swigt__p_std__allocatorT_std__string_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__chrono__system_clock__time_point[] = {  {&_swigt__p_std__chrono__system_clock__time_point, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__functionT_FIX__UtcTimeStamp_fF_t[] = {  {&_swigt__p_std__functionT_FIX__UtcTimeStamp_fF_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__invalid_argument[] = {  {&_swigt__p_std__invalid_argument, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__istream[] = {  {&_swigt__p_std__istream, 0, 0, 0},{0, 0, 0, 0}};
@@ -160887,6 +162171,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_FIX__FieldBase,
   _swigc__p_FIX__FieldConvertError,
   _swigc__p_FIX__FieldMap,
+  _swigc__p_FIX__FieldMap__LengthAndTotal,
   _swigc__p_FIX__FieldNotFound,
   _swigc__p_FIX__FileLog,
   _swigc__p_FIX__FileLogFactory,
@@ -160960,6 +162245,8 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_FIX__TagNotDefinedForMessage,
   _swigc__p_FIX__TagOutOfOrder,
   _swigc__p_FIX__TargetCompID,
+  _swigc__p_FIX__ThreadedSSLSocketAcceptor,
+  _swigc__p_FIX__ThreadedSSLSocketInitiator,
   _swigc__p_FIX__ThreadedSocketAcceptor,
   _swigc__p_FIX__ThreadedSocketInitiator,
   _swigc__p_FIX__Trailer,
@@ -161014,6 +162301,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_size_type,
   _swigc__p_ssize_t,
   _swigc__p_std__allocatorT_std__string_t,
+  _swigc__p_std__chrono__system_clock__time_point,
   _swigc__p_std__functionT_FIX__UtcTimeStamp_fF_t,
   _swigc__p_std__invalid_argument,
   _swigc__p_std__istream,

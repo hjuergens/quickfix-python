@@ -35,6 +35,10 @@ jobs:
           event_name: ${{ github.event_name }}
       - name: Checkout
         uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Install OpenSSL (macOS)
         if: matrix.ssl == 'ON' && matrix.runner == 'macos-latest'
         run: brew install openssl
@@ -53,7 +57,7 @@ jobs:
         shell: bash
         run: |
           cmake . -DCMAKE_BUILD_TYPE=$Configuration -DCMAKE_INSTALL_PREFIX=../install_prefix/$Configuration \
-            -DHAVE_SSL=$SSL ${OPENSSL_ROOT_DIR:+-DOPENSSL_ROOT_DIR="$OPENSSL_ROOT_DIR"}
+            -DHAVE_SSL=$SSL -DHAVE_PYTHON3=ON ${OPENSSL_ROOT_DIR:+-DOPENSSL_ROOT_DIR="$OPENSSL_ROOT_DIR"}
         env:
           Configuration: ${{ matrix.configuration }}
           SSL: ${{ matrix.ssl }}

@@ -3,21 +3,34 @@ requires = ["scikit-build-core>=0.10"]
 build-backend = "scikit_build_core.build"
 
 [project]
-name = "quickfix"
+# Unofficial fork of the official `quickfix` distribution, which ships source-only.
+# The import name stays `quickfix`, so this is a drop-in replacement and the two
+# cannot be installed side by side - see README-PyPI.md.
+name = "quickfix-tls"
 version = "1.16.0"
-description = "QuickFIX Python bindings, built with SSL support"
-readme = "README.md"
+description = "QuickFIX with TLS/SSL transports, as prebuilt wheels (unofficial fork)"
+readme = "README-PyPI.md"
 requires-python = ">=3.8"
 license = { file = "LICENSE" }
-authors = [{ name = "Oren Miller" }]
+authors = [{ name = "Oren Miller and QuickFIX contributors" }]
+maintainers = [{ name = "Hartmut Juergens" }]
+keywords = ["FIX", "QuickFIX", "trading", "protocol", "SSL", "TLS"]
 classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS",
   "Programming Language :: C++",
   "Programming Language :: Python :: 3",
   "Topic :: Office/Business :: Financial",
+  "Topic :: Software Development :: Libraries",
 ]
 
 [project.urls]
 Homepage = "https://github.com/hjuergens/quickfix-python"
+Upstream = "https://github.com/quickfix/quickfix"
+Documentation = "https://quickfixengine.org/"
 
 [tool.scikit-build]
 # Delegates to the repository's CMakeLists so the C++ source list is never duplicated.

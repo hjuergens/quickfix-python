@@ -245,6 +245,47 @@ If the server or client certficate key is password protected, than the password 
   
 There are sample SSL certificates in the sub-directory bin/cfg/certs/.
   
+--------------------
+PYTHON EXAMPLE USAGE
+--------------------
+
+The same transports are available from the Python bindings, built with
+-DHAVE_PYTHON3=ON. All of the configuration settings above apply unchanged.
+
+Acceptor:
+
+  import quickfix
+
+  settings = quickfix.SessionSettings(file)
+  application = Application()
+  storeFactory = quickfix.FileStoreFactory(settings)
+  logFactory = quickfix.ScreenLogFactory(settings)
+  acceptor = quickfix.ThreadedSSLSocketAcceptor(
+      application, storeFactory, settings, logFactory)
+
+  acceptor.start()
+  wait()
+  acceptor.stop()
+
+Initiator:
+
+  import quickfix
+
+  settings = quickfix.SessionSettings(file)
+  application = Application()
+  storeFactory = quickfix.FileStoreFactory(settings)
+  logFactory = quickfix.ScreenLogFactory(settings)
+  initiator = quickfix.ThreadedSSLSocketInitiator(
+      application, storeFactory, settings, logFactory)
+
+  initiator.start()
+  application.run()
+  initiator.stop()
+
+SSLSocketAcceptor and SSLSocketInitiator are the single-threaded equivalents.
+The logFactory argument is optional in all four. Configuration problems raise
+quickfix.ConfigError rather than terminating the interpreter.
+
 ----------
 CONCLUSION
 ----------

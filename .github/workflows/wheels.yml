@@ -27,8 +27,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macos-13 is x86_64, macos-latest is arm64.
-        os: [ubuntu-latest, windows-latest, macos-13, macos-latest]
+        # Every target is built on its own native runner - no emulation and no
+        # cross-compilation, so the test step actually runs on the target.
+        os:
+          - ubuntu-latest      # manylinux x86_64
+          - ubuntu-24.04-arm   # manylinux aarch64
+          - windows-latest     # win_amd64
+          - windows-11-arm     # win_arm64
+          - macos-13           # macOS x86_64
+          - macos-latest       # macOS arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v5

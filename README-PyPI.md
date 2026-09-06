@@ -42,15 +42,15 @@ Wheels are published for CPython 3.9 - 3.14 on:
 
 | Platform | Architecture | Notes |
 |---|---|---|
-| Windows | x86_64 | Python 3.13+ requires **Windows 10 or newer**; 3.12 still supports 8.1 |
-| Linux | x86_64 | manylinux; musl is not built yet |
+| Windows | x86_64, arm64 | Python 3.13+ requires **Windows 10 or newer**; 3.12 still supports 8.1. arm64 needs 3.11+ |
+| Linux | x86_64, aarch64 | manylinux; musl is not built yet |
 | macOS | x86_64, arm64 | |
 
 The Windows floor comes from CPython itself rather than this package - see
 [Using Python on Windows](https://docs.python.org/3/using/windows.html). PEP 11 ties
 support to Microsoft's lifecycle, so it moves over time.
 
-There are no 32-bit, Windows-on-ARM, or free-threaded (`t`) wheels. Those install from the
+There are no 32-bit, musllinux, or free-threaded (`t`) wheels. Those install from the
 source archive instead, which needs a C++17 compiler and OpenSSL development files.
 
 ## Usage

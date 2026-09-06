@@ -83,8 +83,13 @@ script refuses to run if it was not imported from site-packages.
 
 ### Platform support
 
-Wheels are built for x86_64 only (plus arm64 on macOS). There are no 32-bit or
-Windows-on-ARM wheels; those platforms fall back to building from the sdist.
+Wheels are built for x86_64 and arm64 on all three platforms, each on its own native
+runner - no emulation and no cross-compilation, so the wheel is tested on the
+architecture it targets. There are no 32-bit or musllinux wheels; those fall back to
+building from the sdist.
+
+Windows arm64 starts at CPython 3.11, which is the first version with official arm64
+builds, so cp39/cp310 are skipped for that target.
 
 On Windows the floor is set by CPython, not by this project: **Python 3.13 and later
 require Windows 10 or newer**, while 3.12 still supports Windows 8.1. PEP 11 ties support

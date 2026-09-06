@@ -50,6 +50,43 @@ jobs:
           path: wheelhouse/*.whl
           if-no-files-found: error
 
+
+  # Free-threaded wheels are EXPECTED TO FAIL and are deliberately not part of
+  # `publish`'s needs, so they can never block or enter a release.
+  #
+  # Two known blockers, in the order they are hit:
+  #  1. CMake does not derive the free-threaded ABI from a venv interpreter, so
+  #     find_package(Python3 COMPONENTS Development) misses python3XXt.lib and the
+  #     configure step fails. Reproduced locally on 3.14.7t.
+  #  2. Behind that sits quickfix/quickfix#611: SWIG's overloaded setField/getField
+  #     dispatch misbehaves without the GIL. tools/verify_wheel.py exercises this
+  #     concurrently, so the test step is what should catch it once (1) is fixed.
+  #
+  # This lane exists to track when those stop being true.
+  build_wheels_freethreaded:
+    name: Free-threaded wheels on ${{ matrix.os }} (expected red)
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Build free-threaded wheels
+        uses: pypa/cibuildwheel@v4.2.0
+        env:
+          CIBW_ENABLE: cpython-freethreading
+          CIBW_BUILD: 'cp313t-* cp314t-*'
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-freethreaded-${{ matrix.os }}
+          path: wheelhouse/*.whl
+          if-no-files-found: ignore
   build_sdist:
     name: Source distribution
     runs-on: ubuntu-latest

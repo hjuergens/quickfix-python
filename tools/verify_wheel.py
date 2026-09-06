@@ -70,6 +70,51 @@ def _settings(tmp, name, conn, extra):
     return settings, quickfix.FileStoreFactory(settings), quickfix.FileLogFactory(settings)
 
 
+def _concurrent_field_access(threads=8, iterations=1500):
+    """Hammer setField/getField from several threads at once.
+
+    Targets quickfix/quickfix#611: on a free-threaded (GIL-disabled) build, SWIG's
+    overloaded setField/getField dispatch misbehaves and raises
+    "Wrong number or type of arguments for overloaded function". Under a normal GIL
+    build this is serialised and passes deterministically.
+    """
+    import threading
+    import quickfix44
+
+    errors = []
+    barrier = threading.Barrier(threads)
+
+    def worker(n):
+        try:
+            barrier.wait()
+            for i in range(iterations):
+                tag = "T%d-%d" % (n, i)
+                msg = quickfix44.NewOrderSingle()
+                msg.setField(quickfix.ClOrdID(tag))
+                msg.setField(quickfix.Symbol("AAPL"))
+                msg.setField(quickfix.Side(quickfix.Side_BUY))
+                msg.setField(quickfix.OrderQty(100))
+                # int/string overload, the other prototype named in the issue
+                msg.setField(58, tag)
+                if msg.getField(11) != tag or msg.getField(58) != tag:
+                    raise AssertionError("field mismatch in thread %d iter %d" % (n, i))
+                field = quickfix.ClOrdID()
+                msg.getField(field)
+                if field.getValue() != tag:
+                    raise AssertionError("typed getField mismatch in thread %d iter %d" % (n, i))
+        except BaseException as exc:  # noqa: BLE001 - report, do not kill the run
+            errors.append("thread %d: %s: %s" % (n, type(exc).__name__, exc))
+
+    workers = [threading.Thread(target=worker, args=(n,)) for n in range(threads)]
+    for w in workers:
+        w.start()
+    for w in workers:
+        w.join()
+
+    if errors:
+        raise AssertionError("%d of %d threads failed; first: %s" % (len(errors), threads, errors[0]))
+
+
 def main():
     print("quickfix imported from: %s" % quickfix.__file__)
     if "site-packages" not in quickfix.__file__.replace("\\", "/"):
@@ -139,6 +184,10 @@ def main():
           ssl_enabled("SSLSocketAcceptor", "acceptor", "SocketAcceptPort=15003"))
     check("ThreadedSSLSocketAcceptor constructs (SSL enabled)",
           ssl_enabled("ThreadedSSLSocketAcceptor", "acceptor", "SocketAcceptPort=15004"))
+
+    gil = getattr(sys, "_is_gil_enabled", None)
+    print("    (GIL enabled: %s)" % ("unknown" if gil is None else gil()))
+    check("concurrent setField/getField (quickfix#611)", _concurrent_field_access)
 
     print()
     if FAILURES:

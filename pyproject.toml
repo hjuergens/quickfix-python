@@ -12,7 +12,7 @@ name = "quickfix-tls"
 # publish a bare upstream number: upstream's own 1.16.0 exists and differs from
 # this build, and PyPI versions can never be reused. Start the counter at .1 --
 # PEP 440 zero-pads, so 1.16.0.0 would compare equal to 1.16.0.
-version = "1.16.0.1"
+version = "0.0.0.dev1"
 description = "QuickFIX with TLS/SSL transports, as prebuilt wheels (unofficial fork)"
 readme = "README-PyPI.md"
 requires-python = ">=3.8"

@@ -111,8 +111,8 @@ jobs:
     # Only ever on an explicit version tag, never on a pull request.
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     environment:
-      name: pypi
-      url: https://pypi.org/p/quickfix-tls
+      name: testpypi
+      url: https://test.pypi.org/p/quickfix-tls
     permissions:
       # Required for PyPI trusted publishing; no API token is stored.
       id-token: write
@@ -141,3 +141,5 @@ jobs:
 
       - name: Publish
         uses: pypa/gh-action-pypi-publish@v1.14.2
+        with:
+          repository-url: https://test.pypi.org/legacy/

@@ -67,7 +67,11 @@ flags.
 ## Dry run first (recommended)
 
 A version number can never be reused on PyPI, so rehearse on TestPyPI before the real
-thing. Register a second trusted publisher for `quickfix-tls` on
+thing. Set a throwaway `0.0.0.devN` in `pyproject.toml` on the dry-run branch and tag it
+`v0.0.0.devN`: the version published comes from `pyproject.toml`, not from the tag, so
+without this the rehearsal uploads the real release version and burns it on TestPyPI.
+`.devN` is valid PEP 440 and sorts below every real release. See the
+`dry-run-release` command for the full procedure. Register a second trusted publisher for `quickfix-tls` on
 [test.pypi.org](https://test.pypi.org/) with environment `testpypi`, then temporarily add
 to the publish step:
 

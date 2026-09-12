@@ -50,9 +50,9 @@ A4. **Install and verify** the uploaded package. `--extra-index-url` is
     ```
 
 A5. **Remember the version is now burned on TestPyPI** — like real PyPI, a
-    version number can never be reused there. Bump to a fresh `.postN`/`rcN`
-    suffix in `pyproject.toml` for the next local dry run rather than
-    re-uploading the same version.
+    version number can never be reused there. Bump to a fresh `.devN` suffix in
+    `pyproject.toml` for the next dry run rather than re-uploading the same
+    version (`.postN` is not appropriate — see Versioning in RELEASING.md).
 
 ## Option B: full CI/OIDC dry run
 
@@ -113,18 +113,33 @@ B3. **Edit `.github/workflows/wheels.yml`'s `publish` job** to target TestPyPI
    git commit -m "Point publish job at TestPyPI for a dry run"
    ```
 
-B4. **Confirm with the user before pushing anything** — this triggers a real,
-   billed CI run across 6 OS/arch runners plus the free-threaded lane. Ask for
-   an explicit go-ahead, then push the branch and a `v0.0.0-dryrunN` tag
-   pointing at its tip (bump N if a prior dry-run tag already exists; a
-   version can never be reused even on TestPyPI):
+B4. **Set a throwaway version on the branch.** `pyproject.toml` carries a static
+   `version`, so the tag does not decide what gets published — without this step
+   the dry run uploads the *real* release version to TestPyPI and burns it there
+   permanently. Use a `.devN` suffix: it is valid PEP 440 (`dryrunN` is not, in
+   any spelling) and sorts below every real release, so it can never shadow one.
    ```
-   git push origin dry-run-testpypi
-   git tag -a v0.0.0-dryrun1 -m "TestPyPI dry run" dry-run-testpypi
-   git push origin v0.0.0-dryrun1
+   # in pyproject.toml, on the throwaway branch only
+   version = "0.0.0.dev1"
+   ```
+   ```
+   git add pyproject.toml .github/workflows/wheels.yml
+   git commit -m "Point publish job at TestPyPI for a dry run"
    ```
 
-B5. **Watch the run**:
+B5. **Confirm with the user before pushing anything** — this triggers a real,
+   billed CI run across 6 OS/arch runners plus the free-threaded lane. Ask for
+   an explicit go-ahead, then push the branch and a tag whose name matches the
+   version exactly (bump N if a prior dry-run tag exists; a version can never be
+   reused even on TestPyPI). The publish job verifies the two agree and fails
+   the run if they do not:
+   ```
+   git push origin dry-run-testpypi
+   git tag -a v0.0.0.dev1 -m "TestPyPI dry run" dry-run-testpypi
+   git push origin v0.0.0.dev1
+   ```
+
+B6. **Watch the run**:
    ```
    gh run watch --exit-status $(gh run list --workflow=wheels.yml --limit 1 --json databaseId --jq '.[0].databaseId')
    ```
@@ -133,20 +148,20 @@ B5. **Watch the run**:
    the table in step 1 for a typo (workflow name and environment name are the
    two easiest to get wrong).
 
-B6. **Verify the published dry-run wheel**:
+B7. **Verify the published dry-run wheel**:
    ```
-   pip install --index-url https://test.pypi.org/simple/ quickfix-tls==0.0.0.dryrun1
+   pip install --index-url https://test.pypi.org/simple/ quickfix-tls==0.0.0.dev1
    python tools/verify_wheel.py
    ```
-   (TestPyPI normalizes the tag's `-dryrunN` suffix per PEP 440; adjust the
-   pinned version to whatever `pip index versions` shows if it differs.)
+   This is the version set in B4, not a normalization of the tag name — the tag
+   only selects the commit.
 
-B7. **Clean up regardless of outcome** — a dry run must never leave a trace on
+B8. **Clean up regardless of outcome** — a dry run must never leave a trace on
    `master` or a stray tag lying around:
    - Delete the local and remote dry-run tag:
      ```
-     git tag -d v0.0.0-dryrun1
-     git push origin --delete v0.0.0-dryrun1
+     git tag -d v0.0.0.dev1
+     git push origin --delete v0.0.0.dev1
      ```
    - Delete the local and remote throwaway branch:
      ```

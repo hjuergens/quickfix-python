@@ -148,7 +148,26 @@ pip install quickfix-tls
 
 The import name stays `quickfix`, so it is a drop-in replacement for the official
 [`quickfix`](https://pypi.org/project/quickfix/) distribution - which means the two
-install the same module and must not both be installed. See [README-PyPI.md](README-PyPI.md).
+install the same module and must not both be installed. See [README-PyPI.md](README-PyPI.md)
+for the full package page.
+
+#### Why this exists
+
+This fork fills two gaps in the official `quickfix` distribution:
+
+1. **Prebuilt wheels.** The official distribution ships as a source archive only, so
+   installing it means compiling the full C++ engine locally - which on Windows needs
+   MSVC and, for TLS, an OpenSSL development installation.
+2. **TLS transports, ready to use.** These wheels are compiled with `HAVE_SSL` enabled
+   and ship the OpenSSL runtime, so `SSLSocketInitiator` / `SSLSocketAcceptor` and the
+   threaded variants work out of the box.
+
+It also exposes `ThreadedSSLSocketInitiator` and `ThreadedSSLSocketAcceptor`, which the
+QuickFIX C++ library implements but has never exposed through its Python bindings -
+these are the transports QuickFIX's own C++ examples use for TLS by default.
+
+Both changes are being offered upstream. If they are accepted and the project starts
+publishing wheels, this package becomes unnecessary.
 
 ### Ruby
 

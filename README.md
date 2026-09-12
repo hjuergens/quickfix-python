@@ -17,17 +17,20 @@ QuickFIX is a free, open-source implementation of the [FIX protocol](http://www.
 
 ## Supported Platforms
 
-QuickFIX is tested on:
-- **Windows**: Windows Server 2019, Windows Server 2022
-- **Linux**: Ubuntu (latest), various distributions
-- **macOS**: Latest versions
+QuickFIX is built and tested in CI on:
+
+- **Library** (`build_test_cmake.yml`, Debug/Release x SSL on/off):
+  `windows-2022`, `ubuntu-latest`, `macos-latest`
+- **Autotools** (`build_test_autotools.yml`): Ubuntu and macOS, gcc and clang
+- **Wheels** (`wheels.yml`, native runners only -- no emulation): manylinux
+  x86_64/aarch64, win_amd64/arm64, macOS x86_64/arm64
 
 ## Quick Start
 
 ### Prerequisites
 
 - C++17 compatible compiler (GCC, Clang, MSVC)
-- CMake 3.5+ or Autotools
+- CMake 3.12+ or Autotools
 - Optional: OpenSSL (for SSL/TLS support)
 - Optional: MySQL, PostgreSQL, or ODBC (for database message stores)
 
@@ -149,6 +152,16 @@ pip install quickfix-tls
 The import name stays `quickfix`, so it is a drop-in replacement for the official
 [`quickfix`](https://pypi.org/project/quickfix/) distribution - which means the two
 install the same module and must not both be installed. See [README-PyPI.md](README-PyPI.md).
+
+To build a wheel yourself, `pyproject.toml` drives the CMake build above via
+scikit-build-core:
+
+```bash
+pip wheel . -C cmake.define.OPENSSL_ROOT_DIR=<openssl-root>
+```
+
+See **Building a Python wheel** in [AGENTS.md](AGENTS.md) for prerequisites, the
+Windows `delvewheel` step, and testing against another Python version.
 
 ### Ruby
 

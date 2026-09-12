@@ -140,10 +140,15 @@ cmake -DHAVE_PYTHON3=ON .
 make
 ```
 
-Python bindings are also available via pip:
+Prebuilt wheels for this fork, compiled with TLS enabled, are published as
+`quickfix-tls`:
 ```bash
-pip install quickfix
+pip install quickfix-tls
 ```
+
+The import name stays `quickfix`, so it is a drop-in replacement for the official
+[`quickfix`](https://pypi.org/project/quickfix/) distribution - which means the two
+install the same module and must not both be installed. See [README-PyPI.md](README-PyPI.md).
 
 ### Ruby
 

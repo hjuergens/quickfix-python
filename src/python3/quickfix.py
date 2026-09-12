@@ -704,6 +704,9 @@ class DateTime(object):
     def getTimeT(self):
         return _quickfix.DateTime_getTimeT(self)
 
+    def getTimePoint(self):
+        return _quickfix.DateTime_getTimePoint(self)
+
     def getTmUtc(self):
         return _quickfix.DateTime_getTmUtc(self)
 
@@ -1269,6 +1272,9 @@ class FieldMap(object):
 
     def calculateTotal(self, *args):
         return _quickfix.FieldMap_calculateTotal(self, *args)
+
+    def calculateLengthAndTotal(self, *args):
+        return _quickfix.FieldMap_calculateLengthAndTotal(self, *args)
 
     def begin(self, *args):
         return _quickfix.FieldMap_begin(self, *args)
@@ -8609,6 +8615,49 @@ class SSLSocketInitiatorBase(Initiator):
 
 # Register SSLSocketInitiatorBase in _quickfix:
 _quickfix.SSLSocketInitiatorBase_swigregister(SSLSocketInitiatorBase)
+class ThreadedSSLSocketAcceptorBase(Acceptor):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, *args):
+        _quickfix.ThreadedSSLSocketAcceptorBase_swiginit(self, _quickfix.new_ThreadedSSLSocketAcceptorBase(*args))
+    __swig_destroy__ = _quickfix.delete_ThreadedSSLSocketAcceptorBase
+
+    def setPassword(self, pwd):
+        return _quickfix.ThreadedSSLSocketAcceptorBase_setPassword(self, pwd)
+
+    def passwordHandleCallback(self, buf, bufsize, verify):
+        return _quickfix.ThreadedSSLSocketAcceptorBase_passwordHandleCallback(self, buf, bufsize, verify)
+
+    @staticmethod
+    def passPhraseHandleCB(buf, bufsize, verify, instance):
+        return _quickfix.ThreadedSSLSocketAcceptorBase_passPhraseHandleCB(buf, bufsize, verify, instance)
+
+# Register ThreadedSSLSocketAcceptorBase in _quickfix:
+_quickfix.ThreadedSSLSocketAcceptorBase_swigregister(ThreadedSSLSocketAcceptorBase)
+class ThreadedSSLSocketInitiatorBase(Initiator):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, *args):
+        _quickfix.ThreadedSSLSocketInitiatorBase_swiginit(self, _quickfix.new_ThreadedSSLSocketInitiatorBase(*args))
+    __swig_destroy__ = _quickfix.delete_ThreadedSSLSocketInitiatorBase
+
+    def setPassword(self, pwd):
+        return _quickfix.ThreadedSSLSocketInitiatorBase_setPassword(self, pwd)
+
+    def setCertAndKey(self, cert, key):
+        return _quickfix.ThreadedSSLSocketInitiatorBase_setCertAndKey(self, cert, key)
+
+    def passwordHandleCallback(self, buf, bufsize, verify):
+        return _quickfix.ThreadedSSLSocketInitiatorBase_passwordHandleCallback(self, buf, bufsize, verify)
+
+    @staticmethod
+    def passwordHandleCB(buf, bufsize, verify, instance):
+        return _quickfix.ThreadedSSLSocketInitiatorBase_passwordHandleCB(buf, bufsize, verify, instance)
+
+# Register ThreadedSSLSocketInitiatorBase in _quickfix:
+_quickfix.ThreadedSSLSocketInitiatorBase_swigregister(ThreadedSSLSocketInitiatorBase)
 class DatabaseConnectionID(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -9175,6 +9224,40 @@ class SSLSocketAcceptor(SSLSocketAcceptorBase):
       SSLSocketAcceptorBase.__init__(self, application, storeFactory, settings)
     else:
       SSLSocketAcceptorBase.__init__(self, application, storeFactory, settings, logFactory)
+
+    self.application = application
+    self.storeFactory = storeFactory
+    self.settings = settings
+    self.logFactory = logFactory
+
+class ThreadedSSLSocketInitiator(ThreadedSSLSocketInitiatorBase):
+  application = 0
+  storeFactory = 0
+  setting = 0
+  logFactory = 0
+
+  def __init__(self, application, storeFactory, settings, logFactory=None):
+    if logFactory == None:
+      ThreadedSSLSocketInitiatorBase.__init__(self, application, storeFactory, settings)
+    else:
+      ThreadedSSLSocketInitiatorBase.__init__(self, application, storeFactory, settings, logFactory)
+
+    self.application = application
+    self.storeFactory = storeFactory
+    self.settings = settings
+    self.logFactory = logFactory
+
+class ThreadedSSLSocketAcceptor(ThreadedSSLSocketAcceptorBase):
+  application = 0
+  storeFactory = 0
+  setting = 0
+  logFactory = 0
+
+  def __init__(self, application, storeFactory, settings, logFactory=None):
+    if logFactory == None:
+      ThreadedSSLSocketAcceptorBase.__init__(self, application, storeFactory, settings)
+    else:
+      ThreadedSSLSocketAcceptorBase.__init__(self, application, storeFactory, settings, logFactory)
 
     self.application = application
     self.storeFactory = storeFactory

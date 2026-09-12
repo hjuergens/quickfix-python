@@ -37,3 +37,13 @@ install(TARGETS ${quickfix_python_lib_name} DESTINATION lib/python3)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/python3/ DESTINATION lib/python3
         FILES_MATCHING PATTERN "quickfix*.py"
         PATTERN test EXCLUDE)
+
+# Wheel packaging (scikit-build-core installs this component into the archive root).
+# EXCLUDE_FROM_ALL keeps it out of a normal `cmake --install`, which still uses lib/python3 above.
+install(TARGETS ${quickfix_python_lib_name}
+        RUNTIME DESTINATION . COMPONENT python_wheel EXCLUDE_FROM_ALL
+        LIBRARY DESTINATION . COMPONENT python_wheel EXCLUDE_FROM_ALL)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/python3/ DESTINATION .
+        COMPONENT python_wheel EXCLUDE_FROM_ALL
+        FILES_MATCHING PATTERN "quickfix*.py"
+        PATTERN test EXCLUDE)

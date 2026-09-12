@@ -34,6 +34,8 @@ namespace std
 %rename(SSLSocketAcceptorBase) FIX::SSLSocketAcceptor;
 %rename(ThreadedSocketInitiatorBase) FIX::ThreadedSocketInitiator;
 %rename(ThreadedSocketAcceptorBase) FIX::ThreadedSocketAcceptor;
+%rename(ThreadedSSLSocketInitiatorBase) FIX::ThreadedSSLSocketInitiator;
+%rename(ThreadedSSLSocketAcceptorBase) FIX::ThreadedSSLSocketAcceptor;
 
 // Rename enum's as they're clashing with some classes
 %rename("%(regex:/^FIX::TYPE::(.*)/Enum\\1/)s", regextarget=1, fullname=1) "^FIX::TYPE::";
@@ -91,6 +93,9 @@ namespace std
 #include <SSLSocketAcceptor.h>
 #include <SSLSocketInitiator.h>
 #include <SSLSocketConnection.h>
+#include <ThreadedSSLSocketAcceptor.h>
+#include <ThreadedSSLSocketInitiator.h>
+#include <ThreadedSSLSocketConnection.h>
 #else
 #include <SSLStubs.h>
 #endif
@@ -558,6 +563,8 @@ typedef FIX::SessionSettings SessionSettings;
 %include "../C++/SocketMonitor.h"
 %include "../C++/SSLSocketAcceptor.h"
 %include "../C++/SSLSocketInitiator.h"
+%include "../C++/ThreadedSSLSocketAcceptor.h"
+%include "../C++/ThreadedSSLSocketInitiator.h"
 %include "../C++/DatabaseConnectionID.h"
 %include "../C++/DatabaseConnectionPool.h"
 %include "../C++/MySQLConnection.h"

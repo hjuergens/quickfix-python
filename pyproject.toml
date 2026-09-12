@@ -15,7 +15,10 @@ name = "quickfix-tls"
 version = "1.16.0.1"
 description = "QuickFIX with TLS/SSL transports, as prebuilt wheels (unofficial fork)"
 readme = "README-PyPI.md"
-requires-python = ">=3.8"
+# This is the single source of truth for the supported floor: cibuildwheel reads
+# it to decide which interpreters to build, so it must not claim a version that
+# is never built. 3.8 is EOL and no cp38 wheel has ever been published.
+requires-python = ">=3.9"
 license = { file = "LICENSE" }
 authors = [{ name = "Oren Miller and QuickFIX contributors" }]
 maintainers = [{ name = "Hartmut Juergens" }]
@@ -70,9 +73,18 @@ QUICKFIX_SHARED_LIBS = "OFF"
 # or set the OPENSSL_ROOT_DIR environment variable, which find_package(OpenSSL) honours.
 
 [tool.cibuildwheel]
+# `build` is deliberately unset. cibuildwheel defaults to every interpreter it
+# supports, then filters by `requires-python` above - so the supported floor is
+# declared once, as metadata, and a new CPython is picked up by bumping the
+# cibuildwheel pin in .github/workflows/wheels.yml rather than by also editing an
+# enumerated list here. An explicit list silently stops covering the newest
+# Python until someone remembers to extend it.
+#
+# Free-threaded builds are not included: they require CIBW_ENABLE, which only the
+# (expected-red) free-threaded lane in that workflow sets.
+#
 # musllinux and 32-bit targets are deliberately not built yet; add them once the
 # matrix below is proven green.
-build = "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
 # CPython ships Windows arm64 builds from 3.11 on, so cp39/cp310 do not exist there.
 skip = ["*-win32", "*_i686", "*-musllinux_*", "pp*", "cp39-win_arm64", "cp310-win_arm64"]
 build-frontend = "build"

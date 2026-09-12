@@ -59,6 +59,16 @@ HAVE_SSL = "ON"
 HAVE_PYTHON3 = "ON"
 QUICKFIX_EXAMPLES = "OFF"
 QUICKFIX_TESTS = "OFF"
+# Link the engine into _quickfix statically. With the default shared build the
+# wheel ships _quickfix.so with NEEDED libquickfix.so.17 but not the library
+# itself -- install.components below packages only the Python component -- so
+# `import quickfix` fails with ImportError outside the build tree.
+QUICKFIX_SHARED_LIBS = "OFF"
+# Required by the above: libquickfix.a is not position-independent by default,
+# and linking a non-PIC archive into a shared object fails at link time
+# ("relocation ... can not be used when making a shared object; recompile
+# with -fPIC").
+CMAKE_POSITION_INDEPENDENT_CODE = "ON"
 # OPENSSL_ROOT_DIR is intentionally not pinned here; pass it per machine, e.g.
 #   pip wheel . -C cmake.define.OPENSSL_ROOT_DIR=C:/path/to/openssl
 # or set the OPENSSL_ROOT_DIR environment variable, which find_package(OpenSSL) honours.

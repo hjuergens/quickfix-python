@@ -31,6 +31,9 @@ QuickFIX is tested on:
 - Optional: OpenSSL (for SSL/TLS support)
 - Optional: MySQL, PostgreSQL, or ODBC (for database message stores)
 
+> **Building on Windows?** See [BUILD.md](BUILD.md) first. Smart App Control blocks
+> locally built binaries from running, and the OpenSSL DLLs must be on `PATH` at launch.
+
 ### Building with CMake (Recommended)
 
 #### Linux / macOS

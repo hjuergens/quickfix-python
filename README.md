@@ -27,7 +27,7 @@ QuickFIX is tested on:
 ### Prerequisites
 
 - C++17 compatible compiler (GCC, Clang, MSVC)
-- CMake 3.5+ or Autotools
+- CMake 3.12+ or Autotools (the Windows commands below use `cmake -B`, which needs 3.13+)
 - Optional: OpenSSL (for SSL/TLS support)
 - Optional: MySQL, PostgreSQL, or ODBC (for database message stores)
 
@@ -51,26 +51,24 @@ sudo make install
 
 #### Windows
 
-```bash
-mkdir build
-cd build
-cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX=C:\quickfix ..
-cmake --build . --config Release
-cmake --install . --config Release
+```powershell
+cmake -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX=C:\quickfix
+cmake --build build --config Release
+cmake --install build --config Release
 ```
 
 #### Windows with SSL Support
 
-```bash
-mkdir build
-cd build
-cmake -G "Visual Studio 17 2022" -A x64 ^
-  -DHAVE_SSL=ON ^
-  -DOPENSSL_ROOT_DIR="C:\path\to\openssl" ^
-  -DCMAKE_INSTALL_PREFIX=C:\quickfix ..
-cmake --build . --config Release
-cmake --install . --config Release
+```powershell
+cmake -B build -G "Visual Studio 17 2022" -A x64 -DHAVE_SSL=ON -DOPENSSL_ROOT_DIR="C:\path\to\openssl" -DCMAKE_INSTALL_PREFIX=C:\quickfix
+cmake --build build --config Release
+cmake --install build --config Release
 ```
+
+> `cmake -B build` creates the build directory if it is missing and reuses it if
+> it already exists, so these commands are safe to re-run. The generator and
+> platform (`-G` / `-A`) are fixed the first time a build directory is
+> configured; to change them, delete `build\` and configure again.
 
 #### CMake Build Options
 

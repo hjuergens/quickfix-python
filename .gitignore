@@ -65,9 +65,12 @@ core
 *.log
 *.trs
 build*
+# `build*` is matched case-insensitively on Windows and macOS, so it swallows
+# BUILD.md there while leaving it tracked on Linux. Keep the doc regardless.
+!BUILD.md
 CMakeFiles
 CMakeCache.txt
-*.cmake
+cmake_install.cmake
 .vscode
 .cache
 compile_commands.json
@@ -75,3 +78,5 @@ compile_commands.json
 *.vcxproj.filters
 *.sln
 *.swp
+dist/
+.venv-release/

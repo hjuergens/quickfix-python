@@ -48,6 +48,11 @@ install.components = ["python_wheel"]
 wheel.install-dir = ""
 build-dir = "build/wheel-{wheel_tag}"
 sdist.exclude = ["build", "lib", ".github"]
+# .gitignore's `*.in` (kept broad for Autotools-generated files) otherwise hides
+# these tracked CMake/pkg-config templates from the sdist, breaking the CMake
+# configure step for anyone building from source (including cibuildwheel, which
+# builds wheels from an sdist).
+sdist.include = ["cmake_config.h.in", "quickfix.pc.in", "examples/stamp-h.in"]
 
 [tool.scikit-build.cmake.define]
 HAVE_SSL = "ON"

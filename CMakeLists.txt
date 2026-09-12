@@ -100,7 +100,10 @@ endif()
 
 if (HAVE_PYTHON3)
   if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.12")
-   find_package(Python3 REQUIRED COMPONENTS Development)
+# Interpreter is required, not optional: without it FindPython3 cannot run the
+# interpreter to determine its ABI, so on a free-threaded build it looks for
+# python3XX.lib instead of python3XXt.lib and Development is reported missing.
+   find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
    set(PYTHON_INCLUDE_DIRS "${Python3_INCLUDE_DIRS}")
    if (TARGET Python3::Module)
      set(PYTHON_LIBRARY Python3::Module)

@@ -124,6 +124,71 @@ private:
   bool send(const std::string &) override { return false; };
   void disconnect() override {};
 };
+class ThreadedSSLSocketInitiator : public Initiator {
+public:
+  ThreadedSSLSocketInitiator(Application &application, MessageStoreFactory &factory, const SessionSettings &settings)
+      EXCEPT(ConfigError)
+      : Initiator(application, factory, settings) {
+    throw ConfigError("HAVE_SSL not enabled");
+  }
+
+  ThreadedSSLSocketInitiator(
+      Application &application,
+      MessageStoreFactory &factory,
+      const SessionSettings &settings,
+      LogFactory &logFactory) EXCEPT(ConfigError)
+      : Initiator(application, factory, settings, logFactory) {
+    throw ConfigError("HAVE_SSL not enabled");
+  }
+
+  virtual ~ThreadedSSLSocketInitiator() {}
+
+  void setPassword(const std::string &) {}
+
+  void setCertAndKey(X509 *, RSA *) {}
+
+  int passwordHandleCallback(char *, size_t, int) { return 0; }
+
+  static int passwordHandleCB(char *, int, int, void *) { return 0; }
+
+private:
+  void onStart() {};
+  bool onPoll() { return false; };
+  void onStop() {};
+
+  void doConnect(const SessionID &, const Dictionary &) override {};
+};
+
+class ThreadedSSLSocketAcceptor : public Acceptor {
+public:
+  ThreadedSSLSocketAcceptor(Application &application, MessageStoreFactory &factory, const SessionSettings &settings)
+      EXCEPT(ConfigError)
+      : Acceptor(application, factory, settings) {
+    throw ConfigError("HAVE_SSL not enabled");
+  }
+
+  ThreadedSSLSocketAcceptor(
+      Application &application,
+      MessageStoreFactory &factory,
+      const SessionSettings &settings,
+      LogFactory &logFactory) EXCEPT(ConfigError)
+      : Acceptor(application, factory, settings, logFactory) {
+    throw ConfigError("HAVE_SSL not enabled");
+  }
+
+  virtual ~ThreadedSSLSocketAcceptor() {}
+
+  void setPassword(const std::string &) {}
+
+  int passwordHandleCallback(char *, size_t, int) { return 0; }
+
+  static int passPhraseHandleCB(char *, int, int, void *) { return 0; }
+
+private:
+  void onStart() override {};
+  bool onPoll() override { return false; };
+  void onStop() override {};
+};
 } // namespace FIX
 
 #endif

@@ -1,0 +1,82 @@
+[build-system]
+requires = ["scikit-build-core>=0.10"]
+build-backend = "scikit_build_core.build"
+
+[project]
+# Unofficial fork of the official `quickfix` distribution, which ships source-only.
+# The import name stays `quickfix`, so this is a drop-in replacement and the two
+# cannot be installed side by side - see README-PyPI.md.
+name = "quickfix-tls"
+version = "1.16.0"
+description = "QuickFIX with TLS/SSL transports, as prebuilt wheels (unofficial fork)"
+readme = "README-PyPI.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [{ name = "Oren Miller and QuickFIX contributors" }]
+maintainers = [{ name = "Hartmut Juergens" }]
+keywords = ["FIX", "QuickFIX", "trading", "protocol", "SSL", "TLS"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS",
+  "Programming Language :: C++",
+  "Programming Language :: Python :: 3",
+  "Topic :: Office/Business :: Financial",
+  "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+Homepage = "https://github.com/hjuergens/quickfix-python"
+Upstream = "https://github.com/quickfix/quickfix"
+Documentation = "https://quickfixengine.org/"
+
+[tool.scikit-build]
+# Delegates to the repository's CMakeLists so the C++ source list is never duplicated.
+cmake.version = ">=3.15"
+cmake.build-type = "Release"
+build.targets = ["_quickfix"]
+# Installs only the wheel component defined in src/python3/CMakeLists.txt, which
+# places _quickfix.pyd and the quickfix*.py modules at the archive root.
+install.components = ["python_wheel"]
+wheel.install-dir = ""
+build-dir = "build/wheel-{wheel_tag}"
+sdist.exclude = ["build", "lib", ".github"]
+
+[tool.scikit-build.cmake.define]
+HAVE_SSL = "ON"
+HAVE_PYTHON3 = "ON"
+QUICKFIX_EXAMPLES = "OFF"
+QUICKFIX_TESTS = "OFF"
+# OPENSSL_ROOT_DIR is intentionally not pinned here; pass it per machine, e.g.
+#   pip wheel . -C cmake.define.OPENSSL_ROOT_DIR=C:/path/to/openssl
+# or set the OPENSSL_ROOT_DIR environment variable, which find_package(OpenSSL) honours.
+
+[tool.cibuildwheel]
+# musllinux and 32-bit targets are deliberately not built yet; add them once the
+# matrix below is proven green.
+build = "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
+# CPython ships Windows arm64 builds from 3.11 on, so cp39/cp310 do not exist there.
+skip = ["*-win32", "*_i686", "*-musllinux_*", "pp*", "cp39-win_arm64", "cp310-win_arm64"]
+build-frontend = "build"
+# Runs against the installed wheel, and fails if it was built without SSL.
+test-command = "python {project}/tools/verify_wheel.py"
+
+[tool.cibuildwheel.linux]
+# cibuildwheel builds Linux wheels inside the manylinux container, so OpenSSL has to
+# be installed there rather than on the runner.
+before-all = "yum install -y openssl-devel || dnf install -y openssl-devel"
+
+[tool.cibuildwheel.macos]
+before-all = "brew install openssl@3"
+# Homebrew's prefix differs between the x86_64 and arm64 runners, so resolve it.
+environment = { OPENSSL_ROOT_DIR = "$(brew --prefix openssl@3)", MACOSX_DEPLOYMENT_TARGET = "10.15" }
+
+[tool.cibuildwheel.windows]
+# The GitHub Windows runner image ships OpenSSL here; the existing CMake CI workflow
+# relies on the same path.
+environment = { OPENSSL_ROOT_DIR = "C:/Program Files/OpenSSL" }
+# OpenSSL is a shared build, so the DLLs must be vendored into the wheel.
+before-build = "pip install delvewheel==1.13.1"
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --add-path 'C:/Program Files/OpenSSL/bin'"

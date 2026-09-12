@@ -70,8 +70,8 @@ We actively welcome pull requests!
 
 4. **Test**: Ensure all tests pass
    ```bash
-   # CMake
-   cmake --build . --target test
+   # CMake (there is no `test` target -- run the suites from test/)
+   cd test && ./runut.sh && ./runpt.sh && ./runat.sh 6666
 
    # Autotools
    make check
@@ -170,19 +170,24 @@ private:
 ### Running Tests
 
 ```bash
-# CMake
-cmake --build . --target test
+# CMake: there is no `test` target (no enable_testing()/add_test() in the tree,
+# so `cmake --build . --target test` does nothing). Run the suites from test/:
+cd test
+./runut.sh            # unit
+./runpt.sh            # performance
+./runat.sh 6666       # acceptance -- starts its own server, needs the port free
 
 # Autotools
 make check
 
-# Run specific tests
-./test/ut --quickfix-config-file cfg/ut.cfg
+# Run the unit suite directly. Both arguments are required: without the spec
+# path every data dictionary lookup resolves to "/FIX4x.xml".
+cd test && ../lib/ut --quickfix-config-file cfg/ut.cfg --quickfix-spec-path ../spec
 ```
 
 ### Writing Tests
 
-- Add unit tests for new functionality in the `test/` directory
+- Add unit tests for new functionality in `src/C++/test/` (`test/` is the Ruby acceptance harness)
 - Use the Catch2 test framework
 - Test edge cases and error conditions
 - Ensure tests are deterministic and don't depend on external state

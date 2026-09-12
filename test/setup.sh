@@ -1,6 +1,22 @@
 #!/bin/sh
+#
+# Generate cfg/at.cfg for the acceptance suite.
+#
+# Usage: setup.sh <port>
+
+SCRIPT=$(realpath "$0")
+DIR=$(dirname "$SCRIPT")
+cd "$DIR" || exit 1
 
 PORT=$1
+case $PORT in
+'' | *[!0-9]*)
+  echo "usage: $0 <port>" >&2
+  exit 2
+  ;;
+esac
+
+mkdir -p cfg
 
 cat > cfg/at.cfg <<EOF
 [DEFAULT]

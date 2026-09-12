@@ -17,10 +17,13 @@ QuickFIX is a free, open-source implementation of the [FIX protocol](http://www.
 
 ## Supported Platforms
 
-QuickFIX is tested on:
-- **Windows**: Windows Server 2019, Windows Server 2022
-- **Linux**: Ubuntu (latest), various distributions
-- **macOS**: Latest versions
+QuickFIX is built and tested in CI on:
+
+- **Library** (`build_test_cmake.yml`, Debug/Release x SSL on/off):
+  `windows-2022`, `ubuntu-latest`, `macos-latest`
+- **Autotools** (`build_test_autotools.yml`): Ubuntu and macOS, gcc and clang
+- **Wheels** (`wheels.yml`, native runners only -- no emulation): manylinux
+  x86_64/aarch64, win_amd64/arm64, macOS x86_64/arm64
 
 ## Quick Start
 
@@ -170,6 +173,16 @@ these are the transports QuickFIX's own C++ examples use for TLS by default.
 Both changes are being offered upstream. If they are accepted and the project starts
 publishing wheels, this package becomes unnecessary.
 
+To build a wheel yourself, `pyproject.toml` drives the CMake build above via
+scikit-build-core:
+
+```bash
+pip wheel . -C cmake.define.OPENSSL_ROOT_DIR=<openssl-root>
+```
+
+See **Building a Python wheel** in [AGENTS.md](AGENTS.md) for prerequisites, the
+Windows `delvewheel` step, and testing against another Python version.
+
 ### Ruby
 
 ```bash
@@ -183,8 +196,11 @@ make
 Run the test suite:
 
 ```bash
-# With CMake
-cmake --build . --target test
+# With CMake there is no `test` target: run the suites directly from test/
+cd test
+./runut.sh            # unit
+./runpt.sh            # performance
+./runat.sh 6666       # acceptance (needs the port free)
 
 # With Autotools
 make check

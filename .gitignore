@@ -67,7 +67,7 @@ core
 build*
 CMakeFiles
 CMakeCache.txt
-*.cmake
+cmake_install.cmake
 .vscode
 .cache
 compile_commands.json
@@ -75,3 +75,5 @@ compile_commands.json
 *.vcxproj.filters
 *.sln
 *.swp
+dist/
+.venv-release/

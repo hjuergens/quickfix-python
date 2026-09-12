@@ -79,6 +79,11 @@ else()
 	   add_library(${PROJECT_NAME} SHARED  ${quickfix_SOURCES})
    else()
 	   add_library(${PROJECT_NAME} STATIC  ${quickfix_SOURCES})
+	   # A static lib's objects aren't position-independent by default, so they
+	   # can't be linked into a shared object (e.g. the _quickfix Python
+	   # extension module) without this. Windows doesn't need the equivalent
+	   # here since PE has no such requirement.
+	   set_target_properties(${PROJECT_NAME} PROPERTIES POSITION_INDEPENDENT_CODE ON)
   endif()
   target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES} ${MYSQL_CLIENT_LIBS} ${PostgreSQL_LIBRARIES} ${ODBC_LIBRARIES} pthread)
 endif()

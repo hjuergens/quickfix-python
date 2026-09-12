@@ -103,7 +103,11 @@ if (HAVE_PYTHON3)
 # Interpreter is required, not optional: without it FindPython3 cannot run the
 # interpreter to determine its ABI, so on a free-threaded build it looks for
 # python3XX.lib instead of python3XXt.lib and Development is reported missing.
-   find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
+# Development.Module (not the full Development, which also demands
+# Development.Embed) is all an extension module needs; manylinux images don't
+# ship the embeddable libpythonX.Y.so that Development.Embed requires, so
+# asking for it fails builds that never embed a Python interpreter.
+   find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
    set(PYTHON_INCLUDE_DIRS "${Python3_INCLUDE_DIRS}")
    if (TARGET Python3::Module)
      set(PYTHON_LIBRARY Python3::Module)

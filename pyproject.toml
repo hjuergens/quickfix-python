@@ -54,6 +54,12 @@ HAVE_SSL = "ON"
 HAVE_PYTHON3 = "ON"
 QUICKFIX_EXAMPLES = "OFF"
 QUICKFIX_TESTS = "OFF"
+# The wheel's install component (python_wheel, in src/python3/CMakeLists.txt) only
+# ships _quickfix and the Python wrapper modules, never libquickfix itself - and
+# Windows already always builds it STATIC regardless of this flag (see
+# src/C++/CMakeLists.txt). Match that on Linux/macOS so _quickfix has no external
+# runtime dependency for auditwheel/delocate to fail to find.
+QUICKFIX_SHARED_LIBS = "OFF"
 # OPENSSL_ROOT_DIR is intentionally not pinned here; pass it per machine, e.g.
 #   pip wheel . -C cmake.define.OPENSSL_ROOT_DIR=C:/path/to/openssl
 # or set the OPENSSL_ROOT_DIR environment variable, which find_package(OpenSSL) honours.
@@ -84,4 +90,7 @@ environment = { OPENSSL_ROOT_DIR = "$(brew --prefix openssl@3)", MACOSX_DEPLOYME
 environment = { OPENSSL_ROOT_DIR = "C:/Program Files/OpenSSL" }
 # OpenSSL is a shared build, so the DLLs must be vendored into the wheel.
 before-build = "pip install delvewheel==1.13.1"
-repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --add-path 'C:/Program Files/OpenSSL/bin'"
+# cmd.exe (what cibuildwheel invokes this through on Windows) does not treat
+# single quotes as quoting characters, so 'C:/Program Files/...' splits into two
+# arguments at the space. Double quotes are what cmd.exe actually honours.
+repair-wheel-command = 'delvewheel repair -w {dest_dir} {wheel} --add-path "C:/Program Files/OpenSSL/bin"'

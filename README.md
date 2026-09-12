@@ -158,8 +158,11 @@ make
 Run the test suite:
 
 ```bash
-# With CMake
-cmake --build . --target test
+# With CMake there is no `test` target: run the suites directly from test/
+cd test
+./runut.sh            # unit
+./runpt.sh            # performance
+./runat.sh 6666       # acceptance (needs the port free)
 
 # With Autotools
 make check

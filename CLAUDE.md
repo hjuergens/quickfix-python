@@ -33,8 +33,15 @@ cmake --build build
 
 Requirements:
 - C++17 compiler
-- CMake ≥ 3.12 (uses `find_package(Python3 REQUIRED COMPONENTS Development)`;
-  falls back to `find_package(PythonLibs 3 REQUIRED)` on older CMake)
+- CMake ≥ 3.12 (uses `find_package(Python3 REQUIRED COMPONENTS Interpreter
+  Development.Module)`; falls back to `find_package(PythonLibs 3 REQUIRED)` on
+  older CMake). Neither component is incidental: without `Interpreter`,
+  `FindPython3` cannot run the interpreter to determine its ABI, so a
+  free-threaded build looks for `python3XX.lib` instead of `python3XXt.lib` and
+  reports `Development` missing. `Development.Module` is deliberately narrower
+  than the full `Development`, which also demands `Development.Embed` —
+  manylinux images ship no embeddable `libpythonX.Y.so`, so requiring it breaks
+  builds that never embed an interpreter.
 - SWIG (bindings are checked in pre-generated at SWIG 4.2.1; only needed if
   regenerating from the `.i` interface files)
 

@@ -155,6 +155,10 @@ The import name stays `quickfix`, so it is a drop-in replacement for the officia
 install the same module and must not both be installed. See [README-PyPI.md](README-PyPI.md)
 for the full package page.
 
+Before a real release exists on PyPI, prebuilt wheels can still be grabbed from a
+disposable test build - see **Grabbing a wheel before a real release** in
+[RELEASING.md](RELEASING.md).
+
 #### Why this exists
 
 This fork fills two gaps in the official `quickfix` distribution:

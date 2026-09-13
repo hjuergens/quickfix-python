@@ -87,6 +87,16 @@ pip install --index-url https://test.pypi.org/simple/ quickfix-tls
 python tools/verify_wheel.py
 ```
 
+## Grabbing a wheel before a real release
+
+The `github_release` job in `wheels.yml` runs only on manual dispatch
+(`workflow_dispatch`, via the Actions tab or `gh workflow run wheels.yml --ref <branch>`).
+It publishes that run's wheels + sdist as assets on a disposable **prerelease** tagged
+`test-wheels-<run id>` on the repo's Releases page - independent of `publish`, so it
+never touches PyPI/TestPyPI and never needs a `v*` tag. It's throwaway by design: a
+fresh tag every run, so don't rely on any one of them persisting; delete old ones with
+`gh release delete <tag>` when they pile up.
+
 ## Releasing
 
 1. Confirm CI is green on `master`, including the `Build wheels` workflow.

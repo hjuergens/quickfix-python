@@ -30,12 +30,12 @@ jobs:
                   compiler-settings: 'CXX=g++ CC=gcc'
       steps:
       - name: Install dependencies
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
             python-version: '3.10' 
             
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Install dependencies for macOS
         if: matrix.runner == 'macos-latest'

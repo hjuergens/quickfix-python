@@ -27,6 +27,11 @@ set_target_properties(${quickfix_python_lib_name} PROPERTIES VERSION ${quickfix_
 
 if (WIN32)
   set_target_properties(${quickfix_python_lib_name} PROPERTIES SUFFIX ".pyd")
+elseif (APPLE)
+  # CMake's default shared-library suffix on macOS is .dylib, but Python's
+  # import machinery only recognizes .so there - without this override the
+  # target builds as _quickfix.dylib and `import _quickfix` fails to find it.
+  set_target_properties(${quickfix_python_lib_name} PROPERTIES SUFFIX ".so")
 endif()
 
 if (MSVC)

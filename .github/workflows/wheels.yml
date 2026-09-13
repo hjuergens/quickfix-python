@@ -143,3 +143,33 @@ jobs:
         uses: pypa/gh-action-pypi-publish@v1.14.2
         with:
           repository-url: https://test.pypi.org/legacy/
+
+  # Disposable probe release so wheels can be grabbed straight from GitHub
+  # without going through PyPI. Manual-only (workflow_dispatch): every run
+  # gets its own throwaway tag/prerelease, never a real vX.Y.Z, so it can
+  # never collide with or be mistaken for an actual release.
+  github_release:
+    name: Publish wheels to a test GitHub Release
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create test release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: test-wheels-${{ github.run_id }}
+          name: "Test build (run ${{ github.run_id }})"
+          prerelease: true
+          generate_release_notes: false
+          body: |
+            Disposable test build, not a real release. Wheels/sdist from
+            manual workflow run ${{ github.run_id }} off ${{ github.sha }}.
+          files: dist/*

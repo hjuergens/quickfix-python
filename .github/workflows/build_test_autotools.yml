@@ -65,3 +65,14 @@ jobs:
       - name: Make check
         shell: bash
         run: make check
+
+      # automake captures each test's output into *.log instead of printing it,
+      # so a failing `make check` says only "FAIL: test.sh" in the CI log.
+      - name: Show test logs
+        if: failure()
+        shell: bash
+        run: |
+          find . -name test-suite.log -o -name '*.sh.log' | while read -r f; do
+            echo "===== $f ====="
+            cat "$f"
+          done

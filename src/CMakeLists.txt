@@ -48,5 +48,16 @@ endif()
 endif()
 
 if (HAVE_PYTHON3)
+# A Debug MSVC build links pythonXY_d.lib through the #pragma comment() in
+# pyconfig.h, and no standard CPython ships that debug import library, so the
+# link dies with LNK1104. An extension built against the debug ABI is unusable
+# from a release interpreter anyway, so skip it rather than fail the build.
+# This keys off CMAKE_BUILD_TYPE, which is what the CI matrix passes; a
+# multi-config generator driven only by `--build --config Debug` still hits the
+# original error.
+if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+message(STATUS "Skipping the Python 3 extension: MSVC Debug needs pythonXY_d.lib")
+else()
 add_subdirectory(python3)
+endif ()
 endif ()

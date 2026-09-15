@@ -61,6 +61,19 @@ option(QUICKFIX_SHARED_LIBS "Build using shared libraries" ON)
 option(QUICKFIX_EXAMPLES "Build quickfix examples" ON)
 option(QUICKFIX_TESTS "Build quickfix tests" ON)
 
+# Registers the suites with CTest. Must come before add_subdirectory(), or the
+# add_test() calls in the subdirectories register nothing. Plain enable_testing()
+# rather than include(CTest): the latter adds a BUILD_TESTING option that would
+# compete with QUICKFIX_TESTS above, plus CDash targets this project never uses.
+enable_testing()
+
+# Base port for the tests that bind a socket, so two configured trees of the same
+# checkout (CI builds Debug and Release of it) never contend for a port.
+#   +0      acceptance (at)
+#   +2, +3  pt network benchmark -- --port N binds N and N+1
+#   +10     Python SSL session test
+set(QUICKFIX_TEST_PORT_BASE 6660 CACHE STRING "Base TCP port for tests that bind a socket")
+
 #Make sure that a previous config.h has not undefined HAVE_SSL
 if(HAVE_SSL)
 # Can set location explicitly, example, cmake -DOPENSSL_ROOT_DIR=/usr/local/ssl -DOPENSSL_LIBRARIES=/usr/local/ssl/lib
@@ -129,9 +142,9 @@ if (QUICKFIX_EXAMPLES)
 endif()
 
 if (QUICKFIX_TESTS)
-  if( WIN32)
-    add_subdirectory(test)
-  endif()
+  # Added on every platform now that it carries the acceptance/perf add_test()
+  # calls; test/CMakeLists.txt still self-gates its Windows-only atrun target.
+  add_subdirectory(test)
 endif()
 
 configure_file(cmake_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/C++/config.h @ONLY)

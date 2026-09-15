@@ -62,4 +62,19 @@ if (QUICKFIX_TESTS)
                         RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/test/release/ut/
                         RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${PROJECT_SOURCE_DIR}/test/release/ut/)
   endif()
+
+  # Config and spec are passed absolute so the test does not depend on the CWD
+  # for its inputs, but WORKING_DIRECTORY still has to be test/: FileStoreTestCase
+  # and FileLogTestCase write to the relative paths "store" and "log".
+  add_test(NAME cpp.unit
+           COMMAND ut --quickfix-config-file ${PROJECT_SOURCE_DIR}/test/cfg/ut.cfg
+                      --quickfix-spec-path ${PROJECT_SOURCE_DIR}/spec
+           WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+
+  # The C++ suites share test/ as a working directory and both write test/store,
+  # so they must not run concurrently under `ctest -j`.
+  set_tests_properties(cpp.unit PROPERTIES
+                       LABELS "unit"
+                       TIMEOUT 600
+                       RESOURCE_LOCK quickfix_test_dir)
 endif()

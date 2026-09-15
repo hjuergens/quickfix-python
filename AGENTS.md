@@ -190,9 +190,24 @@ because a wheel built without SSL still exposes them and fails only on construct
 
 ## Tests
 
-**There is no `test` target.** The repo has no `enable_testing()` / `add_test()`, so
-`cmake --build build --target test` does nothing and `ctest` reports zero tests. Run the
-suites directly.
+**`ctest` runs everything.** Every suite is registered with CTest, so from the build
+directory:
+
+```bash
+ctest --output-on-failure                 # all of it
+ctest -L unit                             # one lane; labels: unit, perf, acceptance, python
+ctest -LE network                         # everything that binds no socket
+ctest -R python.Message --output-on-failure
+```
+
+Test names are `cpp.unit`, `cpp.acceptance`, `cpp.perf.offline`, `cpp.perf.network` and
+`python.<Case>`. CI selects lanes with `--label-regex` (`unit|python` always, `perf` on
+Release, `acceptance` on pull requests only) and passes `--no-tests=error`, which needs
+CTest 3.19+ — older toolchains report an empty selection as success instead.
+
+Tests that bind a socket derive their port from `-DQUICKFIX_TEST_PORT_BASE` (default 6660);
+the four C++ tests share `test/` as a working directory and carry a `RESOURCE_LOCK`, so
+`ctest -j` will not run them concurrently. The suites can still be run directly:
 
 | Suite | Binary | What it is |
 |-------|--------|------------|
@@ -240,8 +255,10 @@ per-configuration offset:
 
 | Use | Port |
 |-----|------|
-| Acceptance (CI) | 6666 Debug / 6667 Release |
-| `pt` network benchmark (CI) | 6668 Debug / 6669 Release |
+| `QUICKFIX_TEST_PORT_BASE` | 6660 (CI: 6660 Debug / 6680 Release) |
+| Acceptance (ctest) | base + 0 |
+| `pt` network benchmark (ctest) | base + 2, and base + 3 — `--port N` binds N and N+1 |
+| Python SSL session test (ctest) | base + 10 |
 | `make check` | 54321 |
 | bare `pt`, no `--port` | 54322 |
 
@@ -370,9 +387,11 @@ Every new `.cpp` and `.h` file begins with this block (copy it from `src/C++/Ses
 
 What CI actually runs:
 
-- **`build_test_cmake.yml`** — {windows, ubuntu, macos} x {Debug, Release} x {SSL off, on}.
-  `ut` runs on every leg. `pt` runs only for Release. **The acceptance suite runs only on
-  `pull_request` events** — a push to master never runs it.
+- **`build_test_cmake.yml`** — {windows, ubuntu, macos} x {Debug, Release} x {SSL off, on},
+  one `ctest` step per leg. `cpp.unit` and the `python.*` tests run on every leg, `perf` only
+  for Release, and **the acceptance suite runs only on `pull_request` events** — a push to
+  master never runs it. The lane is chosen by `--label-regex`, so that policy now lives in one
+  place rather than in four step-level `if:` conditions.
 - **`build_test_autotools.yml`** — ubuntu/macos with gcc and clang; `make check`.
 - **`format.yml`** — clang-format over `src/`.
 

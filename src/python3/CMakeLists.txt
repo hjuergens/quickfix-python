@@ -47,3 +47,46 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/python3/ DESTINATION .
         COMPONENT python_wheel EXCLUDE_FROM_ALL
         FILES_MATCHING PATTERN "quickfix*.py"
         PATTERN test EXCLUDE)
+
+# CTest registration. This lives here rather than in src/CMakeLists.txt so it is
+# automatically skipped wherever the module is not built (HAVE_PYTHON3=OFF, and
+# MSVC Debug, which cannot link the extension at all).
+if (QUICKFIX_TESTS AND Python3_EXECUTABLE)
+  # The extension lands in lib/ next to libquickfix; the .py wrappers stay in the
+  # source tree. lib/python3/ does not exist until `cmake --install`, so neither
+  # path can be assumed here.
+  if (WIN32)
+    # A literal ';' has to be escaped: the ENVIRONMENT property is itself a
+    # semicolon-separated CMake list.
+    set(quickfix_python_test_env
+        "PYTHONPATH=$<TARGET_FILE_DIR:${quickfix_python_lib_name}>\;${PROJECT_SOURCE_DIR}/src/python3")
+  else()
+    set(quickfix_python_test_env
+        "PYTHONPATH=$<TARGET_FILE_DIR:${quickfix_python_lib_name}>:${PROJECT_SOURCE_DIR}/src/python3"
+        "LD_LIBRARY_PATH=$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        "DYLD_LIBRARY_PATH=$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+  endif()
+  list(APPEND quickfix_python_test_env "PYTHONDONTWRITEBYTECODE=1")
+
+  math(EXPR QUICKFIX_PY_SSL_PORT "${QUICKFIX_TEST_PORT_BASE} + 10")
+
+  # Registered one by one, not through test.sh: that script has no `set -e`, so
+  # only its last line's status is ever reported.
+  # WORKING_DIRECTORY is src/python3 because MessageTestCase.py opens the data
+  # dictionaries as ../../spec/FIX4x.xml.
+  foreach(case IN ITEMS DataDictionary Dictionary FieldBase MessageStore
+                        Message SessionSettings SSLSession)
+    add_test(NAME python.${case}
+             COMMAND ${Python3_EXECUTABLE}
+                     ${PROJECT_SOURCE_DIR}/src/python/test/${case}TestCase.py
+             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/src/python3)
+    set_tests_properties(python.${case} PROPERTIES
+                         LABELS "python"
+                         TIMEOUT 300
+                         ENVIRONMENT "${quickfix_python_test_env}")
+  endforeach()
+
+  set_property(TEST python.SSLSession APPEND PROPERTY LABELS "network")
+  set_property(TEST python.SSLSession APPEND PROPERTY ENVIRONMENT
+               "QUICKFIX_TEST_SSL_PORT=${QUICKFIX_PY_SSL_PORT}")
+endif()

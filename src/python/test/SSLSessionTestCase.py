@@ -4,16 +4,21 @@ import unittest
 
 import quickfix as fix
 
-# Only meaningful when the bindings were built with -DHAVE_SSL=ON. When SSL
-# support isn't compiled in, quickfix.SSLSocketAcceptor/SSLSocketInitiator
-# don't exist and this whole test case is skipped.
-HAVE_SSL = hasattr(fix, "SSLSocketAcceptor") and hasattr(fix, "SSLSocketInitiator")
+# Presence of the symbols proves nothing about SSL support: without HAVE_SSL the
+# transports still exist, as stubs from src/swig/SSLStubs.h whose constructors
+# throw ConfigError("HAVE_SSL not enabled"). The capability can only be probed by
+# constructing one, which setUp does below -- and it has to be constructed with
+# real settings, since Acceptor::initialize() rejects an empty SessionSettings
+# with a ConfigError of its own.
+HAVE_SSL_SYMBOLS = hasattr(fix, "SSLSocketAcceptor") and hasattr(fix, "SSLSocketInitiator")
+
+NO_SSL_DETAIL = "HAVE_SSL not enabled"
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 SPEC_DIR = os.path.join(REPO_ROOT, "spec")
 CERT_DIR = os.path.join(REPO_ROOT, "bin", "cfg", "certs")
 
-PORT = 19876
+PORT = int(os.environ.get("QUICKFIX_TEST_SSL_PORT", "19876"))
 
 
 class RecordingApplication(fix.Application):
@@ -60,7 +65,6 @@ SESSION_DEFAULTS = {
 }
 
 
-@unittest.skipUnless(HAVE_SSL, "bindings built without -DHAVE_SSL=ON")
 class SSLSessionTestCase(unittest.TestCase):
     """
     End-to-end check that an SSLSocketAcceptor and SSLSocketInitiator can
@@ -108,8 +112,18 @@ class SSLSessionTestCase(unittest.TestCase):
         self.acceptor_store = fix.MemoryStoreFactory()
         self.initiator_store = fix.MemoryStoreFactory()
 
-        self.acceptor = fix.SSLSocketAcceptor(self.acceptor_app, self.acceptor_store, settings)
-        self.initiator = fix.SSLSocketInitiator(self.initiator_app, self.initiator_store, initiator_settings)
+        if not HAVE_SSL_SYMBOLS:
+            self.skipTest("bindings expose no SSL transports")
+
+        try:
+            self.acceptor = fix.SSLSocketAcceptor(self.acceptor_app, self.acceptor_store, settings)
+            self.initiator = fix.SSLSocketInitiator(self.initiator_app, self.initiator_store, initiator_settings)
+        except fix.ConfigError as error:
+            # Only the stub's own message means "no SSL in this build"; any other
+            # ConfigError is a real misconfiguration and must fail the test.
+            if getattr(error, "detail", "") != NO_SSL_DETAIL:
+                raise
+            self.skipTest("bindings built without -DHAVE_SSL=ON")
 
     def tearDown(self):
         self.initiator.stop()

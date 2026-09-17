@@ -8,7 +8,7 @@ QuickFIX is a free, open-source implementation of the [FIX protocol](http://www.
 ## Features
 
 - **FIX Protocol Support**: FIX 4.0, 4.1, 4.2, 4.3, 4.4, 5.0, 5.0 SP1, 5.0 SP2, and FIXT 1.1
-- **Multiple Language Bindings**: C++, Python, Ruby (via SWIG)
+- **Multiple Language Bindings**: C++ and Python (via SWIG)
 - **Database Support**: MySQL, PostgreSQL, ODBC
 - **SSL/TLS Support**: Native OpenSSL integration
 - **Flexible Architecture**: Pluggable message stores and logging
@@ -103,7 +103,6 @@ sudo make install
 - `--with-mysql` - Enable MySQL support
 - `--with-postgresql` - Enable PostgreSQL support
 - `--with-python3` - Build Python 3 bindings
-- `--with-ruby` - Build Ruby bindings
 - `--prefix=/install/path` - Installation prefix (default: /usr/local)
 
 ### Using vcpkg
@@ -182,14 +181,6 @@ pip wheel . -C cmake.define.OPENSSL_ROOT_DIR=<openssl-root>
 
 See **Building a Python wheel** in [AGENTS.md](AGENTS.md) for prerequisites, the
 Windows `delvewheel` step, and testing against another Python version.
-
-### Ruby
-
-```bash
-# Build with Ruby support using autotools
-./configure --with-ruby
-make
-```
 
 ## Testing
 

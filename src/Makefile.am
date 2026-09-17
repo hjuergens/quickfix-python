@@ -2,11 +2,7 @@ if HAVE_PYTHON3
 PYTHON3_DIR = python3
 endif
 
-if HAVE_RUBY
-RUBY_DIR = ruby
-endif
-
-SUBDIRS = C++ ${PYTHON3_DIR} ${RUBY_DIR}
+SUBDIRS = C++ ${PYTHON3_DIR}
 
 noinst_PROGRAMS = at ut pt
 

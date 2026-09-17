@@ -56,7 +56,7 @@ jobs:
             export CPPFLAGS="-I$(brew --prefix openssl)/include"
             export LDFLAGS="-L$(brew --prefix openssl)/lib"
           fi
-          env ${{ matrix.compiler-settings }} ./configure --with-python3 --with-ruby --with-openssl
+          env ${{ matrix.compiler-settings }} ./configure --with-python3 --with-openssl
 
       - name: Make
         shell: bash

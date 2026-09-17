@@ -12,7 +12,6 @@ m4_include([m4/ax_lib_boost.m4])
 m4_include([m4/ax_lib_ssl.m4])
 m4_include([m4/ax_allocator.m4])
 m4_include([m4/ax_python.m4])
-m4_include([m4/ax_ruby.m4])
 m4_include([m4/ax_cxx_compile_stdcxx.m4])
 AC_CONFIG_SRCDIR([src/ut.cpp])
 AC_CONFIG_HEADERS([src/C++/config_unix.h])
@@ -34,7 +33,6 @@ AX_LIB_BOOST()
 AX_LIB_SSL()
 AX_ALLOCATOR()
 AX_PYTHON()
-AX_RUBY()
 
 AC_CANONICAL_HOST
 
@@ -86,7 +84,7 @@ fi
 # libs
 LIBS="$OPENSSL_LIBS $XML_LIBS $MYSQL_LIBS $POSTGRESQL_LDFLAGS $UNIXODBC_LIBS $TBB_LIBS $LIBS"
 # compiler flags
-SHAREDFLAGS="$TBB_CFLAGS $BOOST_CFLAGS $MYSQL_CFLAGS $POSTGRESQL_CFLAGS $UNIXODBC_CFLAGS $XML_CPPFLAGS $XML_CFLAGS $RUBY_CFLAGS"
+SHAREDFLAGS="$TBB_CFLAGS $BOOST_CFLAGS $MYSQL_CFLAGS $POSTGRESQL_CFLAGS $UNIXODBC_CFLAGS $XML_CPPFLAGS $XML_CFLAGS"
 AX_CHECK_COMPILE_FLAG([-Wall], [SHAREDFLAGS+=" -Wall $SHARED_FLAGS"])
 AX_CHECK_COMPILE_FLAG([-Wno-overloaded-virtual], [SHAREDFLAGS+=" -Wno-overloaded-virtual $SHARED_FLAGS"])
 AX_CHECK_COMPILE_FLAG([-Wno-deprecated-declarations], [SHAREDFLAGS+=" -Wno-deprecated-declarations $SHARED_FLAGS"])
@@ -237,7 +235,6 @@ AC_CONFIG_FILES([
     src/C++/Makefile
     src/C++/test/Makefile
     src/python3/Makefile
-    src/ruby/Makefile
     bin/Makefile
     bin/cfg/Makefile
     spec/Makefile

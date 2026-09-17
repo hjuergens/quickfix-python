@@ -19,8 +19,7 @@
     specifications. How can QuickFIX be used to set and get user
     defined fields? Well one answer would be to use the non-type
     safe set and get fields like so:</p>See this code in <a href=
-    "python/user_defined_1.html">PYTHON</a>, <a href=
-    "ruby/user_defined_1.html">RUBY</a>
+    "python/user_defined_1.html">PYTHON</a>
     <pre class='fragment'>
 message.setField(6123, "value");
 message.getField(6123);
@@ -28,8 +27,7 @@ message.getField(6123);
 
     <p>QuickFIX also provides supplies macros for creating typesafe
     field objects.</p>See this code in <a href=
-    "python/user_defined_2.html">PYTHON</a>, <a href=
-    "ruby/user_defined_2.html">RUBY</a>
+    "python/user_defined_2.html">PYTHON</a>
     <pre class='fragment'>
 #include "quickfix/Field.h"
 
@@ -43,8 +41,7 @@ namespace FIX
     <p>User defined fields must be declared within the <b>FIX</b>
     namespace. Now, elsewhere in your application, you can write
     code like this:</p>See this code in <a href=
-    "python/user_defined_3.html">PYTHON</a>, <a href=
-    "ruby/user_defined_3.html">RUBY</a>
+    "python/user_defined_3.html">PYTHON</a>
     <pre class='fragment'>
 MyStringField stringField("string");
 MyPriceField priceField(14.54);

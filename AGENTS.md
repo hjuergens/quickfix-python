@@ -52,17 +52,6 @@ CI configures **in-source** (`cmake . -DCMAKE_BUILD_TYPE=...`), not into `build/
 Gotcha: `-DQUICKFIX_EXAMPLES=OFF` silently removes the acceptance (`at`) and performance
 (`pt`) binaries, because those live under `src/`, not under the test directory.
 
-### Autotools (legacy)
-
-```bash
-./bootstrap && ./configure && make && make check
-```
-
-CI configures with `--with-python3 --with-openssl`. Note `configure.ac`
-mandates only C++11 (`AX_CXX_COMPILE_STDCXX([11],...)`) while CMake requires C++17 —
-if you use a C++17 feature, the autotools build can still succeed by accident on a
-compiler defaulting to a newer standard.
-
 ## Building a Python wheel
 
 `pyproject.toml` uses scikit-build-core, which drives the CMake build above, so the C++
@@ -140,7 +129,7 @@ to Microsoft's own lifecycle, so it moves over time.
 ## Regenerating the SWIG bindings
 
 `src/python/QuickfixPython.cpp` (~6MB) and `src/python/quickfix.py` are **checked in**.
-No build system regenerates them - not CMake, not Autotools, not CI. `src/python/swig.sh`
+No build system regenerates them - not CMake, not CI. `src/python/swig.sh`
 is a manual recipe you run and commit, so any change to a `.i` file only takes effect once
 you regenerate.
 
@@ -234,10 +223,10 @@ cd test
 ./runat.sh 6666
 ```
 
-Prefer the `run*.sh` wrappers: they locate the binary and pass the required arguments.
-In particular, under **autotools** `test/ut` is a symlink to `src/ut`, which is a stub
-whose `main()` just returns 0 — running `./test/ut` there passes without testing
-anything. `runut.sh` knows to prefer the real binary in `src/C++/test/`.
+Prefer `ctest`, or the `run*.sh` wrappers: they locate the binary and pass the required
+arguments. Note `src/ut.cpp` is a stub whose `main()` just returns 0 — CMake never builds
+it (the real Catch2 `ut` comes from `src/C++/test/ut.cpp`), but a stale `src/C++/test/ut`
+left by an older build is still what `runut.sh` prefers.
 
 `runat.sh` takes a single argument, the port, and exits non-zero if any group failed. It
 prints one `group: ok` line as each of the nine groups completes, then the full per-group
@@ -259,7 +248,6 @@ per-configuration offset:
 | Acceptance (ctest) | base + 0 |
 | `pt` network benchmark (ctest) | base + 2, and base + 3 — `--port N` binds N and N+1 |
 | Python SSL session test (ctest) | base + 10 |
-| `make check` | 54321 |
 | bare `pt`, no `--port` | 54322 |
 
 ## Code Style
@@ -391,7 +379,6 @@ What CI actually runs:
   for Release, and **the acceptance suite runs only on `pull_request` events** — a push to
   master never runs it. The lane is chosen by `--label-regex`, so that policy now lives in one
   place rather than in four step-level `if:` conditions.
-- **`build_test_autotools.yml`** — ubuntu/macos with gcc and clang; `make check`.
 - **`format.yml`** — clang-format over `src/`.
 
 No workflow sets `-Werror` or `/WX`, so new warnings will not fail CI on their own; avoid

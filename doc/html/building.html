@@ -155,76 +155,16 @@ sudo make install
     </table>
 
     <br/><hr/>
-    <h1>Building with Autotools (Alternative)</h1>
-
-    <p>QuickFIX also supports traditional autotools-based builds on Unix-like systems.</p>
-
-    <h2>Linux / macOS</h2>
-    <pre class='fragment'>
-./bootstrap
-./configure
-make
-make check
-sudo make install
-</pre>
-
-    <p>You can run configure with the <font color=
-    "#0000FF">--prefix=&lt;base directory&gt;</font> option to
-    install to a custom location.</p>
-
-    <p><b>./configure</b> options:</p>
-
-    <table>
-      <tr>
-        <td><font color="#0000FF">--prefix=/usr/local</font></td>
-      </tr>
-      <tr>
-        <td>Installation directory</td>
-      </tr>
-
-      <tr>
-        <td><font color="#0000FF">--with-openssl[=PATH]</font></td>
-      </tr>
-      <tr>
-        <td>Enable SSL support, optionally specify OpenSSL installation path</td>
-      </tr>
-
-      <tr>
-        <td><font color="#0000FF">--with-python3</font></td>
-      </tr>
-      <tr>
-        <td>Build the Python 3 bindings</td>
-      </tr>
-
-      <tr>
-        <td><font color="#0000FF">--with-mysql</font></td>
-      </tr>
-      <tr>
-        <td>Compile with MySQL support</td>
-      </tr>
-
-      <tr>
-        <td><font color="#0000FF">--with-postgresql</font></td>
-      </tr>
-      <tr>
-        <td>Compile with PostgreSQL support</td>
-      </tr>
-    </table>
-
-    <br/><hr/>
     <h2>Testing Your Build</h2>
 
-    <p><b>With CMake:</b></p>
+    <p>Every suite is registered with CTest. From the build directory:</p>
     <pre class='fragment'>
-cmake --build . --target test
-# or
-ctest
+ctest --output-on-failure
+ctest -L unit          # labels: unit, perf, acceptance, python
+ctest -LE network      # skip anything that binds a socket
 </pre>
 
-    <p><b>With Autotools:</b></p>
-    <pre class='fragment'>
-make check
-</pre>
+    <p>The acceptance suite needs Ruby, which drives the .def scripts.</p>
 
     <br/><hr/>
     <h2>Using vcpkg</h2>

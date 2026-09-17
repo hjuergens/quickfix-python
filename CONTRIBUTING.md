@@ -70,11 +70,9 @@ We actively welcome pull requests!
 
 4. **Test**: Ensure all tests pass
    ```bash
-   # CMake (there is no `test` target -- run the suites from test/)
-   cd test && ./runut.sh && ./runpt.sh && ./runat.sh 6666
+   # From the build directory
+   ctest --output-on-failure
 
-   # Autotools
-   make check
    ```
 
 5. **Commit**: Write clear, concise commit messages
@@ -170,15 +168,17 @@ private:
 ### Running Tests
 
 ```bash
-# CMake: there is no `test` target (no enable_testing()/add_test() in the tree,
-# so `cmake --build . --target test` does nothing). Run the suites from test/:
+# Everything is registered with CTest -- run it from the build directory:
+ctest --output-on-failure
+ctest -L unit         # labels: unit, perf, acceptance, python
+ctest -LE network     # skip anything that binds a socket
+
+# The suites can still be driven directly from test/:
 cd test
 ./runut.sh            # unit
 ./runpt.sh            # performance
 ./runat.sh 6666       # acceptance -- starts its own server, needs the port free
 
-# Autotools
-make check
 
 # Run the unit suite directly. Both arguments are required: without the spec
 # path every data dictionary lookup resolves to "/FIX4x.xml".

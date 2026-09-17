@@ -26,10 +26,9 @@
     </ul>
 
     <h2>Build Systems</h2>
-    <p>One of the following build systems is required:</p>
     <ul>
-      <li><b>CMake 3.5+</b> (recommended for all platforms)</li>
-      <li><b>Autotools</b> (autoconf, automake, libtool) for Unix-like systems</li>
+      <li><b>CMake 3.12+</b> — the only supported build system, on every platform
+      (3.13+ for <tt>cmake -B</tt>, 3.19+ for <tt>ctest --no-tests=error</tt>)</li>
     </ul>
 
     <h2>Platform-Specific Dependencies</h2>
@@ -57,7 +56,7 @@
           <td align="center"><b>Linux</b></td>
           <td>
             GCC 7+ or Clang 5+<br>
-            <a href="https://cmake.org/">CMake 3.5+</a> or Autotools<br>
+            <a href="https://cmake.org/">CMake 3.12+</a><br>
             make<br>
             Standard C++ library
           </td>
@@ -70,7 +69,7 @@
           <td align="center"><b>macOS</b></td>
           <td>
             <a href="https://developer.apple.com/xcode/">Xcode Command Line Tools</a><br>
-            <a href="https://cmake.org/">CMake 3.5+</a> or Autotools<br>
+            <a href="https://cmake.org/">CMake 3.12+</a><br>
             Clang (included with Xcode)
           </td>
           <td>

@@ -4,8 +4,8 @@ This repo is the QuickFIX C++ engine with Python bindings generated via SWIG.
 
 There are two ways to build the Python module, and they share one CMake source list:
 
-- **In-tree** (this file): a CMake/Autotools target, for developing against the
-  bindings from the source tree.
+- **In-tree** (this file): a CMake target, for developing against the bindings
+  from the source tree.
 - **As a wheel**: `pyproject.toml` drives the same CMake build through
   scikit-build-core and publishes as `quickfix-tls`. See the
   **Building a Python wheel** section of [AGENTS.md](AGENTS.md) — do not duplicate
@@ -45,10 +45,10 @@ Requirements:
 - SWIG (bindings are checked in pre-generated at SWIG 4.2.1; only needed if
   regenerating from the `.i` interface files)
 
-Legacy Autotools path (still exercised by `build_test_autotools.yml`):
+Run the Python tests (and everything else) from the build directory:
 
 ```bash
-./bootstrap && ./configure && make && make check
+ctest --output-on-failure        # ctest -L python for just these seven
 ```
 
 ## Output locations

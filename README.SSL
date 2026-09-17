@@ -10,11 +10,11 @@ BUILDING QUICKFIX WITH OPENSSL SUPPORT
 
 1. Unix
 
-$ ./configure --with-openssl="path to openssl install"
+$ cmake -S . -B build -DHAVE_SSL=ON -DOPENSSL_ROOT_DIR="path to openssl install"
 
 "path to openssl install" dir should have include/openssl and lib directories with appropriate files. If no path is specified, then the default openssl installation is used.
 
-$ make
+$ cmake --build build
 
 2. Windows
 

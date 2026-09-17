@@ -27,6 +27,10 @@ set_target_properties(${quickfix_python_lib_name} PROPERTIES VERSION ${quickfix_
 
 if (WIN32)
   set_target_properties(${quickfix_python_lib_name} PROPERTIES SUFFIX ".pyd")
+elseif (APPLE)
+  # CMake gives a SHARED library .dylib on macOS, and Python will not import
+  # that -- only .so. Linux needs no override; its default is already .so.
+  set_target_properties(${quickfix_python_lib_name} PROPERTIES SUFFIX ".so")
 endif()
 
 if (MSVC)

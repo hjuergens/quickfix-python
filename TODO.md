@@ -59,3 +59,13 @@ Still stale, and unrelated to CMake: `test/runat_python3.sh`, `test/runut_python
 `PYTHONPATH=../../lib/python3`, paths only libtool and the Autotools `all-local` symlink
 rules ever produced. They need porting to the CMake layout (`lib/` and `src/python3/`)
 or deleting.
+
+## Python extension is built as a versioned shared library
+
+`src/python3/CMakeLists.txt` sets `VERSION 16.0.1` / `SOVERSION 16` on `_quickfix`, which is
+what a shared library gets, not a Python extension module. The real file is therefore
+`_quickfix.so.16.0.1` (`_quickfix.16.0.1.so` on macOS) with unversioned symlinks beside it,
+and imports only work because the symlink is in the same directory. Wheels do not store
+symlinks, so the wheel carries whatever `install(TARGETS)` resolved - worth checking what a
+published macOS/Linux wheel actually contains before dropping the properties, which is the
+right end state.

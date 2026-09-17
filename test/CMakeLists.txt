@@ -37,10 +37,12 @@ if (TARGET at)
 endif()
 
 if (TARGET pt)
+  # "-#" must be quoted: an unquoted # starts a CMake comment, which swallows the
+  # rest of the line and leaves pt with a bare "-".
   # One test per pass rather than one test running both: a failure in the first
   # pass would otherwise be masked by the second pass's exit status.
   add_test(NAME cpp.perf.offline
-           COMMAND pt --quickfix-spec-path ${PROJECT_SOURCE_DIR}/spec -# "~[network]"
+           COMMAND pt --quickfix-spec-path ${PROJECT_SOURCE_DIR}/spec "-#" "~[network]"
            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
   set_tests_properties(cpp.perf.offline PROPERTIES
                        LABELS "perf"
@@ -48,7 +50,7 @@ if (TARGET pt)
                        RESOURCE_LOCK quickfix_test_dir)
 
   add_test(NAME cpp.perf.network
-           COMMAND pt --quickfix-spec-path ${PROJECT_SOURCE_DIR}/spec -# "[network]"
+           COMMAND pt --quickfix-spec-path ${PROJECT_SOURCE_DIR}/spec "-#" "[network]"
                       --port ${QUICKFIX_PT_PORT}
            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
   set_tests_properties(cpp.perf.network PROPERTIES

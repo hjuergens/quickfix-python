@@ -37,6 +37,26 @@ if (MSVC)
   target_compile_options(${quickfix_python_lib_name} PRIVATE /bigobj)
 endif()
 
+if (WIN32 AND HAVE_SSL)
+  # Python 3.8+ resolves an extension module's dependent DLLs from the directory
+  # holding the .pyd, from system directories, and from os.add_dll_directory() --
+  # never from PATH. So OpenSSL has to sit beside _quickfix.pyd, which is what
+  # delvewheel arranges for the wheel and what nothing did for an in-tree build:
+  # importing quickfix failed with "DLL load failed while importing _quickfix".
+  file(GLOB quickfix_openssl_dlls
+       "${OPENSSL_ROOT_DIR}/bin/libssl*.dll"
+       "${OPENSSL_ROOT_DIR}/bin/libcrypto*.dll")
+  if (quickfix_openssl_dlls)
+    add_custom_command(TARGET ${quickfix_python_lib_name} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different ${quickfix_openssl_dlls}
+              $<TARGET_FILE_DIR:${quickfix_python_lib_name}>)
+  else()
+    message(WARNING
+      "No OpenSSL DLLs found under '${OPENSSL_ROOT_DIR}/bin'; importing _quickfix "
+      "from the build tree will fail unless they are on the DLL search path")
+  endif()
+endif()
+
 install(TARGETS ${quickfix_python_lib_name} DESTINATION lib/python3)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/python3/ DESTINATION lib/python3
         FILES_MATCHING PATTERN "quickfix*.py"

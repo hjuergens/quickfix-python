@@ -6,7 +6,16 @@ set(quickfix_python_VERSION ${quickfix_python_VERSION_MAJOR}.${quickfix_python_V
 set(quickfix_python_SOURCES ${PROJECT_SOURCE_DIR}/src/python/QuickfixPython.cpp)
 set(quickfix_python_lib_name _${PROJECT_NAME})
 
-add_library(${quickfix_python_lib_name} SHARED  ${quickfix_python_SOURCES})
+if (HAVE_SSL AND WIN32)
+  # Loading a certificate hands OpenSSL a FILE* across a CRT boundary, which on
+  # Windows needs the applink shim compiled into the module that calls it --
+  # otherwise the process dies with "OPENSSL_Uplink: no OPENSSL_Applink". Every
+  # example that links OpenSSL already does this; the extension did not, so
+  # SSLSocketAcceptor with a ServerCertificateFile could never work there.
+  set(applink_SOURCE ${OPENSSL_INCLUDE_DIR}/openssl/applink.c)
+endif()
+
+add_library(${quickfix_python_lib_name} SHARED  ${quickfix_python_SOURCES} ${applink_SOURCE})
 
 target_include_directories(${quickfix_python_lib_name} PRIVATE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/src/C++ ${PROJECT_SOURCE_DIR}/src/swig ${Python3_INCLUDE_DIRS})
 

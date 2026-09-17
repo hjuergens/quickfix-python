@@ -797,35 +797,26 @@ X509_STORE *createX509Store(const char *cpFile, const char *cpPath) {
   }
   return pStore;
 }
-X509 *readX509(FILE *fp, X509 **x509, passPhraseHandleCallbackType cb, void *passwordCallbackParam) {
+X509 *readX509(BIO *bio, X509 **x509, passPhraseHandleCallbackType cb, void *passwordCallbackParam) {
   X509 *rc;
-  BIO *bioS;
   BIO *bioF;
 
-  rc = PEM_read_X509(fp, x509, cb, passwordCallbackParam);
+  rc = PEM_read_bio_X509(bio, x509, cb, passwordCallbackParam);
   if (rc == 0) {
     /* 2. try DER+Base64 */
-    fseek(fp, 0L, SEEK_SET);
-    if ((bioS = BIO_new(BIO_s_fd())) == 0) {
-      return 0;
-    }
-    BIO_set_fd(bioS, fileno(fp), BIO_NOCLOSE);
+    BIO_reset(bio);
     if ((bioF = BIO_new(BIO_f_base64())) == 0) {
-      BIO_free(bioS);
       return 0;
     }
-    bioS = BIO_push(bioF, bioS);
-    rc = d2i_X509_bio(bioS, 0);
-    BIO_free_all(bioS);
+    BIO_push(bioF, bio);
+    rc = d2i_X509_bio(bioF, 0);
+    /* pop before freeing: bio is the caller's and must outlive the filter */
+    BIO_pop(bioF);
+    BIO_free(bioF);
     if (rc == 0) {
       /* 3. try plain DER */
-      fseek(fp, 0L, SEEK_SET);
-      if ((bioS = BIO_new(BIO_s_fd())) == 0) {
-        return 0;
-      }
-      BIO_set_fd(bioS, fileno(fp), BIO_NOCLOSE);
-      rc = d2i_X509_bio(bioS, 0);
-      BIO_free(bioS);
+      BIO_reset(bio);
+      rc = d2i_X509_bio(bio, 0);
     }
   }
   if (rc != 0 && x509 != 0) {
@@ -837,34 +828,26 @@ X509 *readX509(FILE *fp, X509 **x509, passPhraseHandleCallbackType cb, void *pas
   return rc;
 }
 
-EVP_PKEY *readPrivateKey(FILE *fp, EVP_PKEY **key, passPhraseHandleCallbackType cb, void *passwordCallbackParam) {
+EVP_PKEY *readPrivateKey(BIO *bio, EVP_PKEY **key, passPhraseHandleCallbackType cb, void *passwordCallbackParam) {
   EVP_PKEY *rc;
-  BIO *bioS;
   BIO *bioF;
 
-  rc = PEM_read_PrivateKey(fp, key, cb, passwordCallbackParam);
+  rc = PEM_read_bio_PrivateKey(bio, key, cb, passwordCallbackParam);
   if (rc == 0) {
     /* 2. try DER+Base64 */
-    fseek(fp, 0L, SEEK_SET);
-    if ((bioS = BIO_new(BIO_s_fd())) == 0) {
-      return 0;
-    }
-    BIO_set_fd(bioS, fileno(fp), BIO_NOCLOSE);
+    BIO_reset(bio);
     if ((bioF = BIO_new(BIO_f_base64())) == 0) {
-      BIO_free(bioS);
       return 0;
     }
-    bioS = BIO_push(bioF, bioS);
-    rc = d2i_PrivateKey_bio(bioS, 0);
-    BIO_free_all(bioS);
+    BIO_push(bioF, bio);
+    rc = d2i_PrivateKey_bio(bioF, 0);
+    /* pop before freeing: bio is the caller's and must outlive the filter */
+    BIO_pop(bioF);
+    BIO_free(bioF);
     if (rc == 0) {
-      fseek(fp, 0L, SEEK_SET);
-      if ((bioS = BIO_new(BIO_s_fd())) == 0) {
-        return 0;
-      }
-      BIO_set_fd(bioS, fileno(fp), BIO_NOCLOSE);
-      rc = d2i_PrivateKey_bio(bioS, 0);
-      BIO_free(bioS);
+      /* 3. try plain DER */
+      BIO_reset(bio);
+      rc = d2i_PrivateKey_bio(bio, 0);
     }
   }
   if (rc != 0 && key != 0) {
@@ -1185,17 +1168,22 @@ bool loadSSLCert(
 
   SSL_CTX_set_default_passwd_cb(ctx, cb);
 
-  FILE *fp;
+  /* BIO_new_file() rather than fopen(): handing a FILE* to OpenSSL crosses a CRT
+   * boundary on Windows, which aborts the process with "OPENSSL_Uplink: no
+   * OPENSSL_Applink" unless the applink shim is linked into the executable --
+   * impossible for a Python extension module, whose executable is python.exe.
+   * Letting OpenSSL open the file keeps the handle on one side of that boundary. */
+  BIO *bio;
 
-  if ((fp = fopen(cert.c_str(), "r")) == 0) {
+  if ((bio = BIO_new_file(cert.c_str(), "r")) == 0) {
     errStr.assign(cert);
     errStr.append(" file could not be opened");
     return false;
   }
 
-  X509 *X509Cert = readX509(fp, 0, 0, 0);
+  X509 *X509Cert = readX509(bio, 0, 0, 0);
 
-  fclose(fp);
+  BIO_free(bio);
 
   if (X509Cert == 0) {
     errStr.assign(cert);
@@ -1236,15 +1224,15 @@ bool loadSSLCert(
   }
   X509_free(X509Cert);
 
-  if ((fp = fopen(key.c_str(), "r")) == 0) {
+  if ((bio = BIO_new_file(key.c_str(), "r")) == 0) {
     errStr.assign(key);
     errStr.append(" file could not be opened");
     return false;
   }
 
-  EVP_PKEY *privateKey = readPrivateKey(fp, 0, cb, passwordCallbackParam);
+  EVP_PKEY *privateKey = readPrivateKey(bio, 0, cb, passwordCallbackParam);
 
-  fclose(fp);
+  BIO_free(bio);
 
   if (privateKey == 0) {
     errStr.assign(key);

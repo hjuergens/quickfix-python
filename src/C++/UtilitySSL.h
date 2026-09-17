@@ -188,8 +188,8 @@ int lookupX509Store(X509_STORE *pStore, int nType, X509_NAME *pName, X509_OBJECT
 int callbackVerify(int ok, X509_STORE_CTX *ctx);
 int callbackVerifyCRL(int ok, X509_STORE_CTX *ctx, X509_STORE *revStore);
 X509_STORE *createX509Store(const char *cpFile, const char *cpPath);
-X509 *readX509(FILE *fp, X509 **x509, passPhraseHandleCallbackType cb, void *passwordCallbackParam);
-EVP_PKEY *readPrivateKey(FILE *fp, EVP_PKEY **key, passPhraseHandleCallbackType cb, void *passwordCallbackParam);
+X509 *readX509(BIO *bio, X509 **x509, passPhraseHandleCallbackType cb, void *passwordCallbackParam);
+EVP_PKEY *readPrivateKey(BIO *bio, EVP_PKEY **key, passPhraseHandleCallbackType cb, void *passwordCallbackParam);
 }
 
 int setSocketNonBlocking(socket_handle pSocket);

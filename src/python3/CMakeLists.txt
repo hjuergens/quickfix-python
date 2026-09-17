@@ -110,18 +110,6 @@ if (QUICKFIX_TESTS AND Python3_EXECUTABLE)
                          ENVIRONMENT "${quickfix_python_test_env}")
   endforeach()
 
-  if (WIN32)
-    # Certificate loading is broken on Windows, in the engine rather than here:
-    # UtilitySSL.cpp opens the file with fopen() and hands the FILE* to
-    # PEM_read_X509() inside the OpenSSL DLL, which aborts with
-    # "OPENSSL_Uplink: no OPENSSL_Applink". The applink shim the C++ examples
-    # compile in cannot help an extension module -- OPENSSL_Uplink resolves
-    # OPENSSL_Applink from the process executable, i.e. python.exe. The fix is to
-    # read through BIO_new_file instead; see TODO.md. Disabled, not deleted, so it
-    # stays visible in `ctest -N`.
-    set_tests_properties(python.SSLSession PROPERTIES DISABLED TRUE)
-  endif()
-
   set_property(TEST python.SSLSession APPEND PROPERTY LABELS "network")
   set_property(TEST python.SSLSession APPEND PROPERTY ENVIRONMENT
                "QUICKFIX_TEST_SSL_PORT=${QUICKFIX_PY_SSL_PORT}")

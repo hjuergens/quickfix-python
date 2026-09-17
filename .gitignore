@@ -55,3 +55,6 @@ compile_commands.json
 *.swp
 dist/
 .venv-release/
+
+# Local secrets (GITHUB_PAT and friends) - never commit
+.env

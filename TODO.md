@@ -69,3 +69,21 @@ and imports only work because the symlink is in the same directory. Wheels do no
 symlinks, so the wheel carries whatever `install(TARGETS)` resolved - worth checking what a
 published macOS/Linux wheel actually contains before dropping the properties, which is the
 right end state.
+
+## SSL certificate loading is broken on Windows
+
+`src/C++/UtilitySSL.cpp:1190` opens the certificate with `fopen()` and passes the `FILE*` to
+`PEM_read_X509()` (likewise the key at :1239, via `readPrivateKey`). On Windows that crosses a
+CRT boundary into the OpenSSL DLL and aborts the process with `OPENSSL_Uplink(...): no
+OPENSSL_Applink`. So `SSLSocketAcceptor`/`SSLSocketInitiator` with a `ServerCertificateFile`
+cannot work on Windows from a Python extension -- including the published `quickfix-tls`
+Windows wheels, since `tools/verify_wheel.py` constructs the transports without certificates
+and never triggers it. The C++ examples escape it only because they are executables and can
+compile in `applink.c`; an extension module cannot, because `OPENSSL_Uplink` resolves
+`OPENSSL_Applink` from the process executable (`python.exe`).
+
+The fix is to keep the `FILE*` inside OpenSSL: `BIO_new_file()` plus `PEM_read_bio_X509()` /
+`PEM_read_bio_PrivateKey()`, replacing `readX509`/`readPrivateKey`'s `FILE*` parameters. That
+is portable, removes the need for applink everywhere, and is a candidate to send upstream.
+`python.SSLSession` is registered but `DISABLED` on Windows until then; it runs for real on
+Linux and macOS.

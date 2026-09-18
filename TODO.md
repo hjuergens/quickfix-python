@@ -70,3 +70,34 @@ symlinks, so the wheel carries whatever `install(TARGETS)` resolved - worth chec
 published macOS/Linux wheel actually contains before dropping the properties, which is the
 right end state.
 
+
+## SWIG releases the GIL in destructors, which CPython 3.15 rejects at shutdown
+
+Every wrapped destructor in the generated wrapper is
+
+```c
+SWIG_PYTHON_THREAD_BEGIN_ALLOW;   /* PyEval_SaveThread()    */
+    delete arg1;
+SWIG_PYTHON_THREAD_END_ALLOW;     /* PyEval_RestoreThread() */
+```
+
+Objects that are freed by the cyclic GC rather than by refcounting - which includes any
+transport holding an `Application`, since the Python wrapper keeps `self.application` and the
+director's C++ side keeps a reference back - can be collected *during* interpreter
+finalization. On CPython 3.15 the save/restore then aborts the process with
+`PyMutex_Unlock: unlocking mutex that is not locked`; 3.9-3.14 and free-threaded 3.14t
+tolerate it. So a user program that simply exits with a live `SocketInitiator` can die at
+shutdown on 3.15 after doing everything right.
+
+`tools/verify_wheel.py` now forces `gc.collect()` before returning, which unblocks the wheel
+matrix, but that is the *test* avoiding the problem rather than a fix.
+
+Two candidate real fixes, both needing a SWIG regeneration (4.2.1 per AGENTS.md):
+
+- Have the module register an `atexit` hook that runs `gc.collect()`; atexit handlers run
+  early in `Py_FinalizeEx`, while the runtime is still healthy, so nothing is left to collect
+  in the fatal window. Cheap, and it fixes it for every user. Would live in the
+  `%pythoncode` block in `src/python/quickfix.i`.
+- Stop releasing the GIL in destructors, or guard it with `Py_IsFinalizing()`. Note a blanket
+  `%feature("nothreadallow")` is not safe for the transports: `~Initiator()` joins threads
+  that may need the GIL, which is exactly why SWIG releases it.

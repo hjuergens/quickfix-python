@@ -89,14 +89,18 @@ finalization. On CPython 3.15 the save/restore then aborts the process with
 tolerate it. So a user program that simply exits with a live `SocketInitiator` can die at
 shutdown on 3.15 after doing everything right.
 
-`tools/verify_wheel.py` now forces `gc.collect()` before returning, which unblocks the wheel
-matrix, but that is the *test* avoiding the problem rather than a fix.
+`tools/verify_wheel.py` forces `gc.collect()` before returning. **That is not sufficient** -
+the 2026-09-18 dry run still aborted on cp315 on Linux, macOS and Windows. The reason is that
+the GIL release is not specific to cycles: `SwigPyObject_dealloc` calls the generated
+`_wrap_delete_*` for *every* SWIG-owned object, so anything still alive when the interpreter
+finalizes is enough to abort. Collecting early only helps the objects that happen to be
+garbage at that moment.
 
 Two candidate real fixes, both needing a SWIG regeneration (4.2.1 per AGENTS.md):
 
 - Have the module register an `atexit` hook that runs `gc.collect()`; atexit handlers run
-  early in `Py_FinalizeEx`, while the runtime is still healthy, so nothing is left to collect
-  in the fatal window. Cheap, and it fixes it for every user. Would live in the
+  early in `Py_FinalizeEx`, while the runtime is still healthy. Cheap, but it shares the
+  limitation above: it does nothing for an object that is still referenced. Would live in the
   `%pythoncode` block in `src/python/quickfix.i`.
 - Stop releasing the GIL in destructors, or guard it with `Py_IsFinalizing()`. Note a blanket
   `%feature("nothreadallow")` is not safe for the transports: `~Initiator()` joins threads

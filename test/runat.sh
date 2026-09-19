@@ -8,9 +8,9 @@
 # and printed at the end: nine concurrent writers on one descriptor would
 # interleave and shred Runner.rb's multi-line failure reports.
 
-SCRIPT=$(realpath "$0")
+SCRIPT=$(realpath "$0") || { echo "$0: realpath failed" >&2; exit 1; }
 DIR=$(dirname "$SCRIPT")
-cd "$DIR" || exit 1
+cd "$DIR" || { echo "$0: cannot cd to $DIR" >&2; exit 1; }
 
 RUBY="ruby -I."
 PORT=$1
@@ -88,9 +88,12 @@ if port_is_open "$PORT"; then
   exit 1
 fi
 
-./setup.sh "$PORT" || exit 1
+./setup.sh "$PORT" || { echo "$0: setup.sh $PORT failed" >&2; exit 1; }
 
-OUTDIR=$(mktemp -d) || exit 1
+OUTDIR=$(mktemp -d 2>/dev/null) || OUTDIR=$(mktemp -d -t runat) || {
+  echo "$0: mktemp -d failed" >&2
+  exit 1
+}
 
 ./at -f cfg/at.cfg >"$OUTDIR/at.log" 2>&1 &
 AT_PID=$!

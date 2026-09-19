@@ -95,7 +95,9 @@ test-command = "python {project}/tools/verify_wheel.py"
 # 1.1.1k (end of life since September 2023) and has no openssl3 package. A wheel
 # freezes whatever it was built against either way, so this builds a pinned,
 # supported OpenSSL instead - see tools/setup_openssl.sh.
-before-all = "bash {package}/tools/setup_openssl.sh"
+# perl-core, because OpenSSL's Configure needs IPC::Cmd (and FindBin, and
+# Data::Dumper) which the manylinux image's minimal perl does not carry.
+before-all = "yum install -y perl-core || dnf install -y perl-core; bash {package}/tools/setup_openssl.sh"
 environment = { OPENSSL_ROOT_DIR = "/tmp/openssl-static" }
 
 [tool.cibuildwheel.macos]

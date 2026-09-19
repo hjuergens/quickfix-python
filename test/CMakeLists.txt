@@ -16,8 +16,11 @@ if (TARGET at)
       # release, matching at/atrun's RUNTIME_OUTPUT_DIRECTORY_<CONFIG> -- which
       # maps RelWithDebInfo to "release", so this cannot be $<LOWER_CASE:$<CONFIG>>
       # (that would yield "relwithdebinfo" and hit runat.bat's usage branch).
+      # One argument, not three: CTest quotes each argument separately, and
+      # `cmd /c "runat.bat" "release" "6680"` trips cmd's quote handling --
+      # it answers "The syntax of the command is incorrect."
       add_test(NAME cpp.acceptance
-               COMMAND cmd /c runat.bat $<IF:$<CONFIG:Debug>,debug,release> ${QUICKFIX_AT_PORT}
+               COMMAND cmd /c "runat.bat $<IF:$<CONFIG:Debug>,debug,release> ${QUICKFIX_AT_PORT}"
                WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
     endif()
   else()

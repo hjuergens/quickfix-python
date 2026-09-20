@@ -26,8 +26,15 @@ if (TARGET at)
   else()
     # runat.sh starts the acceptor itself, waits for the port, runs the nine
     # Ruby-driven groups, and returns non-zero if any of them failed.
+    #
+    # Invoked through `sh` rather than as ./runat.sh: on macOS this test failed
+    # in 0.02s with a completely empty CTest log -- not one line of output, not
+    # even the script's own first error message -- which means the file was never
+    # executed at all. Letting sh open it sidesteps whatever refused to exec it,
+    # and if the file genuinely cannot be found, sh says so instead of failing
+    # mutely.
     add_test(NAME cpp.acceptance
-             COMMAND ./runat.sh ${QUICKFIX_AT_PORT}
+             COMMAND sh runat.sh ${QUICKFIX_AT_PORT}
              WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
   endif()
 

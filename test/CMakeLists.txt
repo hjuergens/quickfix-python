@@ -96,10 +96,11 @@ if (TARGET at)
     set_tests_properties(diag.acceptance.bat PROPERTIES LABELS "acceptance" TIMEOUT 120)
   else()
     add_test(NAME diag.acceptance.spawn
-             # The script exits 1 silently, above its own argument check, on a
-             # path that prints an error on Linux. -x is the only way left to see
-             # which line that is.
-             COMMAND sh -c "echo PROBE-START; sh -x runat.sh 2>&1 | head -30; echo PROBE-STATUS=$?; exit 0"
+             # The trace stopped after six statements with no error and no usage
+             # line. This run captures it to a file instead of a pipe, so the
+             # status is the script's own and not head's, and nothing can be lost
+             # to SIGPIPE.
+             COMMAND sh -c "echo PROBE-START; sh -x runat.sh >/tmp/qf-trace.txt 2>&1; echo PROBE-STATUS=$?; echo PROBE-TRACE-BEGIN; cat /tmp/qf-trace.txt; echo PROBE-TRACE-END; exit 0"
              WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
   endif()
   set_tests_properties(diag.acceptance.spawn PROPERTIES LABELS "acceptance" TIMEOUT 120)

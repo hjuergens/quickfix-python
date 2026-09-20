@@ -96,6 +96,11 @@ the GIL release is not specific to cycles: `SwigPyObject_dealloc` calls the gene
 finalizes is enough to abort. Collecting early only helps the objects that happen to be
 garbage at that moment.
 
+**cp315 is excluded from the wheel matrix** until this is fixed and proven (`build` in
+`pyproject.toml`). That is also why the matrix now lists interpreters explicitly instead of
+following new CPython releases automatically: one broken interpreter blocked every platform,
+because the publish job needs them all.
+
 Two candidate real fixes, both needing a SWIG regeneration (4.2.1 per AGENTS.md):
 
 - Have the module register an `atexit` hook that runs `gc.collect()`; atexit handlers run

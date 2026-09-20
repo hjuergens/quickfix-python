@@ -126,6 +126,45 @@ On Windows the floor is set by CPython, not by this project: **Python 3.13 and l
 require Windows 10 or newer**, while 3.12 still supports Windows 8.1. PEP 11 ties support
 to Microsoft's own lifecycle, so it moves over time.
 
+## What a wheel freezes
+
+A wheel pins the OpenSSL it was built against. That is true whether the library is linked
+statically or shipped as a `.so`/`.dll` vendored in by auditwheel, delocate or delvewheel -
+all three copy the library into the wheel. Users of a wheel never get their distribution's
+patched OpenSSL; only an sdist build does. manylinux policy does not even permit a wheel to
+depend on the system `libssl` externally: auditwheel vendors it or refuses to tag the wheel.
+
+So "static or dynamic" is the wrong axis. The axis that matters is **who is responsible for
+patching**, and for a wheel the answer is always *this repository*: every OpenSSL CVE needs a
+rebuild and a release. Check what the build actually picked up - CMake prints
+`-- Found OpenSSL: ... (found version "X")` in every CI log - rather than assuming the
+platform supplied something current.
+
+## Debugging a failure you cannot reproduce
+
+Most of this project cannot be built on a machine without cmake, SWIG 4.2.1, Docker and the
+three target operating systems, so CI is often the only loop, at 10-40 minutes per attempt.
+That makes guessing expensive, and in September 2026 it cost six round trips on one test
+failure and four on a cp315 abort - each round patching a hypothesis that turned out to be
+wrong.
+
+What works better:
+
+1. **Read what the logs already contain.** `gh api repos/<owner>/<repo>/actions/jobs/<id>/logs`
+   returns the full log; `gh run view --log` has come back empty here. Do not truncate lines
+   when grepping - a `cut` once hid the OpenSSL version that answered the question.
+2. **Spend the first round trip on evidence, not a fix.** Add a temporary CTest entry that
+   prints the facts every hypothesis assumes: the working directory, whether the file exists
+   and is executable, whether the interpreter or tool is installed, whether output from a
+   spawned process reaches CTest at all. Make it exit 0 so it does not add a second failure,
+   and read it from the `Testing/Temporary/LastTest.log` artifact the CMake workflow uploads
+   on failure.
+3. **Invoke a script so it fails fast.** Running a test script with no arguments makes it hit
+   its own usage path and exit in milliseconds, which proves execution without starting a
+   server or waiting for a suite.
+4. **Make silent exits loud first.** `|| exit 1` with no message is why the macOS acceptance
+   failure took six attempts: every round produced an empty log that ruled nothing out.
+
 ## Regenerating the SWIG bindings
 
 `src/python/QuickfixPython.cpp` (~6MB) and `src/python/quickfix.py` are **checked in**.

@@ -84,12 +84,22 @@ endif()
 # Testing/Temporary/LastTest.log and is uploaded by the workflow.
 if (TARGET at)
   if (WIN32)
+    # cmd rejected the previous probe before running any of it, so start from the
+    # smallest possible thing: if even this fails, CTest cannot drive cmd here at
+    # all and runat.bat was never the problem.
     add_test(NAME diag.acceptance.spawn
-             COMMAND cmd /c "echo PROBE-START & cd & dir runat.bat setup.bat & echo PROBE-RUN & call runat.bat & echo PROBE-STATUS=%ERRORLEVEL% & exit /b 0"
+             COMMAND cmd /c echo PROBE-START
              WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+    add_test(NAME diag.acceptance.bat
+             COMMAND cmd /c runat.bat
+             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+    set_tests_properties(diag.acceptance.bat PROPERTIES LABELS "acceptance" TIMEOUT 120)
   else()
     add_test(NAME diag.acceptance.spawn
-             COMMAND sh -c "echo PROBE-START; pwd; ls -l runat.sh setup.sh; for c in realpath ruby mktemp sh; do command -v $c || echo \"PROBE-MISSING: $c\"; done; echo PROBE-RUN; sh runat.sh; echo PROBE-STATUS=$?; exit 0"
+             # The script exits 1 silently, above its own argument check, on a
+             # path that prints an error on Linux. -x is the only way left to see
+             # which line that is.
+             COMMAND sh -c "echo PROBE-START; sh -x runat.sh 2>&1 | head -30; echo PROBE-STATUS=$?; exit 0"
              WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
   endif()
   set_tests_properties(diag.acceptance.spawn PROPERTIES LABELS "acceptance" TIMEOUT 120)

@@ -68,6 +68,50 @@
 
 %rename(FIXException) FIX::Exception;
 
+/* SWIG wraps every C++ call -- destructors included -- in
+ *   SWIG_PYTHON_THREAD_BEGIN_ALLOW ... SWIG_PYTHON_THREAD_END_ALLOW
+ * i.e. PyEval_SaveThread()/PyEval_RestoreThread(), because a long C++ call must
+ * not hold the GIL. That is right everywhere except during interpreter
+ * finalization: SwigPyObject_dealloc routes every SWIG-owned object through the
+ * generated _wrap_delete_*, so an object still alive at shutdown does the GIL
+ * dance on a runtime that is tearing down. CPython tolerated that through 3.14
+ * (free-threaded 3.14t included) and made it fatal in 3.15:
+ *   Fatal Python error: PyMutex_Unlock: unlocking mutex that is not locked
+ *
+ * The macros are defined in SWIG's runtime section, and this header block is
+ * emitted after it, so redefining them here applies to every wrapper function.
+ * When the interpreter is finalizing we simply keep the GIL: the destructors
+ * that matter at that point are plain memory operations. A transport still
+ * *running* at shutdown is the one case this could block instead of crash --
+ * stop() it before exit; see TODO.md.
+ */
+%header %{
+#if defined(SWIG_PYTHON_THREAD_BEGIN_ALLOW)
+#undef SWIG_PYTHON_THREAD_BEGIN_ALLOW
+#undef SWIG_PYTHON_THREAD_END_ALLOW
+
+#if PY_VERSION_HEX >= 0x030D0000
+#define QUICKFIX_PYTHON_IS_FINALIZING() Py_IsFinalizing()
+#else
+#define QUICKFIX_PYTHON_IS_FINALIZING() _Py_IsFinalizing()
+#endif
+
+class Quickfix_Python_Thread_Allow {
+  bool status;
+  PyThreadState *save;
+public:
+  void end() { if (status) { status = false; PyEval_RestoreThread(save); } }
+  Quickfix_Python_Thread_Allow()
+    : status(!QUICKFIX_PYTHON_IS_FINALIZING()),
+      save(status ? PyEval_SaveThread() : NULL) {}
+  ~Quickfix_Python_Thread_Allow() { end(); }
+};
+
+#define SWIG_PYTHON_THREAD_BEGIN_ALLOW Quickfix_Python_Thread_Allow _swig_thread_allow
+#define SWIG_PYTHON_THREAD_END_ALLOW   _swig_thread_allow.end()
+#endif
+%}
+
 %include ../quickfix.i
 
 %pythoncode %{

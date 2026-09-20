@@ -118,7 +118,7 @@ jobs:
           EventName: ${{ github.event_name }}
       - name: Upload CTest log
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ctest-${{ matrix.runner }}-${{ matrix.configuration }}-ssl${{ matrix.ssl }}${{ matrix.compiler }}
           path: |

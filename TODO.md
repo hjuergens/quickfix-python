@@ -105,3 +105,26 @@ Two candidate real fixes, both needing a SWIG regeneration (4.2.1 per AGENTS.md)
 - Stop releasing the GIL in destructors, or guard it with `Py_IsFinalizing()`. Note a blanket
   `%feature("nothreadallow")` is not safe for the transports: `~Initiator()` joins threads
   that may need the GIL, which is exactly why SWIG releases it.
+
+## The acceptance suite only runs under CTest on Linux
+
+`cpp.acceptance` is registered for Linux only (`test/CMakeLists.txt`). It works there - about
+a minute, nine groups, 468 tests. On the other two platforms it never started at all, and
+probes established why before the attempt was parked:
+
+- **Windows.** CTest cannot drive `cmd.exe` on the runner. `cmd /c echo` fails exactly as
+  `cmd /c runat.bat` does - "The syntax of the command is incorrect", no output, 0.01s - so
+  `runat.bat` never runs and no quoting or argument arrangement can help. A working test has
+  to drop `cmd` entirely: drive `atrun.exe` as the CTest command, and generate
+  `test/cfg/at.cfg` from CMake rather than through `setup.bat`, which is also cmd. That also
+  removes `setup.sh`/`setup.bat` divergence, so it is worth doing for its own sake.
+- **macOS.** The spawn is fine - a probe printed its marker, the working directory, both
+  scripts as `-rwxr-xr-x`, and found `realpath`, `ruby` and `mktemp`. But `sh -x runat.sh`
+  traces exactly six statements (through `GROUPS=...`) and then exits 1 with no error, no
+  syntax complaint, and nothing further, on a file that runs to completion under Linux
+  `/bin/sh`. Ruled out: the exec bit, the shebang, CTest output capture, missing tools,
+  SIGPIPE from the probe's own pipe. Still unexplained. The one cheap check not yet made is
+  `sh -n runat.sh` on that runner, a parse-only test of whether macOS's bash-as-sh rejects
+  something dash accepts.
+
+Neither blocks a release: the suite is pull-request-only and the wheels do not depend on it.

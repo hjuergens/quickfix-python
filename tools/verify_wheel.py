@@ -10,6 +10,7 @@ It fails loudly if the wheel was built without SSL, which is otherwise easy to m
 the SSL classes exist either way, and only differ in whether constructing one works.
 """
 
+import gc
 import os
 import sys
 import tempfile
@@ -188,6 +189,17 @@ def main():
     gil = getattr(sys, "_is_gil_enabled", None)
     print("    (GIL enabled: %s)" % ("unknown" if gil is None else gil()))
     check("concurrent setField/getField (quickfix#611)", _concurrent_field_access)
+
+    # Collect while the interpreter is still fully alive. The transports above form
+    # reference cycles with their Application director -- the Python wrapper keeps
+    # self.application, and the director's C++ side keeps a reference back -- so they
+    # are freed by the GC rather than by refcounting. Left to interpreter shutdown,
+    # that collection aborts CPython 3.15: SWIG releases the GIL around every wrapped
+    # destructor (SWIG_PYTHON_THREAD_BEGIN_ALLOW ... delete ... END_ALLOW), and
+    # PyEval_SaveThread/RestoreThread on a finalizing runtime is fatal there
+    # ("PyMutex_Unlock: unlocking mutex that is not locked"). 3.9-3.14, including
+    # free-threaded 3.14t, tolerate it.
+    gc.collect()
 
     print()
     if FAILURES:

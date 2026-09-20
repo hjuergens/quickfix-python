@@ -34,7 +34,6 @@ Read the applicable project guidance and existing build definitions first:
 - [README.md](../../README.md)
 - [README.SSL](../../README.SSL)
 - [CMake workflow](../workflows/build_test_cmake.yml), if present
-- [Autotools workflow](../workflows/build_test_autotools.yml), if present
 - [Python binding build](../../src/python3/CMakeLists.txt)
 - [Python binding source](../../src/python/quickfix.i)
 - [Windows unit-test runner](../../test/runut.bat)

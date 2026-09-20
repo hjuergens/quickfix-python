@@ -55,7 +55,7 @@ Three rules that matter:
 - **Do not use a `+local` suffix** such as `1.16.0+tls.1`. It is valid PEP 440 and
   parses fine locally, but PyPI rejects local version identifiers on upload.
 
-`configure.ac` and `CMakeLists.txt` carry upstream's engine version (currently 1.16.0)
+`CMakeLists.txt` carries upstream's engine version (currently 1.16.0)
 and should be left alone - they describe the C++ engine, not this distribution. Only
 `pyproject.toml` carries the fork revision.
 

@@ -84,8 +84,7 @@ class MyApplication
 
     <p>Use the <b>getField</b> method to get any field from any
     message.</p>See this code in <a href=
-    "python/receiving_messages_2.html">PYTHON</a>, <a href=
-    "ruby/receiving_messages_2.html">RUBY</a>
+    "python/receiving_messages_2.html">PYTHON</a>
     <pre class='fragment'>
 void fromApp( const FIX::Message&amp; message, const FIX::SessionID&amp; sessionID )
   throw( FIX::FieldNotFound&amp;, FIX::IncorrectDataFormat&amp;, FIX::IncorrectTagValue&amp;, FIX::UnsupportedMessageType&amp; )
@@ -104,8 +103,7 @@ void fromApp( const FIX::Message&amp; message, const FIX::SessionID&amp; session
     <h2>No Type Safety</h2>
 
     <p>Create your own fields using tag numbers.</p>See this code
-    in <a href="python/receiving_messages_1.html">PYTHON</a>,
-    <a href="ruby/receiving_messages_1.html">RUBY</a>
+    in <a href="python/receiving_messages_1.html">PYTHON</a>
     <pre class='fragment'>
 void fromApp( const FIX::Message&amp; message, const FIX::SessionID&amp; sessionID )
   throw( FIX::FieldNotFound&amp;, FIX::IncorrectDataFormat&amp;, FIX::IncorrectTagValue&amp;, FIX::UnsupportedMessageType&amp; )

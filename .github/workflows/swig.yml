@@ -1,0 +1,99 @@
+name: SWIG bindings
+
+# The generated wrapper (src/python/QuickfixPython.cpp, ~6MB) is committed and no
+# build regenerates it, so a .i edit silently has no effect until someone runs the
+# recipe by hand. This job is the thing that notices.
+on:
+  pull_request:
+    paths:
+      - 'src/**/*.i'
+      - 'src/python/swig.sh'
+      - 'src/python/QuickfixPython.cpp'
+      - 'src/python/quickfix.py'
+      - 'src/python3/quickfix.py'
+      - 'tools/regenerate_swig.sh'
+      - '.github/workflows/swig.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # Must match the SWIG_VERSION recorded in the committed wrapper. Distro packages
+  # drift (Ubuntu 24.04 ships 4.2.0), and a different version rewrites all 6MB, so
+  # this is built from source rather than apt-installed.
+  SWIG_VERSION: 4.2.1
+
+jobs:
+  regenerate:
+    name: Regenerate and compare
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Cache SWIG ${{ env.SWIG_VERSION }}
+        id: cache-swig
+        uses: actions/cache@v4
+        with:
+          path: /opt/swig
+          key: swig-${{ env.SWIG_VERSION }}-${{ runner.os }}
+
+      - name: Build SWIG ${{ env.SWIG_VERSION }}
+        if: steps.cache-swig.outputs.cache-hit != 'true'
+        run: |
+          set -eu
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends bison libpcre2-dev
+          # SourceForge, not GitHub: swig/swig publishes no release assets, and the
+          # git archive tarball has no configure script -- it would need the full
+          # autotools chain to bootstrap.
+          curl -fsSL -o swig.tar.gz \
+            "https://downloads.sourceforge.net/project/swig/swig/swig-${SWIG_VERSION}/swig-${SWIG_VERSION}.tar.gz"
+          tar xzf swig.tar.gz
+          cd "swig-${SWIG_VERSION}"
+          ./configure --prefix=/opt/swig
+          make -j"$(nproc)"
+          sudo make install
+
+      - name: Regenerate
+        run: |
+          echo "/opt/swig/bin" >> "$GITHUB_PATH"
+          export PATH="/opt/swig/bin:$PATH"
+          swig -version | head -3
+          sh tools/regenerate_swig.sh
+
+      - name: Compare with the committed bindings
+        id: compare
+        run: |
+          set -eu
+          if git diff --quiet; then
+            echo "The committed bindings match a fresh regeneration."
+            exit 0
+          fi
+          echo "::error::The committed bindings do not match the .i sources."
+          echo
+          echo "Changed files:"
+          git diff --stat
+          echo
+          echo "Run tools/regenerate_swig.sh and commit the result, or download the"
+          echo "regenerated-bindings artifact from this run."
+          exit 1
+
+      - name: Upload the regenerated bindings
+        # Always: on failure they are the fix, and on success they are proof of
+        # what was compared.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regenerated-bindings
+          path: |
+            src/python/QuickfixPython.cpp
+            src/python/quickfix.py
+            src/python3/quickfix.py
+          if-no-files-found: error

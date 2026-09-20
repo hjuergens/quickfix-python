@@ -1,7 +1,7 @@
 # QuickFIX Agent Guidelines
 
 QuickFIX is a C++17 implementation of the FIX (Financial Information eXchange) protocol,
-supporting FIX 4.0 through 5.0 SP2 and FIXT 1.1, with SWIG bindings for Python 3 and Ruby.
+supporting FIX 4.0 through 5.0 SP2 and FIXT 1.1, with SWIG bindings for Python 3.
 
 ## Generated paths — read this first
 
@@ -51,17 +51,6 @@ CI configures **in-source** (`cmake . -DCMAKE_BUILD_TYPE=...`), not into `build/
 
 Gotcha: `-DQUICKFIX_EXAMPLES=OFF` silently removes the acceptance (`at`) and performance
 (`pt`) binaries, because those live under `src/`, not under the test directory.
-
-### Autotools (legacy)
-
-```bash
-./bootstrap && ./configure && make && make check
-```
-
-CI configures with `--with-python3 --with-ruby --with-openssl`. Note `configure.ac`
-mandates only C++11 (`AX_CXX_COMPILE_STDCXX([11],...)`) while CMake requires C++17 —
-if you use a C++17 feature, the autotools build can still succeed by accident on a
-compiler defaulting to a newer standard.
 
 ## Building a Python wheel
 
@@ -137,10 +126,49 @@ On Windows the floor is set by CPython, not by this project: **Python 3.13 and l
 require Windows 10 or newer**, while 3.12 still supports Windows 8.1. PEP 11 ties support
 to Microsoft's own lifecycle, so it moves over time.
 
+## What a wheel freezes
+
+A wheel pins the OpenSSL it was built against. That is true whether the library is linked
+statically or shipped as a `.so`/`.dll` vendored in by auditwheel, delocate or delvewheel -
+all three copy the library into the wheel. Users of a wheel never get their distribution's
+patched OpenSSL; only an sdist build does. manylinux policy does not even permit a wheel to
+depend on the system `libssl` externally: auditwheel vendors it or refuses to tag the wheel.
+
+So "static or dynamic" is the wrong axis. The axis that matters is **who is responsible for
+patching**, and for a wheel the answer is always *this repository*: every OpenSSL CVE needs a
+rebuild and a release. Check what the build actually picked up - CMake prints
+`-- Found OpenSSL: ... (found version "X")` in every CI log - rather than assuming the
+platform supplied something current.
+
+## Debugging a failure you cannot reproduce
+
+Most of this project cannot be built on a machine without cmake, SWIG 4.2.1, Docker and the
+three target operating systems, so CI is often the only loop, at 10-40 minutes per attempt.
+That makes guessing expensive, and in September 2026 it cost six round trips on one test
+failure and four on a cp315 abort - each round patching a hypothesis that turned out to be
+wrong.
+
+What works better:
+
+1. **Read what the logs already contain.** `gh api repos/<owner>/<repo>/actions/jobs/<id>/logs`
+   returns the full log; `gh run view --log` has come back empty here. Do not truncate lines
+   when grepping - a `cut` once hid the OpenSSL version that answered the question.
+2. **Spend the first round trip on evidence, not a fix.** Add a temporary CTest entry that
+   prints the facts every hypothesis assumes: the working directory, whether the file exists
+   and is executable, whether the interpreter or tool is installed, whether output from a
+   spawned process reaches CTest at all. Make it exit 0 so it does not add a second failure,
+   and read it from the `Testing/Temporary/LastTest.log` artifact the CMake workflow uploads
+   on failure.
+3. **Invoke a script so it fails fast.** Running a test script with no arguments makes it hit
+   its own usage path and exit in milliseconds, which proves execution without starting a
+   server or waiting for a suite.
+4. **Make silent exits loud first.** `|| exit 1` with no message is why the macOS acceptance
+   failure took six attempts: every round produced an empty log that ruled nothing out.
+
 ## Regenerating the SWIG bindings
 
 `src/python/QuickfixPython.cpp` (~6MB) and `src/python/quickfix.py` are **checked in**.
-No build system regenerates them - not CMake, not Autotools, not CI. `src/python/swig.sh`
+No build system regenerates them - not CMake, not CI. `src/python/swig.sh`
 is a manual recipe you run and commit, so any change to a `.i` file only takes effect once
 you regenerate.
 
@@ -190,9 +218,24 @@ because a wheel built without SSL still exposes them and fails only on construct
 
 ## Tests
 
-**There is no `test` target.** The repo has no `enable_testing()` / `add_test()`, so
-`cmake --build build --target test` does nothing and `ctest` reports zero tests. Run the
-suites directly.
+**`ctest` runs everything.** Every suite is registered with CTest, so from the build
+directory:
+
+```bash
+ctest --output-on-failure                 # all of it
+ctest -L unit                             # one lane; labels: unit, perf, acceptance, python
+ctest -LE network                         # everything that binds no socket
+ctest -R python.Message --output-on-failure
+```
+
+Test names are `cpp.unit`, `cpp.acceptance`, `cpp.perf.offline`, `cpp.perf.network` and
+`python.<Case>`. CI selects lanes with `--label-regex` (`unit|python` always, `perf` on
+Release, `acceptance` on pull requests only) and passes `--no-tests=error`, which needs
+CTest 3.19+ — older toolchains report an empty selection as success instead.
+
+Tests that bind a socket derive their port from `-DQUICKFIX_TEST_PORT_BASE` (default 6660);
+the four C++ tests share `test/` as a working directory and carry a `RESOURCE_LOCK`, so
+`ctest -j` will not run them concurrently. The suites can still be run directly:
 
 | Suite | Binary | What it is |
 |-------|--------|------------|
@@ -219,10 +262,10 @@ cd test
 ./runat.sh 6666
 ```
 
-Prefer the `run*.sh` wrappers: they locate the binary and pass the required arguments.
-In particular, under **autotools** `test/ut` is a symlink to `src/ut`, which is a stub
-whose `main()` just returns 0 — running `./test/ut` there passes without testing
-anything. `runut.sh` knows to prefer the real binary in `src/C++/test/`.
+Prefer `ctest`, or the `run*.sh` wrappers: they locate the binary and pass the required
+arguments. Note `src/ut.cpp` is a stub whose `main()` just returns 0 — CMake never builds
+it (the real Catch2 `ut` comes from `src/C++/test/ut.cpp`), but a stale `src/C++/test/ut`
+left by an older build is still what `runut.sh` prefers.
 
 `runat.sh` takes a single argument, the port, and exits non-zero if any group failed. It
 prints one `group: ok` line as each of the nine groups completes, then the full per-group
@@ -240,9 +283,10 @@ per-configuration offset:
 
 | Use | Port |
 |-----|------|
-| Acceptance (CI) | 6666 Debug / 6667 Release |
-| `pt` network benchmark (CI) | 6668 Debug / 6669 Release |
-| `make check` | 54321 |
+| `QUICKFIX_TEST_PORT_BASE` | 6660 (CI: 6660 Debug / 6680 Release) |
+| Acceptance (ctest) | base + 0 |
+| `pt` network benchmark (ctest) | base + 2, and base + 3 — `--port N` binds N and N+1 |
+| Python SSL session test (ctest) | base + 10 |
 | bare `pt`, no `--port` | 54322 |
 
 ## Code Style
@@ -318,7 +362,6 @@ src/C++/            Core implementation AND the authoritative public headers
 src/C++/test/       Unit tests (Catch2)
 src/at.cpp, pt.cpp  Acceptance server and performance benchmark
 src/python3/        Python 3 SWIG bindings (src/python/ is legacy Python 2, not built)
-src/ruby/           Ruby SWIG bindings
 src/swig/, src/sql/ SWIG interface files, SQL schemas
 test/               Ruby acceptance harness (Runner.rb, definitions/, run*.sh)
 test/cfg/           ut.cfg is tracked; at.cfg is generated by setup.sh
@@ -370,10 +413,11 @@ Every new `.cpp` and `.h` file begins with this block (copy it from `src/C++/Ses
 
 What CI actually runs:
 
-- **`build_test_cmake.yml`** — {windows, ubuntu, macos} x {Debug, Release} x {SSL off, on}.
-  `ut` runs on every leg. `pt` runs only for Release. **The acceptance suite runs only on
-  `pull_request` events** — a push to master never runs it.
-- **`build_test_autotools.yml`** — ubuntu/macos with gcc and clang; `make check`.
+- **`build_test_cmake.yml`** — {windows, ubuntu, macos} x {Debug, Release} x {SSL off, on},
+  one `ctest` step per leg. `cpp.unit` and the `python.*` tests run on every leg, `perf` only
+  for Release, and **the acceptance suite runs only on `pull_request` events** — a push to
+  master never runs it. The lane is chosen by `--label-regex`, so that policy now lives in one
+  place rather than in four step-level `if:` conditions.
 - **`format.yml`** — clang-format over `src/`.
 
 No workflow sets `-Werror` or `/WX`, so new warnings will not fail CI on their own; avoid

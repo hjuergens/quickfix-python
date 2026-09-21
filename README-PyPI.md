@@ -72,6 +72,47 @@ See the [QuickFIX documentation](https://quickfixengine.org/) and `README.SSL` i
 repository for the TLS configuration keys (`CertificateFile`, `PrivateKeyFile`,
 `CertificateAuthoritiesFile`, `SSLProtocol`, and related settings).
 
+### Choosing a transport
+
+Eight transports are available, in two families:
+
+|         | One thread for all sessions | One thread per session      |
+|---------|-----------------------------|-----------------------------|
+| Plain   | `SocketInitiator`           | `ThreadedSocketInitiator`   |
+|         | `SocketAcceptor`            | `ThreadedSocketAcceptor`    |
+| TLS     | `SSLSocketInitiator`        | `ThreadedSSLSocketInitiator`|
+|         | `SSLSocketAcceptor`         | `ThreadedSSLSocketAcceptor` |
+
+All eight take the same `(application, storeFactory, settings, logFactory)` constructor
+arguments, so switching is a one-line change. There is no configuration key for it: the
+threading model is the class you construct, and it cannot be changed on a running object.
+
+The non-threaded classes multiplex every session through a single `select` loop. The threaded
+ones spawn a thread per connection, so slow I/O, a TLS handshake or a large message on one
+session cannot delay the others — which is why QuickFIX's own C++ examples use the threaded
+transports for TLS.
+
+**What threading does and does not buy you in Python.** Your `Application` callbacks are
+Python code, and the bindings acquire the GIL to call them, so messages that arrive in
+parallel are decoded in parallel but `fromApp` and `fromAdmin` still run one at a time. The
+parallelism is in the socket handling, TLS and parsing, not in your handlers. If the handlers
+are the bottleneck, hand the work to a queue rather than reaching for the threaded transport.
+
+**`start()` returns immediately** in both families — these bindings run the engine loop on a
+background thread — so a script that starts a session and falls off the end will exit. Keep
+the process alive yourself:
+
+```python
+import time
+
+initiator.start()
+try:
+    while True:
+        time.sleep(1)
+finally:
+    initiator.stop()
+```
+
 ## Licence and attribution
 
 QuickFIX is Copyright (c) 2001-2020 Oren Miller and contributors, distributed under the

@@ -1,5 +1,9 @@
 # TODO
 
+Open work and known gaps. Decisions already made — and why — are in [MEMORY.md](MEMORY.md);
+conventions and how-to are in [AGENTS.md](AGENTS.md).
+
+
 ## Wheel coverage gaps
 
 Unlike the free-threaded lane (`build_wheels_freethreaded` in

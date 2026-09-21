@@ -71,7 +71,7 @@ enable_testing()
 # checkout (CI builds Debug and Release of it) never contend for a port.
 #   +0      acceptance (at)
 #   +2, +3  pt network benchmark -- --port N binds N and N+1
-#   +10     Python SSL session test
+#   +10..13 Python session tests, one port per transport pair
 set(QUICKFIX_TEST_PORT_BASE 6660 CACHE STRING "Base TCP port for tests that bind a socket")
 
 #Make sure that a previous config.h has not undefined HAVE_SSL

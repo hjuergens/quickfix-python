@@ -2,6 +2,15 @@
 
 *Status: designed, not implemented. Tracked from [TODO.md](../../TODO.md). Written 2026-09-14 against master at `83c049c7`; re-check the file references before starting.*
 
+> **Amended 2026-09-20.** Parts of this plan describe a tree that no longer exists. Autotools
+> was deleted, so `src/python3/Makefile.am`, `python_DATA`, `make check` and `src/python3/test.sh`
+> are all gone; every suite is registered with CTest instead, which removes the whole "the test
+> script has no `set -e`, so register the tests individually" argument — that is already done.
+> The parts that still hold: the `MessageCracker` analysis and the pure-Python cracker design,
+> the per-version handler tables, the `tradeclient` structure, and the runtime gotchas
+> (`Py_Exit(1)` on a callback exception, non-blocking `start()`, teardown lifetime). Register any
+> new Python test with `add_test` in `src/python3/CMakeLists.txt` alongside the existing seven.
+
 ## Context
 
 `examples/` ships three C++ demo programs. Only `executor` has a Python counterpart

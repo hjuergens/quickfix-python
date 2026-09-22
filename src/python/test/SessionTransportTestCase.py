@@ -11,7 +11,6 @@ constructs them -- and "constructs without throwing" was exactly the check that
 passed on Windows while loading a certificate aborted the process.
 """
 
-import gc
 import os
 import time
 import unittest
@@ -152,23 +151,16 @@ class SessionOverTransport(object):
             self.skipTest("bindings built without -DHAVE_SSL=ON")
 
     def tearDown(self):
+        # Stop, and stop only. Dropping the references here and forcing a
+        # collection segfaults on macOS and Windows: an Acceptor or Initiator
+        # holds a *reference* to its store factory, so destroying both together
+        # lets ~Session() run against a dangling factory -- the hazard the setUp
+        # comment above describes. Each pair runs in its own process (see
+        # src/python3/CMakeLists.txt), so process exit does the cleanup safely and
+        # nothing here needs to.
         for transport in (self.initiator, self.acceptor):
             if transport is not None:
                 transport.stop()
-
-        # stop() ends the sessions; it does not destroy the objects. Each
-        # transport also forms a reference cycle with its Application director --
-        # the wrapper keeps self.application, the director keeps a reference back
-        # -- so refcounting alone will not free them and the C++ Sessions would
-        # outlive the case that created them. Drop the references and collect, so
-        # the next case starts from a clean registry.
-        self.initiator = None
-        self.acceptor = None
-        self.initiator_app = None
-        self.acceptor_app = None
-        self.initiator_store = None
-        self.acceptor_store = None
-        gc.collect()
 
     def _wait_until(self, predicate, timeout=10):
         deadline = time.time() + timeout

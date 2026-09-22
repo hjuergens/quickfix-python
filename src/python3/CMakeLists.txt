@@ -99,7 +99,7 @@ if (QUICKFIX_TESTS AND Python3_EXECUTABLE)
   # WORKING_DIRECTORY is src/python3 because MessageTestCase.py opens the data
   # dictionaries as ../../spec/FIX4x.xml.
   foreach(case IN ITEMS DataDictionary Dictionary FieldBase MessageStore
-                        Message SessionSettings SessionTransport)
+                        Message SessionSettings)
     add_test(NAME python.${case}
              COMMAND ${Python3_EXECUTABLE}
                      ${PROJECT_SOURCE_DIR}/src/python/test/${case}TestCase.py
@@ -110,8 +110,22 @@ if (QUICKFIX_TESTS AND Python3_EXECUTABLE)
                          ENVIRONMENT "${quickfix_python_test_env}")
   endforeach()
 
-  # Binds sockets: one port per transport pair, from QUICKFIX_TEST_SSL_PORT up.
-  set_property(TEST python.SessionTransport APPEND PROPERTY LABELS "network")
-  set_property(TEST python.SessionTransport APPEND PROPERTY ENVIRONMENT
-               "QUICKFIX_TEST_SSL_PORT=${QUICKFIX_PY_SSL_PORT}")
+  # One process per transport pair, not one process running all four. FIX::Session
+  # keeps a process-global registry and the transports are freed by the cyclic GC,
+  # so cases in one process overlap in ways that segfault on macOS and Windows --
+  # and a crash takes the whole file down, hiding which pair caused it. Separate
+  # processes isolate that, and CTest names the one that fails.
+  foreach(pair IN ITEMS PlainSocket ThreadedSocket SSLSocket ThreadedSSLSocket)
+    add_test(NAME python.SessionTransport.${pair}
+             COMMAND ${Python3_EXECUTABLE}
+                     ${PROJECT_SOURCE_DIR}/src/python/test/SessionTransportTestCase.py
+                     ${pair}SessionTestCase
+             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/src/python3)
+    # Binds sockets: one port per pair, from QUICKFIX_TEST_SSL_PORT up.
+    # PYTHONUNBUFFERED so a crash cannot swallow the output that says where it got to.
+    set_tests_properties(python.SessionTransport.${pair} PROPERTIES
+                         LABELS "python;network"
+                         TIMEOUT 300
+                         ENVIRONMENT "${quickfix_python_test_env};QUICKFIX_TEST_SSL_PORT=${QUICKFIX_PY_SSL_PORT};PYTHONUNBUFFERED=1")
+  endforeach()
 endif()

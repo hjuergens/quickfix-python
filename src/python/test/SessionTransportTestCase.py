@@ -11,6 +11,7 @@ constructs them -- and "constructs without throwing" was exactly the check that
 passed on Windows while loading a certificate aborted the process.
 """
 
+import gc
 import os
 import time
 import unittest
@@ -89,8 +90,14 @@ class SessionOverTransport(object):
                 self.skipTest("bindings do not expose %s" % name)
 
         port = BASE_PORT + self.PORT_OFFSET
-        self.sender = fix.SessionID("FIX.4.2", "INITIATOR", "ACCEPTOR")
-        self.target = fix.SessionID("FIX.4.2", "ACCEPTOR", "INITIATOR")
+        # Distinct comp IDs per case. FIX::Session keeps a process-global registry
+        # keyed by SessionID (Session.cpp, s_registered under a static mutex), so
+        # cases sharing an ID would have the next one registering while the
+        # previous one's sessions are still alive -- which segfaults on macOS and
+        # Windows, where teardown timing differs from Linux.
+        tag = self.ACCEPTOR[:12].upper()
+        self.sender = fix.SessionID("FIX.4.2", "INI_" + tag, "ACC_" + tag)
+        self.target = fix.SessionID("FIX.4.2", "ACC_" + tag, "INI_" + tag)
 
         acceptor_settings = fix.SessionSettings()
         initiator_settings = fix.SessionSettings()
@@ -148,6 +155,20 @@ class SessionOverTransport(object):
         for transport in (self.initiator, self.acceptor):
             if transport is not None:
                 transport.stop()
+
+        # stop() ends the sessions; it does not destroy the objects. Each
+        # transport also forms a reference cycle with its Application director --
+        # the wrapper keeps self.application, the director keeps a reference back
+        # -- so refcounting alone will not free them and the C++ Sessions would
+        # outlive the case that created them. Drop the references and collect, so
+        # the next case starts from a clean registry.
+        self.initiator = None
+        self.acceptor = None
+        self.initiator_app = None
+        self.acceptor_app = None
+        self.initiator_store = None
+        self.acceptor_store = None
+        gc.collect()
 
     def _wait_until(self, predicate, timeout=10):
         deadline = time.time() + timeout

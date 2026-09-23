@@ -72,12 +72,20 @@ QUICKFIX_SHARED_LIBS = "OFF"
 # or set the OPENSSL_ROOT_DIR environment variable, which find_package(OpenSSL) honours.
 
 [tool.cibuildwheel]
-# `build` is deliberately unset. cibuildwheel defaults to every interpreter it
-# supports, then filters by `requires-python` above - so the supported floor is
-# declared once, as metadata, and a new CPython is picked up by bumping the
-# cibuildwheel pin in .github/workflows/wheels.yml rather than by also editing an
-# enumerated list here. An explicit list silently stops covering the newest
-# Python until someone remembers to extend it.
+# `build` is explicit, and that is a reversal: it used to be unset so that a new
+# CPython was picked up automatically by bumping the cibuildwheel pin. That works
+# right up until the new interpreter is broken, and then it blocks every release
+# on every platform at once, because the publish job needs all of them. CPython
+# 3.15 did exactly that -- it aborts at interpreter finalization
+# (see TODO.md), and with an automatic matrix there is no way to ship anything
+# while that is unresolved.
+#
+# So: adding a Python version is now a deliberate edit to this list, made after
+# it has been tested. The cost is that someone has to remember; the benefit is
+# that a prerelease interpreter cannot take the release path hostage.
+build = [
+  "cp39-*", "cp310-*", "cp311-*", "cp312-*", "cp313-*", "cp314-*",
+]
 #
 # Free-threaded builds are not included: they require CIBW_ENABLE, which only the
 # (expected-red) free-threaded lane in that workflow sets.
@@ -91,17 +99,22 @@ build-frontend = "build"
 test-command = "python {project}/tools/verify_wheel.py"
 
 [tool.cibuildwheel.linux]
-# cibuildwheel builds Linux wheels inside the manylinux container, so OpenSSL has to
-# be installed there rather than on the runner.
-before-all = "yum install -y openssl-devel || dnf install -y openssl-devel"
+# Not the container's openssl-devel: manylinux_2_28 is AlmaLinux 8, which ships
+# 1.1.1k (end of life since September 2023) and has no openssl3 package. A wheel
+# freezes whatever it was built against either way, so this builds a pinned,
+# supported OpenSSL instead - see tools/setup_openssl.sh.
+# perl-core, because OpenSSL's Configure needs IPC::Cmd (and FindBin, and
+# Data::Dumper) which the manylinux image's minimal perl does not carry.
+before-all = "yum install -y perl-core || dnf install -y perl-core; bash {package}/tools/setup_openssl.sh"
+environment = { OPENSSL_ROOT_DIR = "/tmp/openssl-static" }
 
 [tool.cibuildwheel.macos]
-# See tools/setup_macos_openssl.sh: Homebrew's arm64 openssl@3 bottle has been
+# See tools/setup_openssl.sh: Homebrew's arm64 openssl@3 bottle has been
 # observed to require a much newer minimum macOS (26.0) than this project
 # targets, which delocate then refuses to bundle into an 11.0-floor wheel.
 # Build a static OpenSSL from source instead, pinned to our own deployment
 # target - static means there is nothing for delocate to bundle at all.
-before-all = "bash {package}/tools/setup_macos_openssl.sh"
+before-all = "bash {package}/tools/setup_openssl.sh"
 environment = { OPENSSL_ROOT_DIR = "/tmp/openssl-static", MACOSX_DEPLOYMENT_TARGET = "10.15" }
 
 [tool.cibuildwheel.windows]

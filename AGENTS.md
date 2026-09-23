@@ -126,6 +126,21 @@ On Windows the floor is set by CPython, not by this project: **Python 3.13 and l
 require Windows 10 or newer**, while 3.12 still supports Windows 8.1. PEP 11 ties support
 to Microsoft's own lifecycle, so it moves over time.
 
+## Which wheels get built, and when
+
+`build` in `pyproject.toml` lists the CPython versions explicitly. It used to be unset, so a
+new interpreter arrived automatically when the cibuildwheel pin moved - until CPython 3.15
+turned out to abort at interpreter finalization, and a single broken interpreter blocked every
+platform at once, because the publish job needs all build jobs. **Adding a Python version is a
+deliberate edit, made after testing it.**
+
+Pull requests build one interpreter on ubuntu/windows/macos; the full six-runner matrix runs
+on the release tag and on `workflow_dispatch`. Nothing about a wheel can be reproduced on a
+machine without Docker and all three operating systems, so the canary exists to make the
+common failures cheap to find: every wheel bug this project has hit was per-platform (a
+`.dylib` where Python wants `.so`, unresolvable OpenSSL DLLs, a certificate crash), not
+per-interpreter. The trade is that an interpreter-specific problem now waits for the tag.
+
 ## What a wheel freezes
 
 A wheel pins the OpenSSL it was built against. That is true whether the library is linked
@@ -139,6 +154,19 @@ patching**, and for a wheel the answer is always *this repository*: every OpenSS
 rebuild and a release. Check what the build actually picked up - CMake prints
 `-- Found OpenSSL: ... (found version "X")` in every CI log - rather than assuming the
 platform supplied something current.
+
+Where each platform's OpenSSL comes from:
+
+| Platform | OpenSSL | Source |
+|---|---|---|
+| Linux | 3.5.8, static | built by `tools/setup_openssl.sh`; the manylinux_2_28 container only offers 1.1.1k, and EL8 has no openssl3 package |
+| macOS | 3.5.8, static | same script; Homebrew's bottle targets a newer macOS than the wheel declares, which delocate refuses to bundle |
+| Windows | whatever the runner image ships (3.6.4 as of 2026-09), dynamic | bundled into the wheel by delvewheel |
+
+Bumping the pinned version means editing `OPENSSL_VERSION` **and** `OPENSSL_SHA256` in that
+one script. Windows is not pinned: building OpenSSL there needs perl and nasm, and the runner
+has shipped a supported version so far - but it moves without notice, so a wheel built on a
+rolling image is not reproducible.
 
 ## Debugging a failure you cannot reproduce
 
@@ -286,7 +314,7 @@ per-configuration offset:
 | `QUICKFIX_TEST_PORT_BASE` | 6660 (CI: 6660 Debug / 6680 Release) |
 | Acceptance (ctest) | base + 0 |
 | `pt` network benchmark (ctest) | base + 2, and base + 3 — `--port N` binds N and N+1 |
-| Python SSL session test (ctest) | base + 10 |
+| Python session tests (ctest) | base + 10 through base + 13, one per transport pair |
 | bare `pt`, no `--port` | 54322 |
 
 ## Code Style

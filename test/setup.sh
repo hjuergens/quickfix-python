@@ -4,9 +4,9 @@
 #
 # Usage: setup.sh <port>
 
-SCRIPT=$(realpath "$0")
+SCRIPT=$(realpath "$0") || { echo "$0: realpath failed" >&2; exit 1; }
 DIR=$(dirname "$SCRIPT")
-cd "$DIR" || exit 1
+cd "$DIR" || { echo "$0: cannot cd to $DIR" >&2; exit 1; }
 
 PORT=$1
 case $PORT in

@@ -9,22 +9,31 @@ math(EXPR QUICKFIX_PT_PORT "${QUICKFIX_TEST_PORT_BASE} + 2")
 # at and pt are built in src/, which is added before this directory, so the
 # targets already exist. They are absent when QUICKFIX_EXAMPLES is OFF.
 if (TARGET at)
-  if (WIN32)
-    if (TARGET atrun)
-      # runat.bat is a batch file, and CreateProcess (which CTest uses) cannot
-      # launch one, hence cmd /c. It takes the literal directory name debug or
-      # release, matching at/atrun's RUNTIME_OUTPUT_DIRECTORY_<CONFIG> -- which
-      # maps RelWithDebInfo to "release", so this cannot be $<LOWER_CASE:$<CONFIG>>
-      # (that would yield "relwithdebinfo" and hit runat.bat's usage branch).
-      add_test(NAME cpp.acceptance
-               COMMAND cmd /c runat.bat $<IF:$<CONFIG:Debug>,debug,release> ${QUICKFIX_AT_PORT}
-               WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
-    endif()
-  else()
+  # Linux only, and that is a deliberate limit rather than an oversight. The
+  # suite runs there in about a minute; on the other two platforms it never
+  # started, and probes established why:
+  #
+  # Windows -- CTest cannot drive cmd.exe on the runner at all. `cmd /c echo`
+  #   fails exactly as `cmd /c runat.bat` does: "The syntax of the command is
+  #   incorrect", with no output, in 0.01s. runat.bat itself never runs, so no
+  #   amount of quoting or argument shuffling helps. A working Windows test has
+  #   to drop cmd entirely -- drive atrun.exe as the CTest command and generate
+  #   test/cfg/at.cfg from CMake instead of via setup.bat, which is cmd too.
+  #
+  # macOS -- the spawn is fine (a probe printed its marker, the working
+  #   directory, both scripts as -rwxr-xr-x, and found realpath, ruby and
+  #   mktemp). But `sh -x runat.sh` traces exactly six statements and then exits
+  #   1 with no error, no syntax complaint and nothing further, on a file that
+  #   runs to completion under Linux /bin/sh. Ruled out: the exec bit, the
+  #   shebang, output capture, missing tools, SIGPIPE. Unexplained.
+  #
+  # Both are worth fixing; neither blocks a release, since this suite is
+  # pull-request-only and the wheels do not depend on it.
+  if (UNIX AND NOT APPLE)
     # runat.sh starts the acceptor itself, waits for the port, runs the nine
     # Ruby-driven groups, and returns non-zero if any of them failed.
     add_test(NAME cpp.acceptance
-             COMMAND ./runat.sh ${QUICKFIX_AT_PORT}
+             COMMAND sh runat.sh ${QUICKFIX_AT_PORT}
              WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
   endif()
 

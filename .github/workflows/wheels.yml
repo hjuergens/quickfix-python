@@ -21,8 +21,40 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  # A wheel cannot be built or tested outside CI on most machines, so before this
+  # existed every question about one cost a full matrix run: six native runners
+  # times seven interpreters. The bugs that actually turned up -- a .dylib where
+  # Python wants a .so, OpenSSL DLLs the loader could not find, a certificate that
+  # crashed on Windows -- were all per-platform, not per-interpreter. So pull
+  # requests build one interpreter on the three main platforms, which catches that
+  # whole class in minutes, and the full matrix runs on the tag that releases it.
+  canary:
+    name: Canary wheel on ${{ matrix.os }}
+    if: github.event_name == 'pull_request'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build one wheel
+        uses: pypa/cibuildwheel@v4.2.1
+        env:
+          CIBW_BUILD: 'cp312-*'
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v7
+        with:
+          name: canary-wheel-${{ matrix.os }}
+          path: wheelhouse/*.whl
+
   build_wheels:
     name: Wheels on ${{ matrix.os }}
+    # Not on pull requests: the canary above covers those.
+    if: github.event_name != 'pull_request'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -64,6 +96,8 @@ jobs:
   #
   # This lane exists to track when those stop being true.
   build_wheels_freethreaded:
+    # Expected red, so it is noise on a pull request.
+    if: github.event_name != 'pull_request'
     name: Free-threaded wheels on ${{ matrix.os }} (expected red)
     runs-on: ${{ matrix.os }}
     continue-on-error: true

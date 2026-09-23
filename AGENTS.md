@@ -126,6 +126,21 @@ On Windows the floor is set by CPython, not by this project: **Python 3.13 and l
 require Windows 10 or newer**, while 3.12 still supports Windows 8.1. PEP 11 ties support
 to Microsoft's own lifecycle, so it moves over time.
 
+## Which wheels get built, and when
+
+`build` in `pyproject.toml` lists the CPython versions explicitly. It used to be unset, so a
+new interpreter arrived automatically when the cibuildwheel pin moved - until CPython 3.15
+turned out to abort at interpreter finalization, and a single broken interpreter blocked every
+platform at once, because the publish job needs all build jobs. **Adding a Python version is a
+deliberate edit, made after testing it.**
+
+Pull requests build one interpreter on ubuntu/windows/macos; the full six-runner matrix runs
+on the release tag and on `workflow_dispatch`. Nothing about a wheel can be reproduced on a
+machine without Docker and all three operating systems, so the canary exists to make the
+common failures cheap to find: every wheel bug this project has hit was per-platform (a
+`.dylib` where Python wants `.so`, unresolvable OpenSSL DLLs, a certificate crash), not
+per-interpreter. The trade is that an interpreter-specific problem now waits for the tag.
+
 ## What a wheel freezes
 
 A wheel pins the OpenSSL it was built against. That is true whether the library is linked

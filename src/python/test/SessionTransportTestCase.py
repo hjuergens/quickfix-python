@@ -11,11 +11,17 @@ constructs them -- and "constructs without throwing" was exactly the check that
 passed on Windows while loading a certificate aborted the process.
 """
 
+import faulthandler
 import os
 import time
 import unittest
 
 import quickfix as fix
+
+# These cases have segfaulted on macOS and Windows *after* the session is
+# established and the test has passed -- i.e. during interpreter shutdown. The
+# fault handler turns that into a stack trace instead of an empty log.
+faulthandler.enable(all_threads=True)
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 CERT_DIR = os.path.join(REPO_ROOT, "bin", "cfg", "certs")

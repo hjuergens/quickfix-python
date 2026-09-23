@@ -12,6 +12,7 @@ passed on Windows while loading a certificate aborted the process.
 """
 
 import faulthandler
+import gc
 import os
 import time
 import unittest
@@ -157,16 +158,29 @@ class SessionOverTransport(object):
             self.skipTest("bindings built without -DHAVE_SSL=ON")
 
     def tearDown(self):
-        # Stop, and stop only. Dropping the references here and forcing a
-        # collection segfaults on macOS and Windows: an Acceptor or Initiator
-        # holds a *reference* to its store factory, so destroying both together
-        # lets ~Session() run against a dangling factory -- the hazard the setUp
-        # comment above describes. Each pair runs in its own process (see
-        # src/python3/CMakeLists.txt), so process exit does the cleanup safely and
-        # nothing here needs to.
         for transport in (self.initiator, self.acceptor):
             if transport is not None:
                 transport.stop()
+
+        # Destroy the transports HERE, while the store factories are still
+        # referenced by self. Order is the whole point: an Acceptor destroys its
+        # Sessions, and ~Session() touches the store its factory made, so the
+        # factory has to outlive it.
+        #
+        # Leaving it to the interpreter does not give that order. unittest drops
+        # the test instance when the suite finishes, and PyObject_ClearManagedDict
+        # clears attributes in *insertion* order -- self.acceptor_store is created
+        # before self.acceptor, so the factory went first and ~Session() ran
+        # against freed memory. That is the SIGSEGV seen on macOS and Windows,
+        # with FIX::Session::~Session at the top of the faulthandler stack.
+        #
+        # Dropping everything at once and collecting does not fix it either: that
+        # just makes the order arbitrary rather than wrong. Only the transports go
+        # here; the factories and applications stay referenced until the instance
+        # itself is cleared, which is after this.
+        self.initiator = None
+        self.acceptor = None
+        gc.collect()
 
     def _wait_until(self, predicate, timeout=10):
         deadline = time.time() + timeout

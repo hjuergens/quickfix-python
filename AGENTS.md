@@ -286,7 +286,7 @@ per-configuration offset:
 | `QUICKFIX_TEST_PORT_BASE` | 6660 (CI: 6660 Debug / 6680 Release) |
 | Acceptance (ctest) | base + 0 |
 | `pt` network benchmark (ctest) | base + 2, and base + 3 — `--port N` binds N and N+1 |
-| Python SSL session test (ctest) | base + 10 |
+| Python session tests (ctest) | base + 10 through base + 13, one per transport pair |
 | bare `pt`, no `--port` | 54322 |
 
 ## Code Style

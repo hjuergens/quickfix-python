@@ -4013,8 +4013,30 @@ public:
   ~Quickfix_Python_Thread_Allow() { end(); }
 };
 
+/* The same hazard on the acquiring side, and the one that actually bit first:
+ * Swig::Director::~Director() calls swig_decref(), which wraps its Py_DECREF in
+ * PyGILState_Ensure()/Release(). A director freed during finalization -- an
+ * Application subclass held by a transport, say -- takes that path, not the
+ * ALLOW one above. While finalizing, the thread running teardown already holds
+ * the GIL, so the DECREF is safe without acquiring it again. */
+class Quickfix_Python_Thread_Block {
+  bool status;
+  PyGILState_STATE state;
+public:
+  void end() { if (status) { status = false; PyGILState_Release(state); } }
+  Quickfix_Python_Thread_Block() : status(!QUICKFIX_PYTHON_IS_FINALIZING()), state(PyGILState_UNLOCKED) {
+    if (status) { state = PyGILState_Ensure(); }
+  }
+  ~Quickfix_Python_Thread_Block() { end(); }
+};
+
+#undef SWIG_PYTHON_THREAD_BEGIN_BLOCK
+#undef SWIG_PYTHON_THREAD_END_BLOCK
+
 #define SWIG_PYTHON_THREAD_BEGIN_ALLOW Quickfix_Python_Thread_Allow _swig_thread_allow
 #define SWIG_PYTHON_THREAD_END_ALLOW   _swig_thread_allow.end()
+#define SWIG_PYTHON_THREAD_BEGIN_BLOCK Quickfix_Python_Thread_Block _swig_thread_block
+#define SWIG_PYTHON_THREAD_END_BLOCK   _swig_thread_block.end()
 #endif
 
 

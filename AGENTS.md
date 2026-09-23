@@ -155,6 +155,19 @@ rebuild and a release. Check what the build actually picked up - CMake prints
 `-- Found OpenSSL: ... (found version "X")` in every CI log - rather than assuming the
 platform supplied something current.
 
+Where each platform's OpenSSL comes from:
+
+| Platform | OpenSSL | Source |
+|---|---|---|
+| Linux | 3.5.8, static | built by `tools/setup_openssl.sh`; the manylinux_2_28 container only offers 1.1.1k, and EL8 has no openssl3 package |
+| macOS | 3.5.8, static | same script; Homebrew's bottle targets a newer macOS than the wheel declares, which delocate refuses to bundle |
+| Windows | whatever the runner image ships (3.6.4 as of 2026-09), dynamic | bundled into the wheel by delvewheel |
+
+Bumping the pinned version means editing `OPENSSL_VERSION` **and** `OPENSSL_SHA256` in that
+one script. Windows is not pinned: building OpenSSL there needs perl and nasm, and the runner
+has shipped a supported version so far - but it moves without notice, so a wheel built on a
+rolling image is not reproducible.
+
 ## Debugging a failure you cannot reproduce
 
 Most of this project cannot be built on a machine without cmake, SWIG 4.2.1, Docker and the

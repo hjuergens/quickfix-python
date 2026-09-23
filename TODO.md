@@ -137,3 +137,25 @@ probes established why before the attempt was parked:
   something dash accepts.
 
 Neither blocks a release: the suite is pull-request-only and the wheels do not depend on it.
+
+## Python examples
+
+`examples/` ships three C++ demo programs and almost no Python. `examples/executor/python/executor.py`
+is 86 lines, unreferenced by any build file, and its `toAdmin`/`fromAdmin`/`toApp` take
+`(self, sessionID, message)` - the wrong order, harmless only because the bodies are empty.
+`tradeclient` and `ordermatch` have no Python at all. Since the project publishes a wheel
+(`quickfix-tls`), Python users are a first-class audience with no runnable example.
+
+The obstacle is `FIX::MessageCracker`: every C++ example inherits from it and overrides typed
+`onMessage(const FIX42::NewOrderSingle&, ...)` overloads, but it is not wrapped and cannot
+practically be - it dispatches to ~640 typed C++ message classes that SWIG never sees
+(`grep -c "FIX42::" src/python/QuickfixPython.cpp` returns 0), and `quickfix42.NewOrderSingle`
+is hand-written Python over `fix.Message`. A pure-Python cracker gives the same ergonomics with
+no SWIG regeneration.
+
+A worked design for porting `executor` and `tradeclient` - the cracker module, the two ports, a
+unit test, an end-to-end CI smoke test, and the gotchas that will bite (`Py_Exit(1)` on any
+callback exception, the non-blocking `start()`, teardown segfaults, shared `FileStorePath`) - is
+in [.claude/plans/python-examples-port.md](.claude/plans/python-examples-port.md). `ordermatch`
+is deliberately excluded there: its matching engine is ~440 lines of C++ business logic with no
+binding behind it, so it would be a rewrite rather than a port.

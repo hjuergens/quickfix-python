@@ -97,3 +97,4 @@ jobs:
             src/python/quickfix.py
             src/python3/quickfix.py
           if-no-files-found: error
+          retention-days: 14

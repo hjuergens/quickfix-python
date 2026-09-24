@@ -125,3 +125,4 @@ jobs:
             Testing/Temporary/LastTest.log
             test/*.log
           if-no-files-found: ignore
+          retention-days: 14

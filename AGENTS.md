@@ -161,12 +161,18 @@ Where each platform's OpenSSL comes from:
 |---|---|---|
 | Linux | 3.5.8, static | built by `tools/setup_openssl.sh`; the manylinux_2_28 container only offers 1.1.1k, and EL8 has no openssl3 package |
 | macOS | 3.5.8, static | same script; Homebrew's bottle targets a newer macOS than the wheel declares, which delocate refuses to bundle |
-| Windows | whatever the runner image ships (3.6.4 as of 2026-09), dynamic | bundled into the wheel by delvewheel |
+| Windows | 3.5.8, static | built by `tools/setup_openssl.ps1`, the PowerShell twin of the script above |
 
-Bumping the pinned version means editing `OPENSSL_VERSION` **and** `OPENSSL_SHA256` in that
-one script. Windows is not pinned: building OpenSSL there needs perl and nasm, and the runner
-has shipped a supported version so far - but it moves without notice, so a wheel built on a
-rolling image is not reproducible.
+Bumping the pinned version means editing the version **and** the SHA256 in *two* scripts -
+`tools/setup_openssl.sh` and `tools/setup_openssl.ps1` - which must stay in step. Windows needs
+its own because the bash script cannot import an MSVC environment: the PowerShell one runs
+`vcvars` through `cmd`, copies the resulting variables into its session, then drives
+`perl Configure` and `nmake`. It falls back to `no-asm` when NASM is absent.
+
+Why pinned at all, on every platform: 1.16.0.1rc1 shipped OpenSSL 3.6.4 on Windows and 3.5.8
+elsewhere, because Windows took whatever the image had. 3.6 is not an LTS release - support
+ends 2026-11-01, against 2030-04-08 for 3.5 - so one platform in a single release was on a
+library expiring within weeks.
 
 ## Debugging a failure you cannot reproduce
 

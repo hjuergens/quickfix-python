@@ -118,12 +118,15 @@ before-all = "bash {package}/tools/setup_openssl.sh"
 environment = { OPENSSL_ROOT_DIR = "/tmp/openssl-static", MACOSX_DEPLOYMENT_TARGET = "10.15" }
 
 [tool.cibuildwheel.windows]
-# The GitHub Windows runner image ships OpenSSL here; the existing CMake CI workflow
-# relies on the same path.
-environment = { OPENSSL_ROOT_DIR = "C:/Program Files/OpenSSL" }
-# OpenSSL is a shared build, so the DLLs must be vendored into the wheel.
+# Not the runner image's OpenSSL: 1.16.0.1rc1 shipped 3.6.4 on Windows against
+# 3.5.8 everywhere else, and 3.6 is not an LTS release - its support ends
+# 2026-11-01 where 3.5 runs to 2030-04-08. The image version also moves without
+# notice, so a rebuilt tag would not produce the same wheel. Build the same
+# pinned version the other platforms use; see tools/setup_openssl.ps1.
+before-all = "powershell -NoProfile -ExecutionPolicy Bypass -File {package}\\tools\\setup_openssl.ps1"
+environment = { OPENSSL_ROOT_DIR = "C:/openssl-static" }
+# Still delvewheel, but only for the MSVC runtime now: with OpenSSL linked
+# statically there are no OpenSSL DLLs left to vendor, and nothing for the loader
+# to find beside the .pyd.
 before-build = "pip install delvewheel==1.13.1"
-# cmd.exe (what cibuildwheel invokes this through on Windows) does not treat
-# single quotes as quoting characters, so 'C:/Program Files/...' splits into two
-# arguments at the space. Double quotes are what cmd.exe actually honours.
-repair-wheel-command = 'delvewheel repair -w {dest_dir} {wheel} --add-path "C:/Program Files/OpenSSL/bin"'
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"

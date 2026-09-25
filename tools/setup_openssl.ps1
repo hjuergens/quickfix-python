@@ -27,14 +27,25 @@ if (Test-Path $work) { Remove-Item -Recurse -Force $work }
 New-Item -ItemType Directory -Force -Path $work | Out-Null
 Set-Location $work
 
+Write-Host "== powershell $($PSVersionTable.PSVersion)"
 Write-Host "== downloading OpenSSL $Version"
 $url = "https://github.com/openssl/openssl/releases/download/openssl-$Version/openssl-$Version.tar.gz"
-Invoke-WebRequest -Uri $url -OutFile "openssl.tar.gz"
+(New-Object System.Net.WebClient).DownloadFile($url, (Join-Path $PWD "openssl.tar.gz"))
 
-$actual = (Get-FileHash "openssl.tar.gz" -Algorithm SHA256).Hash.ToLower()
+# .NET rather than Get-FileHash: that cmdlet was not found in the PowerShell
+# cibuildwheel runs this under, even though Invoke-WebRequest was. Do not assume
+# any cmdlet beyond the language itself is present here.
+$stream = [System.IO.File]::OpenRead((Join-Path $PWD "openssl.tar.gz"))
+try {
+    $bytes  = [System.Security.Cryptography.SHA256]::Create().ComputeHash($stream)
+} finally {
+    $stream.Close()
+}
+$actual = ([System.BitConverter]::ToString($bytes)).Replace("-", "").ToLower()
 if ($actual -ne $Sha256) {
     throw "sha256 mismatch: expected $Sha256, got $actual"
 }
+Write-Host "== sha256 ok"
 
 # tar ships with Windows 10+ (bsdtar).
 tar -xzf "openssl.tar.gz"
@@ -63,7 +74,8 @@ cmd /c "`"$vcvarsPath`" && set" | ForEach-Object {
 # NASM is optional: without it OpenSSL needs no-asm, which builds fine but gives
 # up the assembly crypto paths. Prefer the assembly build when the tool is there.
 $asmArgs = @()
-if (-not (Get-Command nasm -ErrorAction SilentlyContinue)) {
+$nasm = cmd /c "where nasm 2>nul"
+if (-not $nasm) {
     Write-Host "== nasm not found, configuring no-asm"
     $asmArgs = @("no-asm")
 }
@@ -79,4 +91,4 @@ if ($LASTEXITCODE -ne 0) { throw "nmake failed" }
 if ($LASTEXITCODE -ne 0) { throw "nmake install_sw failed" }
 
 Write-Host "== done: $Prefix"
-Get-ChildItem "$Prefix\lib" -Filter "*.lib" | ForEach-Object { Write-Host "   $($_.Name)" }
+cmd /c "dir /b `"$Prefix\lib\*.lib`"" | ForEach-Object { Write-Host "   $_" }

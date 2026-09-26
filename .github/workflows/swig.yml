@@ -39,7 +39,7 @@ jobs:
 
       - name: Cache SWIG ${{ env.SWIG_VERSION }}
         id: cache-swig
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: /opt/swig
           key: swig-${{ env.SWIG_VERSION }}-${{ runner.os }}
@@ -89,7 +89,7 @@ jobs:
         # Always: on failure they are the fix, and on success they are proof of
         # what was compared.
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: regenerated-bindings
           path: |

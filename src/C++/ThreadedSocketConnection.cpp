@@ -21,6 +21,12 @@
 #include "stdafx.h"
 #else
 #include "config.h"
+#endif
+
+// poll() is POSIX. The guard above selects a precompiled header, which is an
+// MSVC question; this is a platform question, and the two are not the same
+// compiler on Windows.
+#ifndef _WIN32
 #include <poll.h>
 #endif
 
@@ -37,7 +43,7 @@ ThreadedSocketConnection::ThreadedSocketConnection(socket_handle s, Sessions ses
       m_sessions(sessions),
       m_pSession(0),
       m_disconnect(false) {
-#if _MSC_VER
+#if _WIN32
   FD_ZERO(&m_fds);
   FD_SET(m_socket, &m_fds);
 #endif
@@ -59,7 +65,7 @@ ThreadedSocketConnection::ThreadedSocketConnection(
       m_pLog(pLog),
       m_pSession(Session::lookupSession(sessionID)),
       m_disconnect(false) {
-#if _MSC_VER
+#if _WIN32
   FD_ZERO(&m_fds);
   FD_SET(m_socket, &m_fds);
 #endif
@@ -103,7 +109,7 @@ void ThreadedSocketConnection::disconnect() {
 }
 
 bool ThreadedSocketConnection::read() {
-#if _MSC_VER
+#if _WIN32
   struct timeval timeout = {1, 0};
   fd_set readset = m_fds;
 #else
@@ -113,7 +119,7 @@ bool ThreadedSocketConnection::read() {
 
   try {
     // Wait for input (1 second timeout)
-#if _MSC_VER
+#if _WIN32
     int result = select(0, &readset, 0, 0, &timeout);
 #else
     int result = poll(&pfd, 1, timeout);

@@ -21,6 +21,12 @@
 #include "stdafx.h"
 #else
 #include "config.h"
+#endif
+
+// poll() is POSIX. The guard above selects a precompiled header, which is an
+// MSVC question; this is a platform question, and the two are not the same
+// compiler on Windows.
+#ifndef _WIN32
 #include <poll.h>
 #endif
 
@@ -35,7 +41,7 @@ using namespace HTML;
 namespace FIX {
 HttpConnection::HttpConnection(socket_handle s)
     : m_socket(s) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   FD_ZERO(&m_fds);
   FD_SET(m_socket, &m_fds);
 #endif
@@ -52,7 +58,7 @@ void HttpConnection::disconnect(int error) {
 }
 
 bool HttpConnection::read() {
-#if _MSC_VER
+#if _WIN32
   struct timeval timeout = {2, 0};
   fd_set readset = m_fds;
 #else
@@ -61,7 +67,7 @@ bool HttpConnection::read() {
 #endif
 
   try {
-#if _MSC_VER
+#if _WIN32
     // Wait for input (1 second timeout)
     int result = select(0, &readset, 0, 0, &timeout);
 #else

@@ -32,7 +32,7 @@
 #include <inttypes.h>
 #include <sys/stat.h>
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #define FILE_SEEK _fseeki64
 #define FILE_TELL _ftelli64
 #else

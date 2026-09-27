@@ -22,7 +22,7 @@
 #ifndef FIX_SOCKETCONNECTION_H
 #define FIX_SOCKETCONNECTION_H
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #pragma warning(disable : 4503 4355 4786 4290)
 #endif
 
@@ -93,7 +93,7 @@ private:
   Session *m_pSession;
   SocketMonitor *m_pMonitor;
   Mutex m_mutex;
-#ifdef _MSC_VER
+#ifdef _WIN32
   fd_set m_fds;
 #endif
 };

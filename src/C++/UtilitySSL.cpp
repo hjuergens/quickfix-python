@@ -133,7 +133,7 @@
 #include "openssl/dh.h"
 #endif
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -310,7 +310,7 @@ static Mutex ssl_mutex;
 static int ssl_users = 0;
 static int ssl_initialized = 0;
 /* This array will store all of the mutexes available to OpenSSL. */
-#ifdef _MSC_VER
+#ifdef _WIN32
 static HANDLE *lock_cs = 0;
 #else
 static pthread_mutex_t *lock_cs = 0;
@@ -394,7 +394,7 @@ static void thread_setup(void) {
   }
 
   int i;
-#ifdef _MSC_VER
+#ifdef _WIN32
   lock_cs = (HANDLE *)OPENSSL_malloc(CRYPTO_num_locks() * sizeof(HANDLE));
   for (i = 0; i < CRYPTO_num_locks(); i++) {
     lock_cs[i] = CreateMutex(0, FALSE, 0);
@@ -406,7 +406,7 @@ static void thread_setup(void) {
   }
 #endif
 
-#ifndef _MSC_VER
+#ifndef _WIN32
   CRYPTO_set_id_callback((unsigned long (*)(void))thread_id_func);
 #endif
   CRYPTO_set_locking_callback((void (*)(int, int, const char *, int))locking_callback);
@@ -418,13 +418,13 @@ static void thread_cleanup(void) {
     return;
   }
 
-#ifndef _MSC_VER
+#ifndef _WIN32
   CRYPTO_set_id_callback(0);
 #endif
   CRYPTO_set_locking_callback(0);
 
   int i;
-#ifdef _MSC_VER
+#ifdef _WIN32
   for (i = 0; i < CRYPTO_num_locks(); i++) {
     CloseHandle(lock_cs[i]);
   }
@@ -457,7 +457,7 @@ static int ssl_rand_choose_num(int l, int h) {
 }
 
 static void ssl_rand_seed(void) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   int pid;
 #else
   pid_t pid;
@@ -866,7 +866,7 @@ int setSocketNonBlocking(socket_handle pSocket)
  *
  */
 {
-#ifdef _MSC_VER
+#ifdef _WIN32
   {
     unsigned long arg = 1; /* ie enable non-blocking mode */
 
@@ -1462,7 +1462,7 @@ int acceptSSLConnection(socket_handle socket, SSL *ssl, Log *log, int verify) {
 
         /* first: skip the remaining bytes of the request line */
         do {
-#ifndef _MSC_VER // Unix
+#ifndef _WIN32 // Unix
           do {
             rv = read(socket, ca, 1);
           } while (rv == -1 && errno == EINTR);
@@ -1501,7 +1501,7 @@ int acceptSSLConnection(socket_handle socket, SSL *ssl, Log *log, int verify) {
         } else if (log) {
           log->onEvent("Spurious SSL handshake interrupt");
         }
-#elif defined(_MSC_VER)
+#elif defined(_WIN32)
         // MS Windows will not set errno, but WSEGetLastError() must be queried
         int lastSocketError = WSAGetLastError();
         if ((lastSocketError == WSAEINTR) || (lastSocketError == WSAEWOULDBLOCK)) {

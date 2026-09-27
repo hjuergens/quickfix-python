@@ -135,7 +135,7 @@ SSLSocketConnection::SSLSocketConnection(socket_handle socket, SSL *ssl, Session
       m_sessions(sessions),
       m_pSession(0),
       m_pMonitor(pMonitor) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   FD_ZERO(&m_fds);
   FD_SET(m_socket, &m_fds);
 #endif
@@ -152,7 +152,7 @@ SSLSocketConnection::SSLSocketConnection(
       m_sendLength(0),
       m_pSession(initiator.getSession(sessionID, *this)),
       m_pMonitor(pMonitor) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   FD_ZERO(&m_fds);
   FD_SET(m_socket, &m_fds);
 #endif
@@ -187,7 +187,7 @@ bool SSLSocketConnection::processQueue() {
     return true;
   }
 
-#ifdef _MSC_VER
+#ifdef _WIN32
   struct timeval timeout = {0, 0};
   fd_set writeset = m_fds;
   if (select(1 + m_socket, 0, &writeset, 0, &timeout) <= 0) {
@@ -269,7 +269,7 @@ bool SSLSocketConnection::read(SSLSocketAcceptor &acceptor, SocketServer &server
   std::string message;
   try {
     if (!m_pSession) {
-#if _MSC_VER
+#if _WIN32
       struct timeval timeout = {1, 0};
       fd_set readset = m_fds;
 #else
@@ -278,7 +278,7 @@ bool SSLSocketConnection::read(SSLSocketAcceptor &acceptor, SocketServer &server
 #endif
 
       while (!readMessage(message)) {
-#if _MSC_VER
+#if _WIN32
         int result = select(1 + m_socket, &readset, 0, 0, &timeout);
 #else
         int result = poll(&pfd, 1, timeout);

@@ -22,7 +22,7 @@
 #ifndef FIX_THREADEDSOCKETCONNECTION_H
 #define FIX_THREADEDSOCKETCONNECTION_H
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #pragma warning(disable : 4503 4355 4786 4290)
 #endif
 
@@ -80,7 +80,7 @@ private:
   Sessions m_sessions;
   Session *m_pSession;
   bool m_disconnect;
-#if _MSC_VER
+#if _WIN32
   fd_set m_fds;
 #endif
 };

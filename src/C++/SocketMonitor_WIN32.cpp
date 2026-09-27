@@ -17,9 +17,13 @@
 **
 ****************************************************************************/
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 
+#ifdef _MSC_VER
 #include "stdafx.h"
+#else
+#include "config.h"
+#endif
 
 #include "SocketMonitor.h"
 #include "Utility.h"

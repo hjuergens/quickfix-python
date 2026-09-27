@@ -21,6 +21,12 @@
 #include "stdafx.h"
 #else
 #include "config.h"
+#endif
+
+// poll() is POSIX. The guard above selects a precompiled header, which is an
+// MSVC question; this is a platform question, and the two are not the same
+// compiler on Windows.
+#ifndef _WIN32
 #include <poll.h>
 #endif
 
@@ -38,7 +44,7 @@ SocketConnection::SocketConnection(socket_handle s, Sessions sessions, SocketMon
       m_sessions(sessions),
       m_pSession(0),
       m_pMonitor(pMonitor) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   FD_ZERO(&m_fds);
   FD_SET(m_socket, &m_fds);
 #endif
@@ -53,7 +59,7 @@ SocketConnection::SocketConnection(
       m_sendLength(0),
       m_pSession(i.getSession(sessionID, *this)),
       m_pMonitor(pMonitor) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   FD_ZERO(&m_fds);
   FD_SET(m_socket, &m_fds);
 #endif
@@ -82,7 +88,7 @@ bool SocketConnection::processQueue() {
     return true;
   }
 
-#ifdef _MSC_VER
+#ifdef _WIN32
   struct timeval timeout = {0, 0};
   fd_set writeset = m_fds;
   if (select(0, 0, &writeset, 0, &timeout) <= 0) {
@@ -136,7 +142,7 @@ bool SocketConnection::read(SocketAcceptor &acceptor, SocketServer &server) {
   std::string message;
   try {
     if (!m_pSession) {
-#if _MSC_VER
+#if _WIN32
       struct timeval timeout = {1, 0};
       fd_set readset = m_fds;
 #else
@@ -145,7 +151,7 @@ bool SocketConnection::read(SocketAcceptor &acceptor, SocketServer &server) {
 #endif
 
       while (!readMessage(message)) {
-#if _MSC_VER
+#if _WIN32
         int result = select(0, &readset, 0, 0, &timeout);
 #else
         int result = poll(&pfd, 1, timeout);

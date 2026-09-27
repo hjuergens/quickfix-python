@@ -22,11 +22,11 @@
 #ifndef FIX_SOCKETMONITOR_WIND32_H
 #define FIX_SOCKETMONITOR_WIND32_H
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 
 #include "Utility.h"
 
-#include <Winsock2.h>
+#include <winsock2.h>
 typedef int socklen_t;
 
 #include <chrono>
@@ -95,6 +95,6 @@ public:
 };
 } // namespace FIX
 
-#endif //_MSC_VER
+#endif //_WIN32
 
 #endif // FIX_SOCKETMONITOR_WIN32_H

@@ -1,4 +1,4 @@
-#ifdef _MSC_VER
+#ifdef _WIN32
 extern "C"
 {
   int getopt( int argc, char * const argv[], const char * optstring );

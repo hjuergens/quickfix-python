@@ -22,7 +22,7 @@
 #ifndef FIX_HTTPCONNECTION_H
 #define FIX_HTTPCONNECTION_H
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #pragma warning(disable : 4503 4355 4786 4290)
 #endif
 
@@ -65,7 +65,7 @@ private:
   char m_buffer[BUFSIZ];
 
   HttpParser m_parser;
-#if _MSC_VER
+#if _WIN32
   fd_set m_fds;
 #endif
 };

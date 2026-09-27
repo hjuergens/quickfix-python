@@ -159,3 +159,30 @@ callback exception, the non-blocking `start()`, teardown segfaults, shared `File
 in [.claude/plans/python-examples-port.md](.claude/plans/python-examples-port.md). `ordermatch`
 is deliberately excluded there: its matching engine is ~440 lines of C++ business logic with no
 binding behind it, so it would be a rewrite rather than a port.
+
+## Four unit assertions fail under Wine, and they are Wine's
+
+The mingw-w64 cross lane (`cmake/toolchain-mingw-w64.cmake`, run from the dev container -- see
+AGENTS.md) builds the whole tree for Windows and runs `ut.exe` under Wine, where **52 of 53
+test cases and 1983 of 1987 assertions pass**. The four that fail are environmental, not
+defects, and must not be "fixed" by weakening the assertions -- they pass on real Windows, which
+the `windows-2022` CI legs demonstrate every run:
+
+- `UtilityTestCase.cpp:52` - `error_wsaerror(10048)`. Wine's `FormatMessageA` has no WSA
+  message table, so it returns nothing and the code now reports `unknown error`. On Windows the
+  table exists and the expected string matches. (Before the null-check went in, this aborted the
+  process rather than failing an assertion.)
+- `UtilityTestCase.cpp:161,174,183` - `socket_hostport` returns 0 and `socket_hostname` returns
+  null. Hostname resolution does not work for the container's own host inside Docker.
+
+Wine is a smoke test and nothing more. It is deliberately local-only with no CI job: a green
+Wine run does not prove the MSVC build works, and a red one may be Wine's fault. Two places
+where it is already known to diverge from Windows:
+
+- `SocketConnectorTestCase.cpp:59`'s `connect_to_dead_port_fires_disconnect_once` is excluded on
+  Windows but *passes* under Wine, so Wine's `select()` is closer to POSIX than Windows' is.
+  Compare the comment in `Utility.cpp`'s `socket_send` about Windows `select()` not firing a
+  write event for a bare socket.
+- `examples/executor/C++/Application.cpp` does not compile under mingw-w64 (`incomplete type
+  FIX44::NewOrderSingle`) although it builds under MSVC. Not investigated; the example is not
+  part of the lane's purpose and the engine and both test binaries build fine.

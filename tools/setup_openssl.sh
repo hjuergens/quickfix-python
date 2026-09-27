@@ -44,6 +44,18 @@ fi
 tar xzf openssl.tar.gz
 cd "openssl-${OPENSSL_VERSION}"
 
+# Cross-compiling for Windows, for the mingw-w64 + Wine smoke-test lane (see
+# cmake/toolchain-mingw-w64.cmake). Gated on an environment variable so the
+# native wheel paths below are reached exactly as before when it is unset.
+if [ -n "${OPENSSL_CROSS_MINGW:-}" ]; then
+  ./Configure mingw64 no-shared no-tests no-dso no-engine \
+    --cross-compile-prefix=x86_64-w64-mingw32- \
+    --prefix="${PREFIX}" --openssldir="${PREFIX}"
+  make -j"$(nproc)"
+  make install_sw
+  exit 0
+fi
+
 case "$(uname -s)" in
 Darwin)
   # cibuildwheel does NOT apply its `environment` table (where

@@ -58,9 +58,22 @@ std::string error_wsaerror(int wsa_error_number) {
                 | FORMAT_MESSAGE_MAX_WIDTH_MASK;
   LPSTR buffer = NULL;
 
-  FormatMessageA(format, 0, wsa_error_number, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&buffer, 0, NULL);
+  DWORD length
+      = FormatMessageA(format, 0, wsa_error_number, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&buffer, 0, NULL);
 
-  return "(wsaerror[" + std::to_string(wsa_error_number) + "]:" + buffer + ")";
+  // FormatMessageA returns 0 and leaves buffer null when it has no text for the
+  // code: an error number outside the system table, a locale that lacks it, or
+  // a reimplementation such as Wine. Appending the null pointer to a
+  // std::string is undefined behaviour, and this did it unconditionally.
+  std::string description = (length != 0 && buffer != NULL) ? std::string(buffer) : "unknown error";
+
+  // FORMAT_MESSAGE_ALLOCATE_BUFFER hands ownership to the caller. Nothing freed
+  // it, so every call leaked the message buffer.
+  if (buffer != NULL) {
+    LocalFree(buffer);
+  }
+
+  return "(wsaerror[" + std::to_string(wsa_error_number) + "]:" + description + ")";
 }
 
 std::string error_wsaerror() { return error_wsaerror(WSAGetLastError()); }

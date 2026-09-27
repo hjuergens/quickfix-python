@@ -25,7 +25,7 @@
 #include "Utility.h"
 #include <math.h>
 
-#ifndef _MSC_VER
+#ifndef _WIN32
 #include <cmath>
 #include <pthread.h>
 #endif
@@ -35,7 +35,7 @@ namespace FIX {
 class Event {
 public:
   Event() {
-#ifdef _MSC_VER
+#ifdef _WIN32
     m_event = CreateEvent(0, false, false, 0);
 #else
     pthread_mutex_init(&m_mutex, 0);
@@ -44,7 +44,7 @@ public:
   }
 
   ~Event() {
-#ifdef _MSC_VER
+#ifdef _WIN32
     CloseHandle(m_event);
 #else
     pthread_cond_destroy(&m_event);
@@ -53,7 +53,7 @@ public:
   }
 
   void signal() {
-#ifdef _MSC_VER
+#ifdef _WIN32
     SetEvent(m_event);
 #else
     pthread_mutex_lock(&m_mutex);
@@ -63,7 +63,7 @@ public:
   }
 
   void wait(double s) {
-#ifdef _MSC_VER
+#ifdef _WIN32
     WaitForSingleObject(m_event, (long)(s * 1000));
 #else
     pthread_mutex_lock(&m_mutex);
@@ -77,7 +77,7 @@ public:
   }
 
 private:
-#ifdef _MSC_VER
+#ifdef _WIN32
   HANDLE m_event;
 #else
   pthread_cond_t m_event;

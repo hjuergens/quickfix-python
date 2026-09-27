@@ -68,12 +68,12 @@
 #define ALLOCATOR std::allocator
 #endif
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 /////////////////////////////////////////////
-#include <Winsock2.h>
 #include <direct.h>
 #include <process.h>
 #include <time.h>
+#include <winsock2.h>
 #define INVALID_SOCKET_HANDLE INVALID_SOCKET
 #define BIND_SOCKET_ERROR SOCKET_ERROR
 #define LISTEN_SOCKET_ERROR SOCKET_ERROR
@@ -114,7 +114,7 @@
 #include <string>
 
 namespace FIX {
-#ifdef _MSC_VER
+#ifdef _WIN32
 typedef int socklen_t;
 typedef SSIZE_T ssize_t;
 typedef SOCKET socket_handle;
@@ -125,7 +125,7 @@ typedef int socket_handle;
 std::string error_strerror(decltype(errno) error_number);
 std::string error_strerror();
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 std::string error_wsaerror(int wsa_error_number);
 std::string error_wsaerror();
 #endif
@@ -158,14 +158,14 @@ bool socket_disconnected(socket_handle s);
 int socket_setsockopt(socket_handle s, int opt);
 int socket_setsockopt(socket_handle s, int opt, int optval);
 int socket_getsockopt(socket_handle s, int opt, int &optval);
-#ifndef _MSC_VER
+#ifndef _WIN32
 int socket_fcntl(int s, int opt, int arg);
 int socket_getfcntlflag(int s, int arg);
 int socket_setfcntlflag(int s, int arg);
 #endif
 void socket_setnonblock(socket_handle s);
 bool socket_isValid(socket_handle socket);
-#ifndef _MSC_VER
+#ifndef _WIN32
 bool socket_isBad(int s);
 #endif
 void socket_invalidate(socket_handle &socket);
@@ -178,7 +178,7 @@ std::pair<socket_handle, socket_handle> socket_createpair();
 tm time_gmtime(const time_t *t);
 tm time_localtime(const time_t *t);
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 typedef _beginthreadex_proc_type THREAD_START_ROUTINE;
 #define THREAD_PROC unsigned int _stdcall
 #else
@@ -188,7 +188,7 @@ typedef void *(THREAD_START_ROUTINE)(void *);
 #define THREAD_PROC void *
 #endif
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 typedef HANDLE thread_id;
 #else
 typedef pthread_t thread_id;

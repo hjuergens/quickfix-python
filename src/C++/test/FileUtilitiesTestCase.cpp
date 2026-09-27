@@ -32,7 +32,7 @@ using namespace FIX;
 
 TEST_CASE("FileUtilitiesTests") {
   SECTION("separator") {
-#ifdef _MSC_VER
+#ifdef _WIN32
     CHECK("\\" == file_separator());
 #else
     CHECK("/" == file_separator());

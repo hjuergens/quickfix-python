@@ -25,6 +25,13 @@
 
 #include "Utility.h"
 
+#ifdef _WIN32
+// The share-mode constants for _fsopen (_SH_DENYWR). MSVC picks these up
+// transitively through stdafx.h; a Windows compiler without that precompiled
+// header needs the header named.
+#include <share.h>
+#endif
+
 #ifdef USING_STREAMS
 #include <stropts.h>
 #include <sys/conf.h>
@@ -45,7 +52,7 @@ std::string error_strerror(decltype(errno) error_number) {
 
 std::string error_strerror() { return error_strerror(errno); }
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 std::string error_wsaerror(int wsa_error_number) {
   auto format = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS
                 | FORMAT_MESSAGE_MAX_WIDTH_MASK;
@@ -156,7 +163,7 @@ std::set<std::string> string_split(const std::string &value, const char delimite
 }
 
 void socket_init() {
-#ifdef _MSC_VER
+#ifdef _WIN32
   WORD version = MAKEWORD(2, 2);
   WSADATA data;
   WSAStartup(version, &data);
@@ -170,13 +177,13 @@ void socket_init() {
 }
 
 void socket_term() {
-#ifdef _MSC_VER
+#ifdef _WIN32
   WSACleanup();
 #endif
 }
 
 std::string socket_error() {
-#ifdef _MSC_VER
+#ifdef _WIN32
   return error_wsaerror();
 #else
   return error_strerror();
@@ -233,7 +240,7 @@ socket_handle socket_createConnector() { return ::socket(PF_INET, SOCK_STREAM, I
 int socket_connect(socket_handle socket, const char *address, int port) {
   const char *hostname = socket_hostname(address);
   if (hostname == 0) {
-#ifdef _MSC_VER
+#ifdef _WIN32
     // In a case of Windows + MSVC, select() does not fire a write event for
     // a bare socket (no connection ever attempted). Therefore the later
     // logic, which is based on unconditional continuation with select(),
@@ -263,7 +270,7 @@ socket_handle socket_accept(socket_handle s) {
 }
 
 ssize_t socket_recv(socket_handle s, char *buf, size_t length) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   return recv(s, buf, static_cast<int>(length), 0);
 #else
   return recv(s, buf, length, 0);
@@ -271,7 +278,7 @@ ssize_t socket_recv(socket_handle s, char *buf, size_t length) {
 }
 
 ssize_t socket_send(socket_handle s, const char *msg, size_t length) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   return send(s, msg, static_cast<int>(length), 0);
 #else
   return send(s, msg, length, 0);
@@ -280,7 +287,7 @@ ssize_t socket_send(socket_handle s, const char *msg, size_t length) {
 
 void socket_close(socket_handle s) {
   shutdown(s, 2);
-#ifdef _MSC_VER
+#ifdef _WIN32
   closesocket(s);
 #else
   close(s);
@@ -289,7 +296,7 @@ void socket_close(socket_handle s) {
 
 std::string socket_get_last_error() {
   std::stringstream errorMessage;
-#ifdef _MSC_VER
+#ifdef _WIN32
   int winsockErrorCode = WSAGetLastError();
 
   char *s = NULL;
@@ -312,7 +319,7 @@ std::string socket_get_last_error() {
 
 bool socket_fionread(socket_handle s, int &bytes) {
   bytes = 0;
-#if defined(_MSC_VER)
+#if defined(_WIN32)
   return ::ioctlsocket(s, FIONREAD, &((unsigned long &)bytes)) == 0;
 #elif defined(USING_STREAMS)
   return ::ioctl(s, I_NREAD, &bytes) >= 0;
@@ -327,7 +334,7 @@ bool socket_disconnected(socket_handle s) {
 }
 
 int socket_setsockopt(socket_handle s, int opt) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   BOOL optval = TRUE;
 #else
   int optval = 1;
@@ -341,7 +348,7 @@ int socket_setsockopt(socket_handle s, int opt, int optval) {
     level = IPPROTO_TCP;
   }
 
-#ifdef _MSC_VER
+#ifdef _WIN32
   return ::setsockopt(s, level, opt, (char *)&optval, sizeof(optval));
 #else
   return ::setsockopt(s, level, opt, &optval, sizeof(optval));
@@ -354,7 +361,7 @@ int socket_getsockopt(socket_handle s, int opt, int &optval) {
     level = IPPROTO_TCP;
   }
 
-#ifdef _MSC_VER
+#ifdef _WIN32
   int length = sizeof(int);
 #else
   socklen_t length = sizeof(socklen_t);
@@ -363,7 +370,7 @@ int socket_getsockopt(socket_handle s, int opt, int &optval) {
   return ::getsockopt(s, level, opt, (char *)&optval, &length);
 }
 
-#ifndef _MSC_VER
+#ifndef _WIN32
 int socket_fcntl(int s, int opt, int arg) { return ::fcntl(s, opt, arg); }
 
 int socket_getfcntlflag(int s, int arg) { return socket_fcntl(s, F_GETFL, arg); }
@@ -372,7 +379,7 @@ int socket_setfcntlflag(int s, int arg) { return socket_fcntl(s, F_SETFL, arg); 
 #endif
 
 void socket_setnonblock(socket_handle socket) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   u_long opt = 1;
   ::ioctlsocket(socket, FIONBIO, &opt);
 #else
@@ -380,14 +387,14 @@ void socket_setnonblock(socket_handle socket) {
 #endif
 }
 bool socket_isValid(socket_handle socket) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   return socket != INVALID_SOCKET_HANDLE;
 #else
   return socket >= 0;
 #endif
 }
 
-#ifndef _MSC_VER
+#ifndef _WIN32
 bool socket_isBad(int s) {
   struct stat buf;
   fstat(s, &buf);
@@ -464,7 +471,7 @@ const char *socket_peername(socket_handle socket) {
 }
 
 std::pair<socket_handle, socket_handle> socket_createpair() {
-#ifdef _MSC_VER
+#ifdef _WIN32
   socket_handle acceptor = socket_createAcceptor(0, true);
   const char *host = socket_hostname(acceptor);
   short port = socket_hostport(acceptor);
@@ -481,7 +488,7 @@ std::pair<socket_handle, socket_handle> socket_createpair() {
 }
 
 tm time_gmtime(const time_t *t) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   tm result;
   gmtime_s(&result, t);
   return result;
@@ -492,7 +499,7 @@ tm time_gmtime(const time_t *t) {
 }
 
 tm time_localtime(const time_t *t) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   tm result;
   localtime_s(&result, t);
   return result;
@@ -503,7 +510,7 @@ tm time_localtime(const time_t *t) {
 }
 
 bool thread_spawn(THREAD_START_ROUTINE func, void *var, thread_id &thread) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   thread_id result = 0;
   unsigned int id = 0;
   result = reinterpret_cast<thread_id>(_beginthreadex(NULL, 0, func, var, 0, &id));
@@ -526,7 +533,7 @@ bool thread_spawn(THREAD_START_ROUTINE func, void *var) {
 }
 
 void thread_join(thread_id thread) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   WaitForSingleObject((void *)thread, INFINITE);
   CloseHandle(thread);
 #else
@@ -535,7 +542,7 @@ void thread_join(thread_id thread) {
 }
 
 void thread_detach(thread_id thread) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   CloseHandle(thread);
 #else
   pthread_t t = thread;
@@ -544,7 +551,7 @@ void thread_detach(thread_id thread) {
 }
 
 thread_id thread_self() {
-#ifdef _MSC_VER
+#ifdef _WIN32
   return GetCurrentThread();
 #else
   return pthread_self();
@@ -552,7 +559,7 @@ thread_id thread_self() {
 }
 
 void process_sleep(double s) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   Sleep((long)(s * 1000));
 #else
   timespec time, remainder;
@@ -566,7 +573,7 @@ void process_sleep(double s) {
 }
 
 std::string file_separator() {
-#ifdef _MSC_VER
+#ifdef _WIN32
   return "\\";
 #else
   return "/";
@@ -580,7 +587,7 @@ void file_mkdir(const char *path) {
   for (const char *pos = path; (pos - path) <= length; ++pos) {
     createPath += *pos;
     if (*pos == '/' || *pos == '\\' || (pos - path) == length) {
-#ifdef _MSC_VER
+#ifdef _WIN32
       _mkdir(createPath.c_str());
 #else
       // use umask to override rwx for all
@@ -591,7 +598,7 @@ void file_mkdir(const char *path) {
 }
 
 FILE *file_fopen(const char *path, const char *mode) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   return _fsopen(path, mode, _SH_DENYWR);
 #else
   return fopen(path, mode);
@@ -611,7 +618,7 @@ bool file_exists(const char *path) {
 }
 
 void file_unlink(const char *path) {
-#ifdef _MSC_VER
+#ifdef _WIN32
   _unlink(path);
 #else
   unlink(path);

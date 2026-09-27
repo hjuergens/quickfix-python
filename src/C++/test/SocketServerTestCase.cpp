@@ -26,7 +26,7 @@
 
 #include "TestHelper.h"
 #include <SocketServer.h>
-#ifdef _MSC_VER
+#ifdef _WIN32
 #include <stdlib.h>
 #endif
 

@@ -22,7 +22,7 @@
 #ifndef FIX_SOCKETMONITOR_UNIX_H
 #define FIX_SOCKETMONITOR_UNIX_H
 
-#ifndef _MSC_VER
+#ifndef _WIN32
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -97,6 +97,6 @@ public:
 };
 } // namespace FIX
 
-#endif //_MSC_VER
+#endif //_WIN32
 
 #endif // FIX_SOCKETMONITOR_UNIX_H

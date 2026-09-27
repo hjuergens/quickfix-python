@@ -45,7 +45,7 @@ TEST_CASE("UtilityTests") {
     CHECK(expected == FIX::error_strerror());
   }
 
-#ifdef _MSC_VER
+#ifdef _WIN32
   SECTION("error_wsaerror") {
     std::string expected = "(wsaerror[10048]:Only one usage of each socket address (protocol/network address/port) "
                            "is normally permitted. )";
@@ -119,7 +119,7 @@ TEST_CASE("UtilityTests") {
     CHECK(-1 == actual);
   }
 
-#ifndef _MSC_VER
+#ifndef _WIN32
   SECTION("socketIsBad_SocketDoesNotExist_True") {
     int socket = 5000;
     CHECK(socket_isBad(socket));
@@ -141,7 +141,7 @@ TEST_CASE("UtilityTests") {
     CHECK(-1 == actual);
   }
 
-#ifndef _MSC_VER
+#ifndef _WIN32
   SECTION("socketIsBad_SocketDoesNotExist_True") {
     socket_handle socket = 5000;
     CHECK(socket_isBad(socket));

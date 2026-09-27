@@ -29,7 +29,7 @@ namespace FIX {
 class Mutex {
 public:
   Mutex() {
-#ifdef _MSC_VER
+#ifdef _WIN32
     InitializeCriticalSection(&m_mutex);
 #else
     m_count = 0;
@@ -43,7 +43,7 @@ public:
   }
 
   ~Mutex() {
-#ifdef _MSC_VER
+#ifdef _WIN32
     DeleteCriticalSection(&m_mutex);
 #else
     pthread_mutex_destroy(&m_mutex);
@@ -51,7 +51,7 @@ public:
   }
 
   void lock() {
-#ifdef _MSC_VER
+#ifdef _WIN32
     EnterCriticalSection(&m_mutex);
 #else
     if (m_count && m_threadID == pthread_self()) {
@@ -65,7 +65,7 @@ public:
   }
 
   void unlock() {
-#ifdef _MSC_VER
+#ifdef _WIN32
     LeaveCriticalSection(&m_mutex);
 #else
     if (m_count > 1) {
@@ -79,7 +79,7 @@ public:
   }
 
 private:
-#ifdef _MSC_VER
+#ifdef _WIN32
   CRITICAL_SECTION m_mutex;
 #else
   pthread_mutex_t m_mutex;

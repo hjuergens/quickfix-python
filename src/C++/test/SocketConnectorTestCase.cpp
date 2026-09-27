@@ -27,7 +27,7 @@
 #include "TestHelper.h"
 #include <SocketConnector.h>
 #include <SocketServer.h>
-#ifdef _MSC_VER
+#ifdef _WIN32
 #include <stdlib.h>
 #endif
 
@@ -56,7 +56,7 @@ TEST_CASE("SocketConnectorTests") {
     server.close();
   }
 
-#ifndef _MSC_VER
+#ifndef _WIN32
   SECTION("connect_to_dead_port_fires_disconnect_once") {
     // Bind a server to get a free port, then close it so nothing is listening.
     SocketServer server(0);

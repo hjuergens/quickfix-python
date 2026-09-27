@@ -25,7 +25,7 @@
 
 #include "SocketConnector.h"
 #include "Utility.h"
-#ifndef _MSC_VER
+#ifndef _WIN32
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/types.h>

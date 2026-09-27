@@ -1,4 +1,4 @@
-#include <Windows.h>
+#include <windows.h>
 #include <process.h>
 
 #include "Process.h"

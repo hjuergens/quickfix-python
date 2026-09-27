@@ -118,7 +118,7 @@
 #include "SessionSettings.h"
 #include "Utility.h"
 
-#ifndef _MSC_VER
+#ifndef _WIN32
 #include <dirent.h>
 #else
 #ifndef HAVE_ACE_DIRENT
@@ -133,7 +133,7 @@
 
 namespace FIX {
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 
 static const char *WSAErrString(int code)
 /********************************************************************************

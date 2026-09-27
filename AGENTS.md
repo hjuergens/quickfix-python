@@ -168,13 +168,76 @@ one script. Windows is not pinned: building OpenSSL there needs perl and nasm, a
 has shipped a supported version so far - but it moves without notice, so a wheel built on a
 rolling image is not reproducible.
 
+## Working in the dev container
+
+`tools/devshell.sh` opens a shell in an image carrying what this project needs and most
+machines lack: cmake, ninja, libssl-dev, Ruby for the acceptance harness, SWIG at the pinned
+4.2.1, and a mingw-w64 + Wine cross lane. The repo is bind-mounted at the same path as on the
+host, and the container runs as your UID, so build trees are not left root-owned.
+
+```bash
+tools/devshell.sh                    # interactive
+tools/devshell.sh ctest --test-dir build -L unit    # one command
+REBUILD=1 tools/devshell.sh          # rebuild the image
+```
+
+Inside, a native build and the C++ suites:
+
+```bash
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DHAVE_SSL=ON
+cmake --build build
+ctest --test-dir build -L unit --output-on-failure
+```
+
+Two things to know:
+
+- **Configuring rewrites tracked files.** `CMakeLists.txt` runs `configure_file` into the
+  *source* tree, overwriting `src/C++/config.h` and `include/quickfix/config.h` on every
+  configure. An SSL-on configure followed by an SSL-off one leaves whichever ran last. Check
+  `git status` before committing after a container session.
+- **The formatting gate can be run locally.** The image carries clang-format at
+  the same version `.github/workflows/format.yml` uses, so
+  `tools/devshell.sh bash -c "clang-format --dry-run --Werror \$(git ls-files 'src/*.cpp' 'src/*.h')"`
+  answers the same question the CI job does.
+- **The first image build takes roughly 15 minutes**, because SWIG and a cross-built OpenSSL
+  are both compiled from source. It is cached afterwards. The OpenSSL version and checksum
+  come from `tools/setup_openssl.sh`, not from the Dockerfile - there is one pin in this repo
+  and it stays that way.
+
+### Cross-checking Windows code under Wine
+
+```bash
+cmake -S . -B build-mingw -G Ninja \
+      -DCMAKE_TOOLCHAIN_FILE=cmake/toolchain-mingw-w64.cmake \
+      -DCMAKE_BUILD_TYPE=Release -DQUICKFIX_TESTS=ON
+cmake --build build-mingw
+ctest --test-dir build-mingw -L unit --output-on-failure
+```
+
+`CMAKE_CROSSCOMPILING_EMULATOR` in the toolchain file is what makes this work: CTest prefixes
+every registered test command with `wine`, so the existing `add_test()` calls run the
+cross-built `.exe` unchanged.
+
+**This is a smoke test, not a substitute for CI.** Wine is not Windows - socket timing,
+`select()` semantics and error codes differ - and MinGW uses a different CRT and C++ ABI than
+the MSVC builds that ship. A green Wine run does not prove the MSVC build works, and a red one
+may be Wine's fault. The `windows-2022` legs remain the authority, and nothing in this lane
+gates a release. There is deliberately no CI job for it.
+
+There is no equivalent for macOS or iOS: both need the Apple SDK, which ships only inside
+Xcode and is licensed for Apple hardware, and neither has a usable Wine analogue. Those
+platforms stay on the CI runners.
+
 ## Debugging a failure you cannot reproduce
 
-Most of this project cannot be built on a machine without cmake, SWIG 4.2.1, Docker and the
-three target operating systems, so CI is often the only loop, at 10-40 minutes per attempt.
-That makes guessing expensive, and in September 2026 it cost six round trips on one test
-failure and four on a cp315 abort - each round patching a hypothesis that turned out to be
-wrong.
+**First, try the dev container above** - it exists because this was written when there was no
+local loop at all. It gives you the Linux build, the C++ suites, the Ruby acceptance harness
+and a Wine smoke test for Windows code, none of which need CI.
+
+What it cannot give you is macOS, real Windows, or a specific CPython ABI, so for those CI is
+still the only loop at 10-40 minutes per attempt. That makes guessing expensive, and in
+September 2026 it cost six round trips on one test failure and four on a cp315 abort - each
+round patching a hypothesis that turned out to be wrong.
 
 What works better:
 
